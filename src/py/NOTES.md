@@ -26,7 +26,7 @@ NOTES
 4. dtlz6:
 	the patches are not intact in the tsne 
 
-#---------------------------------------------------
+---------------------------------------------------
 
 1. dtlz6:
 	patches are somewhat clear up to 4 dimensions, then it gets unintelligible.
