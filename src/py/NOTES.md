@@ -6,16 +6,15 @@ NOTES
 	indicator values. 
 		reason: the wsn metric considers the minimum possible trade-off loss/gain ratio, 
 			therefore a very close point to the real knee gets 0.0 indicator value.
-
 		solution: instead of taking min, take median, this solves the above problem
 		problem: but now, wsn indicator disregard the CHIM points as knees and also detects 
 			concave fronts as knees.
 
 2. use tsne neighbourhood for wsn:
-		looks like this idea is somewhat working, may be we need to some tuning regarding the tsne
-		parameters. The good thing with approach is that we do not need to change the neighbourhood
-		radius according to the dimension. A constant epsilon seems to work for 3, 4, and 5 dim single
-		knee PF.
+	looks like this idea is somewhat working, may be we need to some tuning regarding the tsne
+	parameters. The good thing with approach is that we do not need to change the neighbourhood
+	radius according to the dimension. A constant epsilon seems to work for 3, 4, and 5 dim single
+	knee PF.
 
 3. try with the trade-off vector:
 	instead of actual obj values, use the trade-off vector for tsne, turns out that it does not
