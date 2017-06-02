@@ -64,10 +64,10 @@ NOTES
 
 
 **10. test wsn with tsne neighbourhood for 10-d:**
-	* debmdk:
-	* dtlz6:
-	* dtlz7:
-	* outlier:
+  * debmdk:
+  * dtlz6:
+  * dtlz7:
+  * outlier:
 
 **11. n-dimensional boundary finding algorithm:**
 	make a n-dimensional sphere and apply tsne and see if the boundaries are
