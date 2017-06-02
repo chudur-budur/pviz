@@ -4,11 +4,11 @@ NOTES
 1. wsn does not work:
 	if there are other points closer to a principal knee, sometimes those point recieves 0.0 
 	indicator values. 
-		reason: the wsn metric considers the minimum possible trade-off loss/gain ratio, 
-			therefore a very close point to the real knee gets 0.0 indicator value.
-		solution: instead of taking min, take median, this solves the above problem
-		problem: but now, wsn indicator disregard the CHIM points as knees and also detects 
-			concave fronts as knees.
+		> reason: the wsn metric considers the minimum possible trade-off loss/gain ratio, 
+		> 	therefore a very close point to the real knee gets 0.0 indicator value.
+		> solution: instead of taking min, take median, this solves the above problem
+		> problem: but now, wsn indicator disregard the CHIM points as knees and also detects 
+		> 	concave fronts as knees.
 
 2. use tsne neighbourhood for wsn:
 	looks like this idea is somewhat working, may be we need to some tuning regarding the tsne
