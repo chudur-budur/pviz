@@ -1,7 +1,7 @@
 NOTES
 ======
 
-*1. wsn does not work:*
+**1. wsn does not work:**
 	if there are other points closer to a principal knee, sometimes those point recieves 0.0 
 	indicator values.
  
@@ -13,31 +13,35 @@ NOTES
 		problem: but now, wsn indicator disregard the CHIM points as knees and also detects 
 			concave fronts as knees.
 
-*2. use tsne neighbourhood for wsn:*
+**2. use tsne neighbourhood for wsn:**
 	looks like this idea is somewhat working, may be we need to some tuning regarding the tsne
 	parameters. The good thing with approach is that we do not need to change the neighbourhood
 	radius according to the dimension. A constant epsilon seems to work for 3, 4, and 5 dim single
 	knee PF.
 
-3. try with the trade-off vector:
+**3. try with the trade-off vector:**
 	instead of actual obj values, use the trade-off vector for tsne, turns out that it does not
 	work as expected
 
-4. dtlz6:
+**4. dtlz6:**
 	the patches are not intact in the tsne 
 
 ---------------------------------------------------
 
 1. dtlz6:
+	
 	patches are somewhat clear up to 4 dimensions, then it gets unintelligible.
 
 2. trade-off vector and objective value for tsne:
+	
 	does not give any interesting output, see the tsne analysis
 
 3. plot points with varying size:
+	
 	done 
 
 5. radviz:
+
 	completely useless in higher dimension
 
 6. scatterplot matrix:
