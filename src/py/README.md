@@ -4,16 +4,16 @@ NOTES
 A typical execution sequence:
 -----------------------------
 
-1. Take a problem, ex. debmdk
-2. Generate the data set by executing the file `genpf.py`, edit the `main()` accordingly before doing that.
-2. A file like `debmdk3m500n.csv` will be generated. 
-3. Now, execute `calcmu.py`, it will compute the knee indicator values (mu), this will generate a file `debmdk3m500n-mu.csv`
-4. Use the `plotknees.py` script to plot `debmdk3m500n-mu.csv` file.
-5. Now use `tsne.py` script to calculate the TSNE coordinate values, this operation will generate `debmdk3m500n-tsne.csv` file.
-6. Use the `plottsne.py` script to plot `debmdk3m500n-tsne.csv` file. 
-7. To calculate the knee indicator values (mu) from the TSNE coordinate use `wsntsne.py` script. This operatio will generate `debmdk3m500n-wsntsne.csv` file.
-8. You can again use the `plottsne.py` script to plot the `debmdk3m500n-wsntsne.csv` file.
-9. All the previous knee indicator value calculator computes a single value, we have another version of knee indicator that represents the knee values as a vector of numbers. You can use the `muvectsne.py` script to compute these values. The input file will be `debmdk3m500n-tsne.csv` and the output will be `debmdk3m500n-muvtsne.csv`. 
+1. `problem`: Take a problem, ex. debmdk
+2. `genpf.py`: Generate the data set by executing the file `genpf.py`, edit the `main()` accordingly before doing that.
+2. `debmdk3m500n.csv`: A file like `debmdk3m500n.csv` will be generated. 
+3. `calcmu.py`: Now, execute `calcmu.py`, it will compute the knee indicator values (mu), this will generate a file `debmdk3m500n-mu.csv`
+4. `plotknees.py`: Use the `plotknees.py` script to plot `debmdk3m500n-mu.csv` file.
+5. `tsne.py`: Now use `tsne.py` script to calculate the TSNE coordinate values, this operation will generate `debmdk3m500n-tsne.csv` file.
+6. `plottsne.py`: Use the `plottsne.py` script to plot `debmdk3m500n-tsne.csv` file. 
+7. `wsntsne.py`: To calculate the knee indicator values (mu) from the TSNE coordinate use `wsntsne.py` script. This operatio will generate `debmdk3m500n-wsntsne.csv` file.
+8. `plottsne.py`: You can again use the `plottsne.py` script to plot the `debmdk3m500n-wsntsne.csv` file.
+9. `muvectsne.py`: All the previous knee indicator value calculator computes a single value, we have another version of knee indicator that represents the knee values as a vector of numbers. You can use the `muvectsne.py` script to compute these values. This also uses the mu vector values for another TSNE computation. The input file will be `debmdk3m500n-tsne.csv` and the output will be `debmdk3m500n-muvtsne.csv`. 
 
 ---------------------------------------------------
 
