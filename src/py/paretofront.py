@@ -17,6 +17,7 @@ class point(object):
             f_: the normalized objective vector
             x:  the domain of the objective vector
             mu: the knee indicator value found from wsn
+            mu_: the normalized knee indicator value found from wsn
             y:  the y coordinate values found from tsne
             y_: the normalized y
     """
@@ -176,28 +177,38 @@ class frontdata(object):
         else:
             raise Exception("the parameter attr is invalid.")
 
+    def get_nparray(self, attr):
+        # numpy array for data
+        lst = self.get_list(attr)
+        return np.array(lst)
+
 if __name__ == "__main__":
     """
         The tester function
     """
-    pf = paretofront()
+    fd = frontdata()
     # pf.load_csv("data/debmdk2m250n.csv")
-    pf.load_csv("data/debmdk3m500n.csv")
+    # fd.load_csv("data/debmdk3m500n.csv")
+    fd.load_csv("data/debmdk3m500n-tsne.csv")
     
-    print("pf:")
-    print(pf)
+    print("fd:")
+    print(fd)
 
-    print("sorted pf:")
-    print(pf.sorted_indices())
+    print("sorted fd:")
+    print(fd.sorted_indices())
     
     print("eps neighbourhood:")
-    nbr = pf.nbr_normeps(66)
+    nbr = fd.nbr_normeps(66, "f_")
     for idx in nbr:
-        dist = math.fabs(vu.distlp(pf.data[66].f_, pf.data[idx].f_))
+        dist = math.fabs(vu.distlp(fd.data[66].f_, fd.data[idx].f_))
         print("{0:d} - {1:d} = {2:.3f}".format(66, idx, dist))
     
     print("knn neighbourhood:")
-    nbr = pf.nbr_knn(66, 5)
+    nbr = fd.nbr_knn(66, "f_")
     for idx in nbr:
-        dist = math.fabs(vu.distlp(pf.data[66].f_, pf.data[idx].f_))
+        dist = math.fabs(vu.distlp(fd.data[66].f_, fd.data[idx].f_))
         print("{0:d} - {1:d} = {2:.3f}".format(66, idx, dist))
+
+    data = fd.get_nparray("y_")
+    print(data.shape)
+    print(data)
