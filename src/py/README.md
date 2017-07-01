@@ -8,6 +8,8 @@ A typical execution sequence:
 2. Choose the file: `debmdk3m500n.csv`
 3. 
 
+---------------------------------------------------
+
 **1. wsn does not work:**
 	if there are other points closer to a principal knee, sometimes those point recieves 0.0 
 	indicator values.
