@@ -13,7 +13,15 @@ A typical execution sequence:
 6. `plottsne.py`: Use the `plottsne.py` script to plot `debmdk3m500n-tsne.csv` file. 
 7. `wsntsne.py`: To calculate the knee indicator values (mu) from the TSNE coordinate use `wsntsne.py` script. This operatio will generate `debmdk3m500n-wsntsne.csv` file.
 8. `plottsne.py`: You can again use the `plottsne.py` script to plot the `debmdk3m500n-wsntsne.csv` file.
-9. `muvectsne.py`: All the previous knee indicator value calculator computes a single value, we have another version of knee indicator that represents the knee values as a vector of numbers. You can use the `muvectsne.py` script to compute these values. This also uses the mu vector values for another TSNE computation. The input file will be `debmdk3m500n-tsne.csv` and the output will be `debmdk3m500n-muvtsne.csv`. 
+9. `muvectsne.py`: All the previous knee indicator value calculator computes a single value, we have another version of knee indicator that represents the knee values as a vector of numbers. You can use the `muvectsne.py` script to compute these values. This also uses the mu vector values for another TSNE computation. The input file will be `debmdk3m500n-tsne.csv` and the output will be `debmdk3m500n-muvtsne.csv`.
+10. `clustering.py`: Uses DBSCAN algorithm to cluster the data points to locate patches in the pareto-front. Input file is like `debmdk3m500n-tsne.csv`
+11. `radviz.py`: Does a radviz plot from the file `debmdk3m500n-mu.csv`
+12. `scattermatrix.py`: Does a scatter matric plot from the file `debmdk3m500n-mu.csv`
+13. `paretofront.py`: A generalized data structure to handle all kind of input and output data, also handles csv files. Here every script uses this structure for the experiment.
+14. `vectorutils.py`: A general vector algebra library.
+15. `knee.gp` and `plot.gp`: Some gnuplot script files for testing ideas and scribbling.
+16. `tsnelapjv.ipynb`: jupyter notebook file for lapjav experiment.
+17. `tsnelapjvmu.ipynb`: jupyter notebook file for lapjav experiment with knees.    
 
 ---------------------------------------------------
 
