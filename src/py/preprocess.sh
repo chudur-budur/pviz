@@ -21,7 +21,7 @@ if [[ -z $epsilon ]]; then
     fi
 fi
 
-dims=(3 4 5 6 8)
+dims=(3 4 5 6 8 10)
 
 for dim in ${dims[*]}
 do
