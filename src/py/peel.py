@@ -115,6 +115,6 @@ if __name__ == "__main__":
     print("Peeling data point cloud ...")
     ppoints = project(points)
     cpoints = collapse(ppoints, dim = m - 1)
-    boundaries = peel(cpoints, module = "scipy")
+    boundaries = peel(cpoints, module = "pyhull")
     print("Saving layers into {0:s} ...".format(layer_file))
     utils.save(boundaries, layer_file, dtype = 'int')    
