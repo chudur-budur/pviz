@@ -10,7 +10,7 @@ def normalize(vec, lb, ub):
     """
         Normalize a vector vec = [x1, x2, ... xn] w.r.t. [lb, ub]
         The parameter vec can be a list of lists, 
-        in that case lb and ub will be the same.
+        in that case lb and ub need to be the same.
     """
     errmsg = "all parameters need to be of the same structure."
     assert (type(vec[0]) == type(lb) == type(ub)), errmsg
@@ -89,7 +89,7 @@ def tostr(a):
         if type(v) is list:
             string = string + tostr(v) + ", "
         else:
-            val = "{0:.3f}".format(v) if type(v) is float else str(v)
+            val = "{0:.4f}".format(v) if type(v) is float else str(v)
             string = string + val + ", "
     string = string[0:-2] + "]" if len(a) > 0 else "[]"
     return string
@@ -100,12 +100,10 @@ def tocsvstr(a):
         if type(v) is list:
             string = string + tocsvstr(v) + ","
         else:
-            val = "{0:.3f}".format(v) if type(v) is float else str(v)
+            val = "{0:.4f}".format(v) if type(v) is float else str(v)
             string = string + val + ","
     string = string[0:-1] if len(a) > 0 else ""
     return string
-
-
 
 # tester main
 if __name__ == "__main__":
@@ -161,3 +159,6 @@ if __name__ == "__main__":
     print(tostr(v11))
     print(tostr(v12))
 
+    v13 = [1.0 * math.cos(math.pi/4), 0]
+    v14 = [1.0 * math.cos(math.pi/4), 1.0 * math.sin(math.pi/4)]
+    print(angle(v14, v13))
