@@ -1,8 +1,5 @@
 import sys
 import math
-import numpy as np
-import scipy as sp
-from scipy.spatial.qhull import QhullError
 import pyhull.convex_hull as cvhull
 import utils
 
@@ -40,7 +37,7 @@ def project(points):
         points_.append(p_)
     return points_
 
-def get_convex_hull(points, indices, module = "pyhull"):
+def get_convex_hull(points, indices):
     """
     For a given set of points and a list of their indices,
     this function returns the list of indices of those points
@@ -53,29 +50,19 @@ def get_convex_hull(points, indices, module = "pyhull"):
         p.append(points[idx])
         vmap[i] = idx
     
-    # Okay this was from the pyhull library, but for some strange reason
-    # after the update, it became extremely slow.
+    m = len(p[0])
     hull_indices = set()
-    if module == "pyhull":
+    if len(p) <= m + 1:
+        hull_indices = set(p)
+    else:
         hull = cvhull.ConvexHull(p)
         for simplex in hull.vertices:
             for vertex in simplex:
                 hull_indices.add(indices[vertex])
-    # Therefore, now I am using the ConvexHull() function from scipy.spatial
-    elif module == "scipy":
-        p = np.array(p)
-        try:
-            hull = sp.spatial.ConvexHull(p)
-        except QhullError: 
-            pass
-        else:
-            for vertex in hull.vertices.tolist():
-                hull_indices.add(vmap[vertex])
-    
     print("alpha-shape done.")
     return hull_indices
 
-def peel(points, module = "pyhull"):
+def peel(points):
     """
     This function calls the get_convex_hull() function in a 
     recursive manner to find each layer of the boundary points
@@ -87,7 +74,7 @@ def peel(points, module = "pyhull"):
     print("Total points:", len(all_indices))
     l = 0
     while len(all_indices) > m + 1:
-        hull_indices = get_convex_hull(points, all_indices, module)
+        hull_indices = get_convex_hull(points, all_indices)
         # If the points are not in "general position", 
         # there might be no hull.
         if len(hull_indices) > 0:
@@ -115,6 +102,6 @@ if __name__ == "__main__":
     print("Peeling data point cloud ...")
     ppoints = project(points)
     cpoints = collapse(ppoints, dim = m - 1)
-    boundaries = peel(cpoints, module = "pyhull")
+    boundaries = peel(cpoints)
     print("Saving layers into {0:s} ...".format(layer_file))
     utils.save(boundaries, layer_file, dtype = 'int')    
