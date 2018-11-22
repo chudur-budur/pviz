@@ -1,3 +1,6 @@
+% This script solves the gaa problem on each of the Das-Dennis's reference directions.
+% The directionsa are read from weights-layer-N.mat file.
+
 clear;
 format shortg;
 format compact;

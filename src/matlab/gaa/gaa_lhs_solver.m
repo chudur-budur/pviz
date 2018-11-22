@@ -1,3 +1,6 @@
+% This script solves the gaa problem on each of the reference directions found from LHS.
+% The directionsa are read from weights-lhs-N.mat file.
+
 clear;
 format shortg;
 format compact;
