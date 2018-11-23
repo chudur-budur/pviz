@@ -32,8 +32,12 @@ do
         python3 peel.py         data/$fname/$fname-${dim}d-norm.out
         if [ "$fname" = "isolated" ]; then
             python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3
+            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3 polar
+            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3 logistic
         else
             python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 4
+            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 4 polar
+            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 4 logistic
         fi
     fi
 done
