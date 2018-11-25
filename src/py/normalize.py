@@ -11,8 +11,8 @@ def normalize(vals):
     """
     Normalize the data.
     """
-    [ideal, nadir] = vu.get_bound(vals)
-    return vu.normalize(vals, ideal, nadir)
+    [lb, ub] = vu.get_bound(vals)
+    return vu.normalize(vals, lb, ub)
 
 if __name__ == "__main__":
     raw_file = sys.argv[1].strip()

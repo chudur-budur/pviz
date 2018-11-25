@@ -20,11 +20,11 @@ def save(vals, path, sep = '\t', dtype = 'float'):
     """
     Saves data into file.
     """
+    fp = open(path, 'w')
     if dtype == 'float':
         fmt = "{:.4e}"
     elif dtype == 'int':
         fmt = "{:d}"
-    fp = open(path, 'w')
     for v in vals:
         if type(v) is list:
             fp.write(sep.join([fmt.format(x) for x in v]) + "\n")
@@ -36,7 +36,7 @@ def load(path, sep = None, dtype = 'float'):
     """
     Load data from file.
     """
-    fp = open(path)
+    fp = open(path, 'r')
     data = []
     if dtype == 'float':
         for line in fp:
