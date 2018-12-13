@@ -1,0 +1,1380 @@
+
+@inproceedings{brankeFindingKneesMultiobjective2004,
+  series = {Lecture Notes in Computer Science},
+  title = {Finding {{Knees}} in {{Multi}}-Objective {{Optimization}}},
+  isbn = {978-3-540-30217-9},
+  abstract = {Many real-world optimization problems have several, usually conflicting objectives. Evolutionary multi-objective optimization usually solves this predicament by searching for the whole Pareto-optimal front of solutions, and relies on a decision maker to finally select a single solution. However, in particular if the number of objectives is large, the number of Pareto-optimal solutions may be huge, and it may be very difficult to pick one ``best'' solution out of this large set of alternatives. As we argue in this paper, the most interesting solutions of the Pareto-optimal front are solutions where a small improvement in one objective would lead to a large deterioration in at least one other objective. These solutions are sometimes also called ``knees''. We then introduce a new modified multi-objective evolutionary algorithm which is able to focus search on these knee regions, resulting in a smaller set of solutions which are likely to be more relevant to the decision maker.},
+  language = {en},
+  booktitle = {Parallel {{Problem Solving}} from {{Nature}} - {{PPSN VIII}}},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Branke, J\"urgen and Deb, Kalyanmoy and Dierolf, Henning and Osswald, Matthias},
+  editor = {Yao, Xin and Burke, Edmund K. and Lozano, Jos\'e A. and Smith, Jim and {Merelo-Guerv\'os}, Juan Juli\'an and Bullinaria, John A. and Rowe, Jonathan E. and Ti{\v n}o, Peter and Kab\'an, Ata and Schwefel, Hans-Paul},
+  year = {2004},
+  keywords = {Find Knee,Knee Region,Marginal Utility,Multiobjective Evolutionary Algorithm,Multiobjective Optimization},
+  pages = {722-731},
+  file = {/media/khaled/data/research/zotero/storage/7TAYCE6Q/Branke et al. - 2004 - Finding Knees in Multi-objective Optimization.pdf}
+}
+
+@article{dasCharacterizingKneePareto1999,
+  title = {On Characterizing the ``Knee'' of the {{Pareto}} Curve Based on {{Normal}}-{{Boundary Intersection}}},
+  volume = {18},
+  issn = {1615-1488},
+  doi = {10.1007/BF01195985},
+  abstract = {This paper deals with the issue of generating one Pareto optimal point that is guaranteed to be in a ``desirable'' part of the Pareto set in a given multicriteria optimization problem. A parameterization of the Pareto set based on the recently developed normal-boundary intersection technique is used to formulate a subproblem, the solution of which yields the point of ``maximum bulge'', often referred to as the ``knee of the Pareto curve''. This enables the identification of the ``good region'' of the Pareto set by solving one nonlinear programming problem, thereby bypassing the need to generate many Pareto points. Further, this representation extends the concept of the ``knee'' for problems with more than two objectives. It is further proved that this knee is invariant with respect to the scales of the multiple objective functions.The generation of this knee however requires the value of each objective function at the minimizer of every objective function (the pay-off matrix). The paper characterizes situations when approximations to the function values comprising the pay-off matrix would suffice in generating a good approximation to the knee. Numerical results are provided to illustrate this point. Further, a weighted sum minimization problem is developed based on the information in the pay-off matrix, by solving which the knee can be obtained.},
+  language = {en},
+  number = {2},
+  journal = {Structural optimization},
+  author = {Das, I.},
+  month = oct,
+  year = {1999},
+  keywords = {Minimization Problem,Nonlinear Programming,Objective Function,Optimal Point,Programming Problem},
+  pages = {107-115},
+  file = {/media/khaled/data/research/zotero/storage/3LHYXEMJ/Das - 1999 - On characterizing the “knee” of the Pareto curve b.pdf}
+}
+
+@inproceedings{bechikhSearchingKneeRegions2010,
+  address = {New York, NY, USA},
+  series = {SAC '10},
+  title = {Searching for {{Knee Regions}} in {{Multi}}-Objective {{Optimization Using Mobile Reference Points}}},
+  isbn = {978-1-60558-639-7},
+  doi = {10.1145/1774088.1774325},
+  abstract = {Evolutionary algorithms have amply demonstrated their effectiveness and efficiency in approximating the Pareto front of different multi-objective optimization problems. Fewer attentions have been paid to search for the preferred parts of the Pareto front according to the decision maker preferences. Knee regions are special portions of the Pareto front containing solutions having the maximum marginal rates of return, i.e., solutions for which an improvement in one objective implies a severe degradation in at least another one. Such characteristic makes knee regions of particular interest in practical applications from the decision maker perspective. In this paper, we propose a new updating strategy for a reference points based multi-objective evolutionary algorithm which forces this latter to focus on knee regions. The proposed idea uses a set of mobile reference points guiding the search towards knee regions. The extent of the obtained regions could be controlled by the means of a user-defined parameter. The verification of the proposed approach is assessed on two- and three-objective knee-based test problems a priori and interactively. The obtained results are promising.},
+  booktitle = {Proceedings of the 2010 {{ACM Symposium}} on {{Applied Computing}}},
+  publisher = {{ACM}},
+  author = {Bechikh, Slim and Ben Said, Lamjed and Gh\'edira, Khaled},
+  year = {2010},
+  keywords = {evolutionary multi-objective optimization,knee regions},
+  pages = {1118--1125},
+  file = {/media/khaled/data/research/zotero/storage/N8KNGF3L/Bechikh et al. - 2010 - Searching for Knee Regions in Multi-objective Opti.pdf}
+}
+
+@article{vassilvitskiiEfficientlyComputingSuccinct2005,
+  series = {Automata, Languages and Programming: Algorithms and Complexity (ICALP-A 2004)},
+  title = {Efficiently Computing Succinct Trade-off Curves},
+  volume = {348},
+  issn = {0304-3975},
+  doi = {10.1016/j.tcs.2005.09.022},
+  abstract = {Trade-off (aka Pareto) curves are typically used to represent the trade-off among different objectives in multiobjective optimization problems. Although trade-off curves are exponentially large for typical combinatorial optimization problems (and infinite for continuous problems), it was observed in Papadimitriou and Yannakakis [On the approximability of trade-offs and optimal access of web sources, in: Proc. 41st IEEE Symp. on Foundations of Computer Science, 2000] that there exist polynomial size $\epsilon$ approximations for any $\epsilon{}>$0, and that under certain general conditions, such approximate $\epsilon$-Pareto curves can be constructed in polynomial time. In this paper we seek general-purpose algorithms for the efficient approximation of trade-off curves using as few points as possible. In the case of two objectives, we present a general algorithm that efficiently computes an $\epsilon$-Pareto curve that uses at most 3 times the number of points of the smallest such curve; we show that no algorithm can be better than 3-competitive in this setting. If we relax $\epsilon$ to any $\epsilon{'}>\epsilon$, then we can efficiently construct an $\epsilon{'}$-curve that uses no more points than the smallest $\epsilon$-curve. With three objectives we show that no algorithm can be c-competitive for any constant c unless it is allowed to use a larger $\epsilon$ value. We present an algorithm that is 4-competitive for any $\epsilon{'}>$(1+$\epsilon$)2-1. We explore the problem in high dimensions and give hardness proofs showing that (unless P=NP) no constant approximation factor can be achieved efficiently even if we relax $\epsilon$ by an arbitrary constant.},
+  number = {2},
+  journal = {Theoretical Computer Science},
+  author = {Vassilvitskii, Sergei and Yannakakis, Mihalis},
+  month = dec,
+  year = {2005},
+  keywords = {Approximation algorithms,Multicriteria problems,Multiobjective optimization,Pareto set},
+  pages = {334-356},
+  file = {/media/khaled/data/research/zotero/storage/WF5QL8H3/Vassilvitskii and Yannakakis - 2005 - Efficiently computing succinct trade-off curves.pdf;/media/khaled/data/research/zotero/storage/ERXR3MKE/S0304397505005426.html}
+}
+
+@inproceedings{shuklaTheoryAlgorithmsFinding2013,
+  series = {Lecture Notes in Computer Science},
+  title = {Theory and {{Algorithms}} for {{Finding Knees}}},
+  isbn = {978-3-642-37140-0},
+  abstract = {A multi-objective optimization problem involves multiple and conflicting objectives. These conflicting objectives give rise to a set of Pareto-optimal solutions. However, not all the members of the Pareto-optimal set have equally nice properties. The classical concept of proper Pareto-optimality is a way of characterizing good Pareto-optimal solutions. In this paper, we metrize this concept to induce an ordering on the Pareto-optimal set. The use of this metric allows us to define a proper knee region, which contains solutions below a user-specified threshold metric. We theoretically analyze past definitions of knee points, and in particular, reformulate a commonly used nonlinear program, to achieve convergence results. Additionally, mathematical properties of the proper knee region are investigated. We also develop two multi-objective evolutionary algorithms towards finding proper knees and present simulation results on a number of test problems.},
+  language = {en},
+  booktitle = {Evolutionary {{Multi}}-{{Criterion Optimization}}},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Shukla, Pradyumn Kumar and Braun, Marlon Alexander and Schmeck, Hartmut},
+  editor = {Purshouse, Robin C. and Fleming, Peter J. and Fonseca, Carlos M. and Greco, Salvatore and Shaw, Jane},
+  year = {2013},
+  keywords = {knee regions,evolutionary algorithms,ordering relations,proper Pareto-optimality},
+  pages = {156-170},
+  file = {/media/khaled/data/research/zotero/storage/WL9APB6P/Shukla et al. - 2013 - Theory and Algorithms for Finding Knees.pdf}
+}
+
+@article{rachmawatiMultiobjectiveEvolutionaryAlgorithm2009,
+  title = {Multiobjective {{Evolutionary Algorithm With Controllable Focus}} on the {{Knees}} of the {{Pareto Front}}},
+  volume = {13},
+  issn = {1089-778X},
+  doi = {10.1109/TEVC.2009.2017515},
+  abstract = {The optimal solutions of a multiobjective optimization problem correspond to a nondominated front that is characterized by a tradeoff between objectives. A knee region in this Pareto-optimal front, which is visually a convex bulge in the front, is important to decision makers in practical contexts, as it often constitutes the optimum in tradeoff, i.e. substitution of a given Pareto-optimal solution with another solution on the knee region yields the largest improvement per unit degradation. This paper presents a selection scheme that enables a multiobjective evolutionary algorithm (MOEA) to obtain a nondominated set with controllable concentration around existing knee regions of the Pareto front. The preference- based focus is achieved by optimizing a set of linear weighted sums of the original objectives, and control of the extent of the focus is attained by careful selection of the weight set based on a user-specified parameter. The fitness scheme could be easily adopted in any Pareto-based MOEA with little additional computational cost. Simulations on various two- and three- objective test problems demonstrate the ability of the proposed method to guide the population toward existing knee regions on the Pareto front. Comparison with general-purpose Pareto based MOEA demonstrates that convergence on the Pareto front is not compromised by imposing the preference-based bias. The performance of the method in terms of an additional performance metric introduced to measure the accuracy of resulting convergence on the desired regions validates the efficacy of the method.},
+  number = {4},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {Rachmawati, L. and Srinivasan, D.},
+  month = aug,
+  year = {2009},
+  keywords = {Computational efficiency,Computational modeling,Convergence,Degradation,evolutionary computation,Evolutionary computation,Genetic algorithms,Knee,Measurement,multiobjective evolutionary algorithm,multiobjective evolutionary algorithm (MOEA),multiobjective optimization,Optimal control,Pareto optimisation,Pareto optimization,Pareto-optimal front,preference,preference-based focus,Testing},
+  pages = {810-824},
+  file = {/media/khaled/data/research/zotero/storage/LCRBMY3Y/Rachmawati and Srinivasan - 2009 - Multiobjective Evolutionary Algorithm With Control.pdf;/media/khaled/data/research/zotero/storage/TZFUAL6H/5208606.html}
+}
+
+@article{maatenVisualizingDataUsing2008,
+  title = {Visualizing {{Data}} Using T-{{SNE}}},
+  volume = {9},
+  issn = {ISSN 1533-7928},
+  number = {Nov},
+  journal = {Journal of Machine Learning Research},
+  author = {van der Maaten, Laurens and Hinton, Geoffrey},
+  year = {2008},
+  pages = {2579-2605},
+  file = {/media/khaled/data/research/zotero/storage/ZGGS8LGU/Maaten and Hinton - 2008 - Visualizing Data using t-SNE.pdf;/media/khaled/data/research/zotero/storage/VKBGWBLS/vandermaaten08a.html}
+}
+
+@article{heVisualizationPerformanceMetric2016,
+  title = {Visualization and {{Performance Metric}} in {{Many}}-{{Objective Optimization}}},
+  volume = {20},
+  issn = {1089-778X},
+  doi = {10.1109/TEVC.2015.2472283},
+  abstract = {Visualization of population in a high-dimensional objective space throughout the evolution process presents an attractive feature that could be well exploited in designing many-objective evolutionary algorithms (MaOEAs). In this paper, a new visualization method is proposed. It maps individuals from a high-dimensional objective space into a 2-D polar coordinate plot while preserving Pareto dominance relationship, retaining shape and location of the Pareto front, and maintaining distribution of individuals. From it, a decision-maker can observe the evolution process, estimate location, range, and distribution of Pareto front, assess quality of the approximated front and tradeoff between objectives, and easily select preferred solutions. Furthermore, its applications can be scalable to any dimensions, handle a large number of individuals on front, and simultaneously visualize multiple fronts for comparison. Based on this visualization tool, a performance metric, named polar-metric, is designed. The convergence of the approximate front is measured by radial values of all population members on that front. Meanwhile, the diversity performance is mainly determined by niche count of each subregion in a high-dimensional objective space. Experimental results show that it can provide a comprehensive and reliable comparison among MaOEAs.},
+  number = {3},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {He, Z. and Yen, G. G.},
+  month = jun,
+  year = {2016},
+  keywords = {evolutionary computation,Measurement,Pareto optimisation,2D polar coordinate plot,Approximation methods,data visualisation,decision-maker,diversity performance,evolution process,Heating,high-dimensional objective space,location estimation,many-objective evolutionary algorithm,Many-objective evolutionary algorithm (MaOEA),many-objective evolutionary algorithms,many-objective optimization,many-objective optimization problem,many-objective optimization problem (MaOP),MaOEAs,mapping,mathematics computing,Pareto dominance relationship,Pareto front distribution,performance metric,polar-metric,population visualization method,range estimation,Shape,Sociology,Statistics,visualization,Visualization},
+  pages = {386-402},
+  file = {/media/khaled/data/research/zotero/storage/ECF5LP3P/He and Yen - 2016 - Visualization and Performance Metric in Many-Objec.pdf;/media/khaled/data/research/zotero/storage/6VUT3EQ9/7219451.html}
+}
+
+@article{tusarVisualizationParetoFront2015,
+  title = {Visualization of {{Pareto Front Approximations}} in {{Evolutionary Multiobjective Optimization}}: {{A Critical Review}} and the {{Prosection Method}}},
+  volume = {19},
+  issn = {1089-778X},
+  shorttitle = {Visualization of {{Pareto Front Approximations}} in {{Evolutionary Multiobjective Optimization}}},
+  doi = {10.1109/TEVC.2014.2313407},
+  abstract = {In evolutionary multiobjective optimization, it is very important to be able to visualize approximations of the Pareto front (called approximation sets) that are found by multiobjective evolutionary algorithms. While scatter plots can be used for visualizing 2-D and 3-D approximation sets, more advanced approaches are needed to handle four or more objectives. This paper presents a comprehensive review of the existing visualization methods used in evolutionary multiobjective optimization, showing their outcomes on two novel 4-D benchmark approximation sets. In addition, a visualization method that uses prosection (projection of a section) to visualize 4-D approximation sets is proposed. The method reproduces the shape, range, and distribution of vectors in the observed approximation sets well and can handle multiple large approximation sets while being robust and computationally inexpensive. Even more importantly, for some vectors, the visualization with prosections preserves the Pareto dominance relation and relative closeness to reference points. The method is analyzed theoretically and demonstrated on several approximation sets.},
+  number = {2},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {Tu{\v s}ar, T. and Filipi{\v c}, B.},
+  month = apr,
+  year = {2015},
+  keywords = {evolutionary computation,Pareto optimisation,data visualisation,mathematics computing,Shape,visualization,Visualization,4D approximation,approximation set,Approximation set,approximation theory,approximation visualization,Data visualization,evolutionary algorithm,evolutionary multiobjective optimization,Linear approximation,Optimization,Pareto dominance relation,Pareto front,Pareto front approximation,projection,prosection method,scatter plot,Vectors,visualization methods},
+  pages = {225-245},
+  file = {/media/khaled/data/research/zotero/storage/GPGJ9JUH/Tušar and Filipič - 2015 - Visualization of Pareto Front Approximations in Ev.pdf;/media/khaled/data/research/zotero/storage/Z2HFFE9X/6777535.html}
+}
+
+@inproceedings{tangVisualizingLargescaleHighdimensional2016,
+  address = {Republic and Canton of Geneva, Switzerland},
+  series = {WWW '16},
+  title = {Visualizing {{Large}}-Scale and {{High}}-Dimensional {{Data}}},
+  isbn = {978-1-4503-4143-1},
+  doi = {10.1145/2872427.2883041},
+  abstract = {We study the problem of visualizing large-scale and high-dimensional data in a low-dimensional (typically 2D or 3D) space. Much success has been reported recently by techniques that first compute a similarity structure of the data points and then project them into a low-dimensional space with the structure preserved. These two steps suffer from considerable computational costs, preventing the state-of-the-art methods such as the t-SNE from scaling to large-scale and high-dimensional data (e.g., millions of data points and hundreds of dimensions). We propose the LargeVis, a technique that first constructs an accurately approximated K-nearest neighbor graph from the data and then layouts the graph in the low-dimensional space. Comparing to t-SNE, LargeVis significantly reduces the computational cost of the graph construction step and employs a principled probabilistic model for the visualization step, the objective of which can be effectively optimized through asynchronous stochastic gradient descent with a linear time complexity. The whole procedure thus easily scales to millions of high-dimensional data points. Experimental results on real-world data sets demonstrate that the LargeVis outperforms the state-of-the-art methods in both efficiency and effectiveness. The hyper-parameters of LargeVis are also much more stable over different data sets.},
+  booktitle = {Proceedings of the 25th {{International Conference}} on {{World Wide Web}}},
+  publisher = {{International World Wide Web Conferences Steering Committee}},
+  author = {Tang, Jian and Liu, Jingzhou and Zhang, Ming and Mei, Qiaozhu},
+  year = {2016},
+  keywords = {visualization,big data,high-dimensional data},
+  pages = {287--297},
+  file = {/media/khaled/data/research/zotero/storage/D2FHHKWM/Tang et al. - 2016 - Visualizing Large-scale and High-dimensional Data.pdf}
+}
+
+@article{xieMSNEMultiviewStochastic2011,
+  title = {M-{{SNE}}: {{Multiview Stochastic Neighbor Embedding}}},
+  volume = {41},
+  issn = {1083-4419},
+  shorttitle = {M-{{SNE}}},
+  doi = {10.1109/TSMCB.2011.2106208},
+  abstract = {Dimension reduction has been widely used in real-world applications such as image retrieval and document classification. In many scenarios, different features (or multiview data) can be obtained, and how to duly utilize them is a challenge. It is not appropriate for the conventional concatenating strategy to arrange features of different views into a long vector. That is because each view has its specific statistical property and physical interpretation. Even worse, the performance of the concatenating strategy will deteriorate if some views are corrupted by noise. In this paper, we propose a multiview stochastic neighbor embedding (m-SNE) that systematically integrates heterogeneous features into a unified representation for subsequent processing based on a probabilistic framework. Compared with conventional strategies, our approach can automatically learn a combination coefficient for each view adapted to its contribution to the data embedding. This combination coefficient plays an important role in utilizing the complementary information in multiview data. Also, our algorithm for learning the combination coefficient converges at a rate of \emph{O}(1/\emph{k}\textsuperscript{2}), which is the optimal rate for smooth problems. Experiments on synthetic and real data sets suggest the effectiveness and robustness of m-SNE for data visualization, image retrieval, object categorization, and scene recognition.},
+  number = {4},
+  journal = {IEEE Transactions on Systems, Man, and Cybernetics, Part B (Cybernetics)},
+  author = {Xie, B. and Mu, Y. and Tao, D. and Huang, K.},
+  month = aug,
+  year = {2011},
+  keywords = {data visualisation,Optimization,Algorithm design and analysis,combination coefficient,complementary information,computational complexity,concatenating strategy,data embedding,data visualization,dimension reduction,Dimension reduction,document classification,document image processing,heterogeneous feature,Image color analysis,image retrieval,Image retrieval,m-SNE,multiview data,multiview learning,multiview stochastic neighbor embedding,Noise,object categorization,object recognition,optimal rate,probabilistic framework,Probabilistic logic,probability,Probability distribution,real data set,real world application,scene recognition,statistical property,stochastic neighbor embedding,stochastic processes,synthetic data set},
+  pages = {1088-1096},
+  file = {/media/khaled/data/research/zotero/storage/PLQLYKT2/Xie et al. - 2011 - m-SNE Multiview Stochastic Neighbor Embedding.pdf;/media/khaled/data/research/zotero/storage/T88Y3FKQ/5709997.html}
+}
+
+@inproceedings{hintonStochasticNeighborEmbedding2002,
+  address = {Cambridge, MA, USA},
+  series = {NIPS'02},
+  title = {Stochastic {{Neighbor Embedding}}},
+  abstract = {We describe a probabilistic approach to the task of placing objects, described by high-dimensional vectors or by pairwise dissimilarities, in a low-dimensional space in a way that preserves neighbor identities. A Gaussian is centered on each object in the high-dimensional space and the densities under this Gaussian (or the given dissimilarities) are used to define a probability distribution over all the potential neighbors of the object. The aim of the embedding is to approximate this distribution as well as possible when the same operation is performed on the low-dimensional "images" of the objects. A natural cost function is a sum of Kullback-Leibler divergences, one per object, which leads to a simple gradient for adjusting the positions of the low-dimensional images. Unlike other dimensionality reduction methods, this probabilistic framework makes it easy to represent each object by a mixture of widely separated low-dimensional images. This allows ambiguous objects, like the document count vector for the word "bank", to have versions close to the images of both "river" and "finance" without forcing the images of outdoor concepts to be located close to those of corporate concepts.},
+  booktitle = {Proceedings of the 15th {{International Conference}} on {{Neural Information Processing Systems}}},
+  publisher = {{MIT Press}},
+  author = {Hinton, Geoffrey and Roweis, Sam},
+  year = {2002},
+  pages = {857--864},
+  file = {/media/khaled/data/research/zotero/storage/8ICCJRPY/Hinton and Roweis - 2002 - Stochastic Neighbor Embedding.pdf}
+}
+
+@article{vandermaatenVisualizingNonmetricSimilarities2012,
+  title = {Visualizing Non-Metric Similarities in Multiple Maps},
+  volume = {87},
+  issn = {1573-0565},
+  doi = {10.1007/s10994-011-5273-4},
+  abstract = {Techniques for multidimensional scaling visualize objects as points in a low-dimensional metric map. As a result, the visualizations are subject to the fundamental limitations of metric spaces. These limitations prevent multidimensional scaling from faithfully representing non-metric similarity data such as word associations or event co-occurrences. In particular, multidimensional scaling cannot faithfully represent intransitive pairwise similarities in a visualization, and it cannot faithfully visualize ``central'' objects. In this paper, we present an extension of a recently proposed multidimensional scaling technique called t-SNE. The extension aims to address the problems of traditional multidimensional scaling techniques when these techniques are used to visualize non-metric similarities. The new technique, called multiple maps t-SNE, alleviates these problems by constructing a collection of maps that reveal complementary structure in the similarity data. We apply multiple maps t-SNE to a large data set of word association data and to a data set of NIPS co-authorships, demonstrating its ability to successfully visualize non-metric similarities.},
+  language = {en},
+  number = {1},
+  journal = {Machine Learning},
+  author = {{van der Maaten}, Laurens and Hinton, Geoffrey},
+  month = apr,
+  year = {2012},
+  keywords = {Data visualization,Embedding,Multidimensional scaling,Non-metric similarities},
+  pages = {33-55},
+  file = {/media/khaled/data/research/zotero/storage/25XYWX6K/van der Maaten and Hinton - 2012 - Visualizing non-metric similarities in multiple ma.pdf}
+}
+
+@article{bunteStochasticNeighborEmbedding2012,
+  series = {Advances in artificial neural networks, machine learning, and computational intelligence (ESANN 2011)},
+  title = {Stochastic Neighbor Embedding ({{SNE}}) for Dimension Reduction and Visualization Using Arbitrary Divergences},
+  volume = {90},
+  issn = {0925-2312},
+  doi = {10.1016/j.neucom.2012.02.034},
+  abstract = {We present a systematic approach to the mathematical treatment of the t-distributed stochastic neighbor embedding (t-SNE) and the stochastic neighbor embedding (SNE) method. This allows an easy adaptation of the methods or exchange of their respective modules. In particular, the divergence which measures the difference between probability distributions in the original and the embedding space can be treated independently from other components like, e.g. the similarity of data points or the data distribution. We focus on the extension for different divergences and propose a general framework based on the consideration of Fr\'echet-derivatives. This way the general approach can be adapted to the user specific needs.},
+  journal = {Neurocomputing},
+  author = {Bunte, Kerstin and Haase, Sven and Biehl, Michael and Villmann, Thomas},
+  month = aug,
+  year = {2012},
+  keywords = {Visualization,Dimension reduction,Divergence optimization,Nonlinear embedding,Stochastic neighbor embedding},
+  pages = {23-45},
+  file = {/media/khaled/data/research/zotero/storage/NBFJDMEA/Bunte et al. - 2012 - Stochastic neighbor embedding (SNE) for dimension .pdf;/media/khaled/data/research/zotero/storage/QJBHUA5P/S0925231212001920.html}
+}
+
+@inproceedings{pandeyTrustworthinessTDistributedStochastic2016,
+  address = {New York, NY, USA},
+  series = {CODS '16},
+  title = {Trustworthiness of T-{{Distributed Stochastic Neighbour Embedding}}},
+  isbn = {978-1-4503-4217-9},
+  doi = {10.1145/2888451.2888465},
+  abstract = {A well known technique for embedding high dimensional objects in two or three dimensional space is the t-distributed stochastic neighbour embedding (t-SNE). The t-SNE minimizes the Kullback-Liebler (KL) divergence between two probability distributions, one induced on points in the high dimensional space and the other induced on points in the low dimensional embedding space. In this work, we consider a more general framework of using R\'enyi divergence which is parametrized by the order $\alpha$, the KL-divergence is a special case when $\alpha$ $\rightarrow$ 1.We study how various R\'enyi divergences perform when compared to the KL-divergence. We show that in terms of the metrics of trustworthiness and neighbourhood preservation, the embedding becomes better as R\'enyi divergence approaches the KL-divergence.},
+  booktitle = {Proceedings of the 3rd {{IKDD Conference}} on {{Data Science}}, 2016},
+  publisher = {{ACM}},
+  author = {Pandey, Shishir and Vaze, Rahul},
+  year = {2016},
+  keywords = {dimension reduction,nonlinear embedding,t-SNE},
+  pages = {17:1--17:2},
+  file = {/media/khaled/data/research/zotero/storage/XQCMP3QL/Pandey and Vaze - 2016 - Trustworthiness of t-Distributed Stochastic Neighb.pdf}
+}
+
+@article{leeTypeMixturesKullback2013,
+  series = {Advances in artificial neural networks, machine learning, and computational intelligence},
+  title = {Type 1 and 2 Mixtures of {{Kullback}}\textendash{{Leibler}} Divergences as Cost Functions in Dimensionality Reduction Based on Similarity Preservation},
+  volume = {112},
+  issn = {0925-2312},
+  doi = {10.1016/j.neucom.2012.12.036},
+  abstract = {Stochastic neighbor embedding (SNE) and its variants are methods of dimensionality reduction (DR) that involve normalized softmax similarities derived from pairwise distances. These methods try to reproduce in the low-dimensional embedding space the similarities observed in the high-dimensional data space. Their outstanding experimental results, compared to previous state-of-the-art methods, originate from their capability to foil the curse of dimensionality. Previous work has shown that this immunity stems partly from a property of shift invariance that allows appropriately normalized softmax similarities to mitigate the phenomenon of norm concentration. This paper investigates a complementary aspect, namely, the cost function that quantifies the mismatch between similarities computed in the high- and low-dimensional spaces. Stochastic neighbor embedding and its variant t-SNE rely on a single Kullback\textendash{}Leibler divergence, whereas a weighted mixture of two dual KL divergences is used in neighborhood retrieval and visualization (NeRV). We propose in this paper a different mixture of KL divergences, which is a scaled version of the generalized Jensen\textendash{}Shannon divergence. We show experimentally that this divergence produces embeddings that better preserve small K-ary neighborhoods, as compared to both the single KL divergence used in SNE and t-SNE and the mixture used in NeRV. These results allow us to conclude that future improvements in similarity-based DR will likely emerge from better definitions of the cost function.},
+  journal = {Neurocomputing},
+  author = {Lee, John A. and Renard, Emilie and Bernard, Guillaume and Dupont, Pierre and Verleysen, Michel},
+  month = jul,
+  year = {2013},
+  keywords = {Stochastic neighbor embedding,Dimensionality reduction,Divergence,Manifold learning},
+  pages = {92-108},
+  file = {/media/khaled/data/research/zotero/storage/K845ST26/Lee et al. - 2013 - Type 1 and 2 mixtures of Kullback–Leibler divergen.pdf;/media/khaled/data/research/zotero/storage/T6YF7ZEG/S0925231213001471.html}
+}
+
+@article{tenenbaumGlobalGeometricFramework2000,
+  title = {A Global Geometric Framework for Nonlinear Dimensionality Reduction},
+  volume = {290},
+  copyright = {Copyright American Association for the Advancement of Science Dec 22, 2000},
+  issn = {00368075},
+  abstract = {Scientists working with large volumes of high-dimensional data, such as global climate patterns, stellar spectra, or human gene distributions, regularly confront the problem of dimensionality reduction: finding meaningful low-dimensional structures hidden in their high-dimensional observations. Here we describe an approach to solving dimensionality reduction problems that uses easily measured local metric information to learn the underlying global geometry of a data set.},
+  language = {English},
+  number = {5500},
+  journal = {Science; Washington},
+  author = {Tenenbaum, Joshua B. and {de Silva}, Vin and Langford, John C.},
+  month = dec,
+  year = {2000},
+  keywords = {Algorithms,Brain,Geometry,Psychology,Sciences: Comprehensive Works,Technology: Comprehensive Works},
+  pages = {2319-23},
+  file = {/media/khaled/data/research/zotero/storage/Q5DW8PA5/Tenenbaum et al. - 2000 - A global geometric framework for nonlinear dimensi.pdf}
+}
+
+@article{roweisNonlinearDimensionalityReduction2000,
+  title = {Nonlinear {{Dimensionality Reduction}} by {{Locally Linear Embedding}}},
+  volume = {290},
+  issn = {0036-8075},
+  abstract = {Many areas of science depend on exploratory data analysis and visualization. The need to analyze large amounts of multivariate data raises the fundamental problem of dimensionality reduction: how to discover compact representations of high-dimensional data. Here, we introduce locally linear embedding (LLE), an unsupervised learning algorithm that computes low-dimensional, neighborhood-preserving embeddings of high-dimensional inputs. Unlike clustering methods for local dimensionality reduction, LLE maps its inputs into a single global coordinate system of lower dimensionality, and its optimizations do not involve local minima. By exploiting the local symmetries of linear reconstructions, LLE is able to learn the global structure of nonlinear manifolds, such as those generated by images of faces or documents of text.},
+  number = {5500},
+  journal = {Science},
+  author = {Roweis, Sam T. and Saul, Lawrence K.},
+  year = {2000},
+  pages = {2323-2326},
+  file = {/media/khaled/data/research/zotero/storage/M7LAXX7D/Roweis and Saul - 2000 - Nonlinear Dimensionality Reduction by Locally Line.pdf}
+}
+
+@inproceedings{debScalableMultiobjectiveOptimization2002,
+  title = {Scalable Multi-Objective Optimization Test Problems},
+  volume = {1},
+  doi = {10.1109/CEC.2002.1007032},
+  abstract = {After adequately demonstrating the ability to solve different two-objective optimization problems, multi-objective evolutionary algorithms (MOEAs) must show their efficacy in handling problems having more than two objectives. In this paper, we suggest three different approaches for systematically designing test problems for this purpose. The simplicity of construction, scalability to any number of decision variables and objectives, knowledge of exact shape and location of the resulting Pareto-optimal front, and ability to control difficulties in both converging to the true Pareto-optimal front and maintaining a widely distributed set of solutions are the main features of the suggested test problems. Because of these features, they should be useful in various research activities on MOEAs, such as testing the performance of a new MOEA, comparing different MOEAs, and having a better understanding of the working principles of MOEAs.},
+  booktitle = {Proceedings of the 2002 {{Congress}} on {{Evolutionary Computation}}. {{CEC}}'02 ({{Cat}}. {{No}}.{{02TH8600}})},
+  author = {Deb, K. and Thiele, L. and Laumanns, M. and Zitzler, E.},
+  month = may,
+  year = {2002},
+  keywords = {evolutionary computation,Evolutionary computation,Optimal control,Pareto-optimal front,Visualization,Computer networks,decision variables,Design optimization,Laboratories,Mechanical engineering,multi-objective evolutionary algorithms,optimisation,Scalability,scalable multi-objective optimization test problems,Shape control,System testing},
+  pages = {825-830 vol.1},
+  file = {/media/khaled/data/research/zotero/storage/XWUUZAZA/Deb et al. - 2002 - Scalable multi-objective optimization test problem.pdf;/media/khaled/data/research/zotero/storage/5NLBMNCC/1007032.html}
+}
+
+@article{zitzlerComparisonMultiobjectiveEvolutionary2000,
+  title = {Comparison of {{Multiobjective Evolutionary Algorithms}}: {{Empirical Results}}},
+  volume = {8},
+  issn = {1063-6560},
+  shorttitle = {Comparison of {{Multiobjective Evolutionary Algorithms}}},
+  doi = {10.1162/106365600568202},
+  abstract = {In this paper, we provide a systematic comparison of various evolutionary approaches to multiobjective optimization using six carefully chosen test functions. Each test function involves a particular feature that is known to cause difficulty in the evolutionary optimization process, mainly in converging to the Pareto-optimal front (e.g., multimodality and deception). By investigating these different problem features separately, it is possible to predict the kind of problems to which a certain technique is or is not well suited. However, in contrast to what was suspected beforehand, the experimental results indicate a hierarchy of the algorithms under consideration. Furthermore, the emerging effects are evidence that the suggested test functions provide sufficient complexity to compare multiobjective optimizers. Finally, elitism is shown to be an important factor for improving evolutionary multiobjective search.},
+  number = {2},
+  journal = {Evolutionary Computation},
+  author = {Zitzler, Eckart and Deb, Kalyanmoy and Thiele, Lothar},
+  month = jun,
+  year = {2000},
+  pages = {173-195},
+  file = {/media/khaled/data/research/zotero/storage/LBHMK4W6/Zitzler et al. - 2000 - Comparison of Multiobjective Evolutionary Algorith.pdf;/media/khaled/data/research/zotero/storage/33PG3TLK/106365600568202.html}
+}
+
+@article{osyczkaNewMethodSolve1995,
+  title = {A New Method to Solve Generalized Multicriteria Optimization Problems Using the Simple Genetic Algorithm},
+  volume = {10},
+  issn = {1615-1488},
+  doi = {10.1007/BF01743536},
+  abstract = {Genetic algorithms (GAs), which are directed stochastic hill climbing algorithms, are a commonly used optimization technique and are generally applied to single criterion optimization problems with fairly complex solution landscapes. There has been some attempts to apply GA to multicriteria optimization problems. The GA selection mechanism is typically dependent on a single-valued objective function and so no general methods to solve multicriteria optimization problems have been developed so far. In this paper, a new method of transformation of the multiple criteria problem into a single-criterion problem is presented. The problem of transformation brings about the need for the introduction of thePareto set estimation method to perform the multicriteria optimization using GAs. From a given solution set, which is the population of a certain generation of the GA, the Pareto set is found. The fitness of population members in the next GA generation is calculated by a distance metric with a reference to the Pareto set of the previous generation. As we are unable to combine the objectives in some way, we resort to this distance metric in the positive Pareto space of the previous solutions, as the fitness of the current solutions. This new GA-based multicriteria optimization method is proposed here, and it is capable of handling any generally formulated multicriteria optimization problem. The main idea of the method is described in detail in this paper along with a detailed numerical example. Preliminary computer generated results show that our approach produces better, and far more Pareto solutions, than plain stochastic optimization methods.},
+  language = {en},
+  number = {2},
+  journal = {Structural optimization},
+  author = {Osyczka, A. and Kundu, S.},
+  month = oct,
+  year = {1995},
+  keywords = {Genetic Algorithm,Hill Climbing,Multicriteria Optimization,Pareto Solution,Simple Genetic Algorithm},
+  pages = {94-99},
+  file = {/media/khaled/data/research/zotero/storage/UXN6BSCA/Osyczka and Kundu - 1995 - A new method to solve generalized multicriteria op.pdf}
+}
+
+@article{mattsonSmartParetoFilter2004,
+  title = {Smart {{Pareto}} Filter: Obtaining a Minimal Representation of Multiobjective Design Space},
+  volume = {36},
+  issn = {0305-215X},
+  shorttitle = {Smart {{Pareto}} Filter},
+  doi = {10.1080/0305215042000274942},
+  abstract = {Multiobjective optimization is a powerful tool for resolving conflicting objectives in engineering design and numerous other fields. One general approach to solving multiobjective optimization problems involves generating a set of Pareto optimal solutions, followed by selecting the most attractive solution from this set as the final design. The success of this approach critically depends on the designer's ability to obtain, manage, and interpret the Pareto set\textemdash{}importantly, the size and distribution of the Pareto set. The potentially significant difficulties associated with comparing a significantly large number of Pareto designs can be circumvented when the Pareto set: (i) is adequately small, (ii) represents the complete Pareto frontier, (iii) emphasizes the regions of the Pareto frontier that entail significant tradeoff, and (iv) de-emphasizes the regions corresponding to little tradeoff. We call a Pareto set that possesses these four important and desirable properties a smart Pareto set. Specifically, a smart Pareto set is one that is small and effectively represents the tradeoff properties of the complete Pareto frontier. This article presents a general method to obtain smart Pareto sets for problems of n objectives, given previously generated sets of Pareto solutions. Under the proposed method, the designer uses a smart Pareto filter to control the size of the Pareto set and the degree of tradeoff representation among objectives. Importantly, the smart Pareto filter yields a Pareto set comprising a minimal number of solutions needed to adequately characterize the problem's tradeoff properties. In this article, the smart Pareto filter is analytically developed, and mathematical and physical examples are presented to illustrate the filter's effectiveness.},
+  number = {6},
+  journal = {Engineering Optimization},
+  author = {Mattson, Christopher A. and Mullur, Anoop A. and Messac, Achille},
+  month = dec,
+  year = {2004},
+  keywords = {Multiobjective optimization,Pareto filter,Pareto optimality,Smart Pareto filter},
+  pages = {721-740},
+  file = {/media/khaled/data/research/zotero/storage/48XTVVP8/Mattson et al. - 2004 - Smart Pareto filter obtaining a minimal represent.pdf;/media/khaled/data/research/zotero/storage/GMCWBRFT/0305215042000274942.html}
+}
+
+@article{hancockLdominanceApproximatedominationMechanism2015,
+  title = {L-Dominance: {{An}} Approximate-Domination Mechanism for Adaptive Resolution of {{Pareto}} Frontiers},
+  volume = {52},
+  issn = {1615-1488},
+  shorttitle = {L-Dominance},
+  doi = {10.1007/s00158-015-1237-9},
+  abstract = {In Evolutionary Multi-objective Optimization (EMO), the mechanism of 𝜖-dominance has received significant attention because of its ability to guarantee convergence near the Pareto frontier and maintain diversity among solutions at a reasonable computational cost. A noticeable weakness of this mechanism is its inability to vary the resolution it provides of the Pareto frontier based on the frontier's tradeoff properties. We therefore propose a new mechanism\textemdash{}L-dominance, based on the Lam\'e curve\textemdash{}as an alternative to 𝜖-dominance in EMO. The geometry of the Lam\'e curve naturally supports a greater concentration of Pareto solutions in regions of significant tradeoff between objectives. This variable resolution of solutions allows an algorithm using L-dominance to generate fewer solutions to describe the Pareto frontier as a whole while maintaining a desired concentration of solutions where the frontier requires greater detail. The L-dominance mechanism is analyzed theoretically and by simulation on five test problems, and is shown to result in increasingly significant computational gains as the dimensionality of problems increases.},
+  language = {en},
+  number = {2},
+  journal = {Structural and Multidisciplinary Optimization},
+  author = {Hancock, B. J. and Nysetvold, T. B. and Mattson, C. A.},
+  month = aug,
+  year = {2015},
+  keywords = {Approximate dominance,Evolutionary optimization,Lamé curve,Multi-objective optimization,Smart Pareto set,𝜖-dominance},
+  pages = {269-279},
+  file = {/media/khaled/data/research/zotero/storage/Q7FJC76A/Hancock et al. - 2015 - L-dominance An approximate-domination mechanism f.pdf}
+}
+
+@article{walkerVisualizingMutuallyNondominating2013,
+  title = {Visualizing {{Mutually Nondominating Solution Sets}} in {{Many}}-{{Objective Optimization}}},
+  volume = {17},
+  issn = {1089-778X},
+  doi = {10.1109/TEVC.2012.2225064},
+  abstract = {As many-objective optimization algorithms mature, the problem owner is faced with visualizing and understanding a set of mutually nondominating solutions in a high dimensional space. We review existing methods and present new techniques to address this problem. We address a common problem with the well-known heatmap visualization, since the often arbitrary ordering of rows and columns renders the heatmap unclear, by using spectral seriation to rearrange the solutions and objectives and thus enhance the clarity of the heatmap. A multiobjective evolutionary optimizer is used to further enhance the simultaneous visualization of solutions in objective and parameter space. Two methods for visualizing multiobjective solutions in the plane are introduced. First, we use RadViz and exploit interpretations of barycentric coordinates for convex polygons and simplices to map a mutually nondominating set to the interior of a regular convex polygon in the plane, providing an intuitive representation of the solutions and objectives. Second, we introduce a new measure of the similarity of solutions - the dominance distance - which captures the order relations between solutions. This metric provides an embedding in Euclidean space, which is shown to yield coherent visualizations in two dimensions. The methods are illustrated on standard test problems and data from a benchmark many-objective problem.},
+  number = {2},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {Walker, D. J. and Everson, R. and Fieldsend, J. E.},
+  month = apr,
+  year = {2013},
+  keywords = {evolutionary computation,Genetic algorithms,many-objective optimization,Sociology,visualization,Visualization,Data visualization,barycentric coordinate,Color,convex polygon,convex programming,dominance distance,Euclidean space,heatmap visualization,multiobjective evolutionary optimization,mutually nondominating solution sets visualization,objective space,optimization methods,parameter space,Principal component analysis,RadViz,set theory,Space heating,spectral seriation},
+  pages = {165-184},
+  file = {/media/khaled/data/research/zotero/storage/WXFAB42U/Walker et al. - 2013 - Visualizing Mutually Nondominating Solution Sets i.pdf;/media/khaled/data/research/zotero/storage/JWLMELJ8/6342906.html}
+}
+
+@article{edelsbrunnerShapeSetPoints1983,
+  title = {On the Shape of a Set of Points in the Plane},
+  volume = {29},
+  issn = {0018-9448},
+  doi = {10.1109/TIT.1983.1056714},
+  abstract = {A generalization of the convex hull of a finite set of points in the plane is introduced and analyzed. This generalization leads to a family of straight-line graphs, "$<$tex$>\backslash$alpha$<$/tex$>$-shapes," which seem to capture the intuitive notions of "fine shape" and "crude shape" of point sets. It is shown that a-shapes are subgraphs of the closest point or furthest point Delaunay triangulation. Relying on this result an optimal$<$tex$>$O(n $\backslash$log n)$<$/tex$>$algorithm that constructs$<$tex$>\backslash$alpha$<$/tex$>$-shapes is developed.},
+  number = {4},
+  journal = {IEEE Transactions on Information Theory},
+  author = {Edelsbrunner, H. and Kirkpatrick, D. and Seidel, R.},
+  month = jul,
+  year = {1983},
+  keywords = {Geometry,Image analysis; shape,Image shape analysis},
+  pages = {551-559},
+  file = {/media/khaled/data/research/zotero/storage/MNNPIZ5R/Edelsbrunner et al. - 1983 - On the shape of a set of points in the plane.pdf;/media/khaled/data/research/zotero/storage/VUKNSJSY/1056714.html}
+}
+
+@article{edelsbrunnerThreedimensionalAlphaShapes1994,
+  title = {Three-Dimensional {{Alpha Shapes}}},
+  volume = {13},
+  issn = {0730-0301},
+  doi = {10.1145/174462.156635},
+  abstract = {Frequently, data in scientific computing is in its abstract form a finite point set in space, and it is sometimes useful or required to compute what one might call the ``shape'' of the set. For that purpose, this article introduces the formal notion of the family of \&agr;-shapes of a finite point set in R3. Each shape is a well-defined polytope, derived from the Delaunay triangulation of the point set, with a parameter \&agr; \&egr; R controlling the desired level of detail. An algorithm is presented that constructs the entire family of shapes for a given set of size n in time 0(n2), worst case. A robust implementation of the algorithm is discussed, and several applications in the area of scientific computing are mentioned.},
+  number = {1},
+  journal = {ACM Trans. Graph.},
+  author = {Edelsbrunner, Herbert and M\"ucke, Ernst P.},
+  month = jan,
+  year = {1994},
+  keywords = {computational graphics,Delaunay triangulations,geometric algorithms,point sets,polytopes,robust implementation,scientific computing,scientific visualization,simplicial complexes,simulated perturbation,three-dimensional space},
+  pages = {43--72},
+  file = {/media/khaled/data/research/zotero/storage/448JAYN5/Edelsbrunner and Mücke - 1994 - Three-dimensional Alpha Shapes.pdf}
+}
+
+@article{barberQuickhullAlgorithmConvex1996,
+  title = {The {{Quickhull Algorithm}} for {{Convex Hulls}}},
+  volume = {22},
+  issn = {0098-3500},
+  doi = {10.1145/235815.235821},
+  abstract = {The convex hull of a set of points is the smallest convex set that contains the points. This article presents a practical convex hull algorithm that combines the two-dimensional Quickhull algorithm with the general-dimension Beneath-Beyond Algorithm. It is similar to the randomized, incremental algorithms for convex hull and delaunay triangulation. We provide empirical evidence that the algorithm runs faster when the input contains nonextreme points and that it used less memory. computational geometry algorithms have traditionally assumed that input sets are well behaved. When an algorithm is implemented with floating-point arithmetic, this assumption can lead to serous errors. We briefly describe a solution to this problem when computing the convex hull in two, three, or four dimensions. The output is a set of ``thick'' facets that contain all possible exact convex hulls of the input. A variation is effective in five or more dimensions.},
+  number = {4},
+  journal = {ACM Trans. Math. Softw.},
+  author = {Barber, C. Bradford and Dobkin, David P. and Dobkin, David P. and Huhdanpaa, Hannu},
+  month = dec,
+  year = {1996},
+  keywords = {convex hull,Delaunay triangulation,halfspace intersection,Voronoi diagram},
+  pages = {469--483},
+  file = {/media/khaled/data/research/zotero/storage/V2Q7CNBG/Barber et al. - 1996 - The Quickhull Algorithm for Convex Hulls.pdf}
+}
+
+@article{kobayashiRecursiveFormulaCircumradius2016,
+  title = {A Recursive Formula for the Circumradius of the N-Simplex},
+  volume = {16},
+  issn = {1534-1178},
+  abstract = {We present a recursive formula which gives the circumradius of the n-simplex in terms of the circumradius of its facets. Our formula shows that the circumradius of the n-simplex is closely related to the distances from each vertex to the circumcenter of the opposite facet. In particular, our formula shows that the circumradius of the tetrahedron can be expressed by the areas of the pedal triangles of each facet. We could only prove the formula for n $<$= 5, but numerical results strongly suggest that our formula holds true for any n.},
+  language = {English},
+  journal = {Forum Geometricorum},
+  author = {Kobayashi, Kenta},
+  month = apr,
+  year = {2016},
+  pages = {179-174},
+  file = {/media/khaled/data/research/zotero/storage/73B89MI9/Kobayashi - 2016 - A recursive formula for the circumradius of the n-.pdf}
+}
+
+@techreport{levyCircumradiusSimplexEdge2017,
+  title = {The Circumradius of a Simplex via Edge Lengths},
+  abstract = {The Cayley-Menger determinant expresses the volume of a simplex in
+terms of its edge lengths. A similar (but less famous) identity expresses
+the circumradius of a simplex in terms of the top left entry of the inverse
+of the Cayley-Menger matrix. We present simple proofs of both identities.},
+  language = {English},
+  author = {Levy, Avi},
+  month = feb,
+  year = {2017},
+  file = {/media/khaled/data/research/zotero/storage/C24244ZJ/Levy - 2017 - The circumradius of a simplex via edge lengths.pdf}
+}
+
+@article{sewellVisualizingDataCurvilinear2018,
+  title = {Visualizing Data through Curvilinear Representations of Matrices},
+  volume = {128},
+  issn = {0167-9473},
+  doi = {10.1016/j.csda.2018.07.010},
+  abstract = {Most high dimensional data visualization techniques embed or project the data onto a low dimensional space which is then used for viewing. Results are thus limited by how much of the information in the data can be conveyed in two or three dimensions. Methods11An R package implementing the proposed methodology is provided in the supplementary material.are described for a lossless functional representation of any real matrix that can capture key features of the data, such as distances and correlations. This approach can be used to visualize both subjects and variables as curves, allowing one to see patterns of subjects, patterns of variables, and how the subject and variable patterns relate to one another. A theoretical justification is provided for this approach, and various facets of the method's usefulness are illustrated on both synthetic and real data sets.},
+  journal = {Computational Statistics \& Data Analysis},
+  author = {Sewell, Daniel K.},
+  month = dec,
+  year = {2018},
+  keywords = {Andrews curves,Basis splines,Fourier series,Singular value decomposition},
+  pages = {255-270},
+  file = {/media/khaled/data/research/zotero/storage/ST59QQCT/Sewell - 2018 - Visualizing data through curvilinear representatio.pdf;/media/khaled/data/research/zotero/storage/ZJPX86C7/S0167947318301762.html}
+}
+
+@article{aupetitVisualizingDistortionsRecovering2007,
+  series = {Advances in Computational Intelligence and Learning},
+  title = {Visualizing Distortions and Recovering Topology in Continuous Projection Techniques},
+  volume = {70},
+  issn = {0925-2312},
+  doi = {10.1016/j.neucom.2006.11.018},
+  abstract = {The visualization of continuous multi-dimensional data based on their projection to a 2-dimensional space is a way to detect visually interesting patterns, as far as the projection provides a faithful image of the original data. In order to evaluate this faithfulness, we propose to visualize any measure associated to a projected datum or to a pair of projected data, by coloring the corresponding Vorono\"i cell in the projection space. We also define specific measures and show how they allow estimating visually whether some part of the projection is or is not a reliable image of the original manifolds. It also helps to figure out what the original topology of the data is, telling where the high-dimensional manifolds have been torn or glued during the projection. We experiment these techniques with the principal component analysis and the curvilinear component analysis applied to artificial and real databases.},
+  number = {7},
+  journal = {Neurocomputing},
+  author = {Aupetit, Micha\"el},
+  month = mar,
+  year = {2007},
+  keywords = {Continuous projection,Delaunay graph,Distortion visualization,Exploratory data analysis,High-dimensional data,Topology recovering,Uncertainty visualization,Voronoï cells},
+  pages = {1304-1330},
+  file = {/media/khaled/data/research/zotero/storage/G2T9VDL4/Aupetit - 2007 - Visualizing distortions and recovering topology in.pdf;/media/khaled/data/research/zotero/storage/RUL2LIBJ/S0925231206004814.html}
+}
+
+@article{ferdosiVisualizingHighDimensionalStructures2011,
+  title = {Visualizing {{High}}-{{Dimensional Structures}} by {{Dimension Ordering}} and {{Filtering}} Using {{Subspace Analysis}}},
+  volume = {30},
+  copyright = {\textcopyright{} 2011 The Author(s) Journal compilation \textcopyright{} 2011 The Eurographics Association and Blackwell Publishing Ltd.},
+  issn = {1467-8659},
+  doi = {10.1111/j.1467-8659.2011.01961.x},
+  abstract = {High-dimensional data visualization is receiving increasing interest because of the growing abundance of high-dimensional datasets. To understand such datasets, visualization of the structures present in the data, such as clusters, can be an invaluable tool. Structures may be present in the full high-dimensional space, as well as in its subspaces. Two widely used methods to visualize high-dimensional data are the scatter plot matrix (SPM) and the parallel coordinate plot (PCP). SPM allows a quick overview of the structures present in pairwise combinations of dimensions. On the other hand, PCP has the potential to visualize not only bi-dimensional structures but also higher dimensional ones. A problem with SPM is that it suffers from crowding and clutter which makes interpretation hard. Approaches to reduce clutter are available in the literature, based on changing the order of the dimensions. However, usually this reordering has a high computational complexity. For effective visualization of high-dimensional structures, also PCP requires a proper ordering of the dimensions. In this paper, we propose methods for reordering dimensions in PCP in such a way that high-dimensional structures (if present) become easier to perceive. We also present a method for dimension reordering in SPM which yields results that are comparable to those of existing approaches, but at a much lower computational cost. Our approach is based on finding relevant subspaces for clustering using a quality criterion and cluster information. The quality computation and cluster detection are done in image space, using connected morphological operators. We demonstrate the potential of our approach for synthetic and astronomical datasets, and show that our method compares favorably with a number of existing approaches.},
+  language = {en},
+  number = {3},
+  journal = {Computer Graphics Forum},
+  author = {Ferdosi, Bilkis J. and Roerdink, Jos B. T. M.},
+  month = jun,
+  year = {2011},
+  keywords = {Astronomy,Computer Applications J.2: Physical Sciences and Engineering,Computer Graphics I.3.6: Methodology and Techniques,Information Search and Retrieval H.3.3: Clustering,Interaction techniques,Computer Applications [J.2]: Physical Sciences and Engineering,Computer Graphics [I.3.6]: Methodology and Techniques,Information Search and Retrieval [H.3.3]: Clustering},
+  pages = {1121-1130},
+  file = {/media/khaled/data/research/zotero/storage/9GYXPMED/Ferdosi and Roerdink - 2011 - Visualizing High-Dimensional Structures by Dimensi.pdf;/media/khaled/data/research/zotero/storage/UX3QERGG/Ferdosi and Roerdink - 2011 - Visualizing High-Dimensional Structures by Dimensi.pdf;/media/khaled/data/research/zotero/storage/DQKJQF4V/j.1467-8659.2011.01961.html;/media/khaled/data/research/zotero/storage/YUGGN5F8/j.1467-8659.2011.01961.html}
+}
+
+@inproceedings{duffinSpidersNewUser1994,
+  title = {Spiders: A New User Interface for Rotation and Visualization of n-Dimensional Point Sets},
+  shorttitle = {Spiders},
+  doi = {10.1109/VISUAL.1994.346318},
+  abstract = {We present a new method for creating n-dimensional rotation matrices from manipulating the projections of n-dimensional data coordinate axes onto a viewing plane. A user interface for n-dimensional rotation is implemented. The interface is shown to have no rotational hysteresis.$<$$>$},
+  booktitle = {Proceedings {{Visualization}} '94},
+  author = {Duffin, K. L. and Barrett, W. A.},
+  month = oct,
+  year = {1994},
+  keywords = {data visualisation,visualization,Data visualization,Computer graphics,data coordinate axes,Data encapsulation,graphical user interfaces,Hysteresis,interpolation,Interpolation,Kirk field collapse effect,Matrices,n-dimensional point sets,n-dimensional rotation matrices,rotation,Spiders,user interface,User interfaces,viewing plane},
+  pages = {205-211},
+  file = {/media/khaled/data/research/zotero/storage/LGWU4WZP/Duffin and Barrett - 1994 - Spiders a new user interface for rotation and vis.pdf;/media/khaled/data/research/zotero/storage/MM39DMDK/346318.html}
+}
+
+@article{grossVisualizationMultidimensionalShape1995,
+  title = {Visualization of Multidimensional Shape and Texture Features in Laser Range Data Using Complex-Valued {{Gabor}} Wavelets},
+  volume = {1},
+  issn = {1077-2626},
+  doi = {10.1109/2945.468389},
+  abstract = {The paper describes a new method for visualization and analysis of multivariate laser range data using complex valued non orthogonal Gabor wavelets (D. Gabor, 1946), principal component analysis and a topological mapping network. The initial data set that provides both shape and texture information is encoded in terms of both amplitude and phase of a complex valued 2D image function. A set of carefully designed oriented Gabor filters performs a decomposition of the data and allows for retrieving local shape and texture features. The feature vector obtained from this method is multidimensional and in order to evaluate similar data features, further subspace methods to transform the data onto visualizable attributes, such as R, G, B, have to be determined. For this purpose, a feature based visualization pipeline is proposed consisting of principal component analysis, normalization and a topological mapping network. This process finally renders a R,G,B subspace representation of the multidimensional feature vector. Our method is primarily applied to the visual analysis of features in human faces but is not restricted to that.$<$$>$},
+  number = {1},
+  journal = {IEEE Transactions on Visualization and Computer Graphics},
+  author = {Gross, M. H. and Koch, R.},
+  month = mar,
+  year = {1995},
+  keywords = {data visualisation,Shape,Data visualization,Principal component analysis,complex valued 2D image function,complex valued non orthogonal Gabor wavelets,complex-valued Gabor wavelets,Face,face recognition,feature based visualization pipeline,feature extraction,Gabor filters,human faces,Humans,image texture,Information retrieval,initial data set,laser ranging,multidimensional feature vector,multidimensional shape visualization,Multidimensional systems,multivariate laser range data,Pipelines,principal component analysis,subspace methods,texture features,topological mapping network,Wavelet analysis,wavelet transforms},
+  pages = {44-59},
+  file = {/media/khaled/data/research/zotero/storage/SQC6GKGB/Gross and Koch - 1995 - Visualization of multidimensional shape and textur.pdf;/media/khaled/data/research/zotero/storage/JSCPXZJV/468389.html}
+}
+
+@inproceedings{chamskiInteractiveVisualizationHighdimension1995,
+  title = {Interactive Visualization of High-Dimension Iteration and Data Sets},
+  doi = {10.1109/PMMPC.1995.504358},
+  abstract = {Many well-formalized program transformations rely on techniques derived from the linear algebra theory. In such transformations, program entities are represented using polyhedra, which are then transformed using linear or affine functions. However, reasoning within this abstract framework is made extremely difficult by high dimensionality of spaces used to represent complex program transformations and various entities in the resulting programs: data, sets, iteration domains, access functions etc. This difficulty can be alleviated, at least partly, by providing tools for interactive visualization and manipulation of polyhedra and integrating such tools into a programming environment. In this paper we explore the issues involved in designing an interactive visualization tool for high-dimensionality polyhedra, and discuss the possible research directions arising from our current experience.},
+  booktitle = {Programming {{Models}} for {{Massively Parallel Computers}}},
+  author = {Chamski, Z. S. and Hedayat, G. A.},
+  month = oct,
+  year = {1995},
+  keywords = {data visualisation,Data visualization,Vectors,abstract framework,access functions,affine functions,computational geometry,data sets,Debugging,Education,Fellows,Graphics,Heart,high-dimension iteration,inference mechanisms,interactive visualization,iteration domains,linear algebra,Linear algebra,linear algebra theory,Parallel processing,polyhedra,program entities,program transformations,programming environment,programming environments,reasoning,Systolic arrays},
+  pages = {189-196},
+  file = {/media/khaled/data/research/zotero/storage/BD2GP8YU/Chamski and Hedayat - 1995 - Interactive visualization of high-dimension iterat.pdf;/media/khaled/data/research/zotero/storage/SY5K27VX/504358.html}
+}
+
+@inproceedings{grossVisualizingInformationSphere1997,
+  title = {Visualizing Information on a Sphere},
+  doi = {10.1109/INFVIS.1997.636759},
+  abstract = {We describe a method for the visualization of information units on spherical domains which is employed in the banking industry for risk analysis, stock prediction and other tasks. The system is based on a quantification of the similarity of related objects that governs the parameters of a mass-spring system. Unlike existing approaches we initialize all information units onto the inner surface of two concentric spheres and attach them with springs to the outer sphere. Since the spring stiffnesses correspond to the computed similarity measures, the system converges into an energy minimum which reveals multidimensional relations and adjacencies in terms of spatial neighborhoods. Depending on the application scenario our approach supports different topological arrangements of related objects. In order to cope with large data sets we propose a blobby clustering mechanism that enables encapsulation of similar objects by implicit shapes. In addition, we implemented various interaction techniques allowing semantic analysis of the underlying data sets. Our prototype system IVORY is written in Java, and its versatility is illustrated by an example from financial service providers.},
+  booktitle = {Proceedings of {{VIZ}} '97: {{Visualization Conference}}, {{Information Visualization Symposium}} and {{Parallel Rendering Symposium}}},
+  author = {Gross, M. H. and Sprenger, T. C. and Finger, J.},
+  month = oct,
+  year = {1997},
+  keywords = {data visualisation,Data visualization,Multidimensional systems,bank data processing,Banking,banking industry,blobby clustering mechanism,Computer industry,Computer science,data encapsulation,encapsulation,Encapsulation,Energy measurement,energy minimum,financial service providers,Fingers,information visualization,IVORY,Java,large data sets,mass-spring system,multidimensional relations,object-oriented languages,object-oriented programming,prototype system,risk analysis,Risk analysis,risk management,semantic analysis,similarity measures,spatial neighborhood,sphere,stock prediction,topological arrangements,World Wide Web},
+  pages = {11-16},
+  file = {/media/khaled/data/research/zotero/storage/GX2RHXAQ/Gross et al. - 1997 - Visualizing information on a sphere.pdf;/media/khaled/data/research/zotero/storage/F7LQDECZ/636759.html}
+}
+
+@inproceedings{bajajHypervolumeVisualizationChallenge1998,
+  title = {Hypervolume Visualization: A Challenge in Simplicity},
+  shorttitle = {Hypervolume Visualization},
+  doi = {10.1109/SVV.1998.729590},
+  abstract = {Hypervolume visualization is designed to provide simple and fully explanatory images that give comprehensive in-sights into the global structure of scalar fields of any dimension. The basic idea is to have a dimension independent viewing system that scales nicely with the geometric dimension of the dataset and that can be combined with classical approaches like isocontouring and animation of slices of nD data. One completely abandons (for core simplicity) rendering techniques, such as hidden surface removal or lighting or radiosity, that enhance three dimensional realism and concentrate on the real-time display of images that highlight structural (topological) features of the no dataset (holes, tunnels, cavities, depressions, extrema, etc.). Hypervolume visualization on the one hand is a generalization of direct parallel projection methods in volume rendering. To achieve efficiency (and real-time performance on a graphics workstation) the authors combine the advantages of (i) a hierarchical representations of the hypervolume data for multiresolution display and (ii) generalized object space splatting combined with texture-mapped graphics hardware acceleration. The main results of the paper are thus both a multiresolution direct rendering algorithm and scalable graphical user interface that provides global views of scalar fields in any dimension, while maintaining the fundamental characteristics of ease of use, and quick exploratory user interaction.},
+  booktitle = {{{IEEE Symposium}} on {{Volume Visualization}} ({{Cat}}. {{No}}.{{989EX300}})},
+  author = {Bajaj, C. L. and Pascucci, V. and Rabbiolo, G. and Schikore, D. R.},
+  month = oct,
+  year = {1998},
+  keywords = {data visualisation,Data visualization,graphical user interfaces,Graphics,Acceleration,animation,Animation,computer animation,dataset,dimension independent viewing system,direct parallel projection methods,efficiency,exploratory user interaction,generalized object space splatting,geometric dimension,global scalar field structure,Graphical user interfaces,Hardware,hierarchical representations,hypervolume data,hypervolume visualization,isocontouring,multiresolution direct rendering algorithm,multiresolution display,real-time image display,rendering (computer graphics),Rendering (computer graphics),scalable graphical user interface,structural features,texture-mapped graphics hardware acceleration,Three dimensional displays,volume rendering,Workstations},
+  pages = {95-102},
+  file = {/media/khaled/data/research/zotero/storage/HVN8ABMT/Bajaj et al. - 1998 - Hypervolume visualization a challenge in simplici.pdf;/media/khaled/data/research/zotero/storage/JAL4PYCT/729590.html}
+}
+
+@article{yangVisualExplorationLarge2003,
+  title = {Visual Exploration of Large Relational Data Sets through {{3D}} Projections and Footprint Splatting},
+  volume = {15},
+  issn = {1041-4347},
+  doi = {10.1109/TKDE.2003.1245285},
+  abstract = {This paper discusses 3D visualization and interactive exploration of large relational data sets through the integration of several well-chosen multidimensional data visualization techniques and for the purpose of visual data mining and exploratory data analysis. The basic idea is to combine the techniques of grand tour, direct volume rendering, and data aggregation in databases to deal with both the high dimensionality of data and a large number of relational records. Each technique has been enhanced or modified for this application. Specifically, positions of data clusters are used to decide the path of a grand tour. This cluster-guided tour makes intercluster-distance-preserving projections in which data clusters are displayed as separate as possible. A tetrahedral mapping method applied to cluster centroids helps in choosing interesting cluster-guided projections. Multidimensional footprint splatting is used to directly render large relational data sets. This approach abandons the rendering techniques that enhance 3D realism and focuses on how to efficiently produce real-time explanatory images that give comprehensive insights into global features such as data clusters and holes. Examples are given where the techniques are applied to large (more than a million records) relational data sets.},
+  number = {6},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  author = {Yang, Li},
+  month = nov,
+  year = {2003},
+  keywords = {data visualisation,Data visualization,Humans,Multidimensional systems,rendering (computer graphics),Rendering (computer graphics),3D projections,3D realism,3D visualization,cluster centroids,cluster-guided projections,data aggregation,data analysis,Data analysis,data clusters,data mining,Data mining,databases,direct volume rendering,exploratory data analysis,global features,grand tour,holes,interactive exploration,intercluster-distance-preserving projections,large relational data sets,multidimensional data visualization techniques,multidimensional footprint splatting,Multimedia databases,relational databases,Relational databases,relational records,Scattering,tetrahedral mapping method,very large databases,visual data mining,Visual databases,visual exploration},
+  pages = {1460-1471},
+  file = {/media/khaled/data/research/zotero/storage/JWHPDC99/Yang - 2003 - Visual exploration of large relational data sets t.pdf;/media/khaled/data/research/zotero/storage/6KKG88W2/1245285.html}
+}
+
+@article{janickeBrushingAttributeClouds2008,
+  title = {Brushing of {{Attribute Clouds}} for the {{Visualization}} of {{Multivariate Data}}},
+  volume = {14},
+  issn = {1077-2626},
+  doi = {10.1109/TVCG.2008.116},
+  abstract = {The visualization and exploration of multivariate data is still a challenging task. Methods either try to visualize all variables simultaneously at each position using glyph-based approaches or use linked views for the interaction between attribute space and physical domain such as brushing of scatterplots. Most visualizations of the attribute space are either difficult to understand or suffer from visual clutter. We propose a transformation of the high-dimensional data in attribute space to 2D that results in a point cloud, called attribute cloud, such that points with similar multivariate attributes are located close to each other. The transformation is based on ideas from multivariate density estimation and manifold learning. The resulting attribute cloud is an easy to understand visualization of multivariate data in two dimensions. We explain several techniques to incorporate additional information into the attribute cloud, that help the user get a better understanding of multivariate data. Using different examples from fluid dynamics and climate simulation, we show how brushing can be used to explore the attribute cloud and find interesting structures in physical space.},
+  number = {6},
+  journal = {IEEE Transactions on Visualization and Computer Graphics},
+  author = {J\"anicke, H. and B\"ottinger, M. and Scheuermann, G.},
+  month = nov,
+  year = {2008},
+  keywords = {data visualisation,Data visualization,high-dimensional data,Principal component analysis,Scattering,brushing,Clouds,data transformation,Fluid dynamics,Index Terms—,linked views.,manifold learning,Multivariate data,multivariate data visualization,multivariate density estimation,Temperature,visual clutter},
+  pages = {1459-1466},
+  file = {/media/khaled/data/research/zotero/storage/KDZPIXK3/Jänicke et al. - 2008 - Brushing of Attribute Clouds for the Visualization.pdf;/media/khaled/data/research/zotero/storage/5IVSISLT/4658163.html}
+}
+
+@inproceedings{novakovaRadVizIdentificationClusters2009,
+  title = {{{RadViz}} and {{Identification}} of {{Clusters}} in {{Multidimensional Data}}},
+  doi = {10.1109/IV.2009.103},
+  abstract = {RadViz visualization makes it possible to map data from n-dimensional space into a plane. The paper reviews those specific properties of this method that are important for identification of clusters in the original multidimensional data. First, there is described an artificial data set which clearly points to a certain drawback of the original RadViz mapping. To resolve the identified problem there are suggested 2 minor modifications of the RadViz algorithm. Finally, it is proved that application of both suggested modifications guarantees that the upper mentioned problem does not re-appear. This claim is experimentally confirmed by a new visualization of the two original data sets using the modified mapping algorithm.},
+  booktitle = {2009 13th {{International Conference Information Visualisation}}},
+  author = {Nov\'akov\'a, L. and {\v S}tepankov\'a, O.},
+  month = jul,
+  year = {2009},
+  keywords = {Visualization,Data visualization,RadViz,Humans,Multidimensional systems,Banking,Data analysis,data mining,Clustering,Clustering algorithms,clusters identification,Cybernetics,Delta modulation,Machine learning,Machine learning algorithms,modified mapping algorithm,multidimensional data,n-dimensional space,RadViz mapping,RadViz visualization},
+  pages = {104-109},
+  file = {/media/khaled/data/research/zotero/storage/3I4TUDVG/Nováková and Štepanková - 2009 - RadViz and Identification of Clusters in Multidime.pdf;/media/khaled/data/research/zotero/storage/V6QRKCJJ/5190784.html}
+}
+
+@article{chengRadVizDeluxeAttributeAware2017,
+  title = {{{RadViz Deluxe}}: {{An Attribute}}-{{Aware Display}} for {{Multivariate Data}}},
+  volume = {5},
+  copyright = {http://creativecommons.org/licenses/by/3.0/},
+  shorttitle = {{{RadViz Deluxe}}},
+  doi = {10.3390/pr5040075},
+  abstract = {Modern data, such as occurring in chemical engineering, typically entail large collections of samples with numerous dimensional components (or attributes). Visualizing the samples in relation of these components can bring valuable insight. For example, one may be able to see how a certain chemical property is expressed in the samples taken. This could reveal if there are clusters and outliers that have specific distinguishing properties. Current multivariate visualization methods lack the ability to reveal these types of information at a sufficient degree of fidelity since they are not optimized to simultaneously present the relations of the samples as well as the relations of the samples to their attributes. We propose a display that is designed to reveal these multiple relations. Our scheme is based on the concept of RadViz, but enhances the layout with three stages of iterative refinement. These refinements reduce the layout error in terms of three essential relationships\textemdash{}sample to sample, attribute to attribute, and sample to attribute. We demonstrate the effectiveness of our method via various real-world domain examples in the domain of chemical process engineering. In addition, we also formally derive the equivalence of RadViz to a popular multivariate interpolation method called generalized barycentric coordinates.},
+  language = {en},
+  number = {4},
+  journal = {Processes},
+  author = {Cheng, Shenghui and Xu, Wei and Mueller, Klaus},
+  year = {2017},
+  keywords = {RadViz,generalized barycentric interpolation,multi-objective layout,multivariate data},
+  pages = {75},
+  file = {/media/khaled/data/research/zotero/storage/YZ4WH3KB/Cheng et al. - 2017 - RadViz Deluxe An Attribute-Aware Display for Mult.pdf;/media/khaled/data/research/zotero/storage/3LPAT2KQ/75.html}
+}
+
+@article{youngVisualizingStructureHighdimensional1991,
+  title = {Visualizing Structure in High-Dimensional Multivariate Data},
+  volume = {35},
+  issn = {0018-8646},
+  doi = {10.1147/rd.351.0097},
+  abstract = {We present and discuss several dynamic statistical graphics tools designed to help the data analyst visually discover and formulate hypotheses about the structure of multivariate data. All tools are based on the notion of the ``data space,'' a representation of multivariate data as a high-dimensional (hD) space which has a dimension for each variable (column of the data) and a point for each case (row of the data). The data space is projected orthogonally onto the ``visual space,'' a three-dimensional space which is seen and manipulated by the data analyst. The visual space has a point-like object for each case and can have a vector-like object for each variable. The three dimensions of the visual space are orthogonal linear combinations of the variables. We discuss the notion of a ``guided tour'' of multivariate data space, and present guided-tour tools, including 1) 6D-rotation, a tool for dynamically rotating, in six-dimensional (6D) space, from one 3D portion of the data space to another while displaying the dynamically changing projection in the visual space; 2) hD-residualization, a tool that determines, at the user's request, the largest invisible 3D space\textemdash{}i.e., the largest 3D space is orthogonal to the visual space. This space is used with the visual space so that 6D-rotation can occur between two new 3D portions of the data space; 3) projection-cueing, a group of three tools that use change in object brightness as a cue to show change in aspects of the projection of objects from the data space to the visual space during hD-rotation. In addition to these tools for touring high-dimensional multivariate space, we discuss tools for manipulating the 3D visual space, and a tool for examining the relationship between two data spaces. Finally, we present a guided-tour implementation in which the user manipulates joysticks and sliders to dynamically and smoothly control the graphics tools in real time. A video supplement demonstrates the implementation.},
+  number = {1.2},
+  journal = {IBM Journal of Research and Development},
+  author = {Young, F. W. and Rheingans, P.},
+  month = jan,
+  year = {1991},
+  pages = {97-107},
+  file = {/media/khaled/data/research/zotero/storage/652CAJ5L/Young and Rheingans - 1991 - Visualizing structure in high-dimensional multivar.pdf;/media/khaled/data/research/zotero/storage/4ESURT2Q/5389809.html}
+}
+
+@inproceedings{sarfrazDataVisualizationUsing2011,
+  title = {Data {{Visualization Using Shape Preserving C2 Rational Spline}}},
+  doi = {10.1109/IV.2011.91},
+  abstract = {A rational cubic spline is developed to provide smooth curves(positive, monotone and convex). To control the shape of the curve, two families of parameters are introduced in its representation. Three schemes using rational cubic spline are elaborated to obtain positive curves through positive data, monotone curves through monotone data and convex curves through convex data. As well as degree of smoothness attained is C\textsuperscript{2}.},
+  booktitle = {2011 15th {{International Conference}} on {{Information Visualisation}}},
+  author = {Sarfraz, M. and Hussain, M. Z. and Shaikh, T. S. and Iqbal, R.},
+  month = jul,
+  year = {2011},
+  keywords = {data visualisation,Shape,Data visualization,data visualization,Interpolation,computational geometry,convex curves,Convex spline,monotone curves,monotone data,Monotone spline,Polynomials,positive data,Positive spline,rational cubic spline,Rational spline,shape preserving C2 rational spline,smooth curves,Spline,splines (mathematics),Sufficient conditions},
+  pages = {528-533},
+  file = {/media/khaled/data/research/zotero/storage/ME9VWQF7/Sarfraz et al. - 2011 - Data Visualization Using Shape Preserving C2 Ratio.pdf;/media/khaled/data/research/zotero/storage/IWVUP4U9/6004095.html}
+}
+
+@inproceedings{dasguptaMetaParallelCoordinates2012,
+  title = {Meta Parallel Coordinates for Visualizing Features in Large, High-Dimensional, Time-Varying Data},
+  doi = {10.1109/LDAV.2012.6378980},
+  abstract = {Managing computational complexity and designing effective visual representations are two important challenges for the visualization of large, complex, high-dimensional datasets. Parallel coordinates are an effective technique for visualizing high-dimensional data, but do not scale well to very large datasets. The addition of the temporal dimension leads to more uncertainty due to clutter on screen. Consequently, this poses a significant challenge for visually finding trends and patterns that maximize insight about the underlying time-varying properties of the data. To address these problems, we present meta parallel coordinates, a parallel coordinates display that is guided by perceptually motivated visual metrics. These metrics describe the visual structures typically found in parallel coordinates and thus aid the user's analysis by providing meaningful views of the data. Since they are computed in screen space, our metrics are computationally more efficient than data-based metrics. Our choice of metrics is driven by the different analytical tasks that a user typically wants to perform with time-varying multivariate data. In particular, we have worked with domain scientists who performed simulations of bioremediation experiments, and use their data and results to demonstrate the usefulness of our approach.},
+  booktitle = {{{IEEE Symposium}} on {{Large Data Analysis}} and {{Visualization}} ({{LDAV}})},
+  author = {Dasgupta, A. and Kosara, R. and Gosink, L.},
+  month = oct,
+  year = {2012},
+  keywords = {Measurement,data visualisation,Visualization,Data visualization,computational complexity,Image color analysis,computational complexity management,data structures,Entropy,feature visualization,high-dimensional data visualization,Iron,Kinetic theory,large high-dimensional time-varying data,meta parallel coordinates,parallel processing,temporal dimension,time-varying multivariate data,time-varying properties,user interfaces,visual metrics,visual representation design,visual structures},
+  pages = {85-89},
+  file = {/media/khaled/data/research/zotero/storage/JS4DRHCA/Dasgupta et al. - 2012 - Meta parallel coordinates for visualizing features.pdf;/media/khaled/data/research/zotero/storage/68C6EWGH/6378980.html}
+}
+
+@inproceedings{yanVisualSignatureHighDimensional2014,
+  title = {Visual {{Signature}} of {{High}}-{{Dimensional Geometry}} in {{Parallel Coordinates}}},
+  doi = {10.1109/PacificVis.2014.41},
+  abstract = {Although we can interactively rotate a 3D projected high-dimensional geometry and observe its dynamic changes, this traditional visualization method is limited and highly sensitive to the choice of viewing direction. Parallel-coordinates plots supplement this visualization scenario by providing statistical analysis of the geometry for distinct pairs of co-dimensions. Such analysis results in visual signatures that embed geometric structures such as symmetry, and thus allows us to overview the status of the missing dimensions while exploring the projected geometry. This paper presents a blue-noise sampling approach for efficient construction of continuous parallel-coordinates plots of high-dimensional geometric surfaces defined by mathematical equations. We employ the parallel-coordinates plots with the embedded visual signatures to assist the interactive exploration of high-dimensional geometries, typically for 2-manifold embedded in 4-space. While we interactively explore the 3D projected geometry, we can observe dynamic changes on its visual signature. Various geometric properties can also be identified and visualized. Moreover, we can interactively brush the plots, and see their counterparts in the 3D projection. Assorted geometric properties such as curvature can further be used to enhance the visual signature.},
+  booktitle = {2014 {{IEEE Pacific Visualization Symposium}}},
+  author = {Yan, X. and Lai, C. F. and Fu, C. W.},
+  month = mar,
+  year = {2014},
+  keywords = {data visualisation,mathematics computing,Visualization,Data visualization,Geometry,computational geometry,interactive exploration,3D projected high-dimensional geometry,blue-noise sampling,Computer GraphicsApplications,continuous parallel-coordinates plot construction,coordinated and multiple views,embedded visual signatures,Equations,geometric structures,geometry-based Techniques,high-dimensional geometric surfaces,interactive rotation,interactive systems,mathematical equations,Mathematical model,Mathematical Software,Parallel coordinates,sampling methods,statistical analysis,Three-dimensional displays,Transforms,visualization in mathematics},
+  pages = {65-72},
+  file = {/media/khaled/data/research/zotero/storage/WBK8PIK9/Yan et al. - 2014 - Visual Signature of High-Dimensional Geometry in P.pdf;/media/khaled/data/research/zotero/storage/SEVMUCEQ/6787138.html}
+}
+
+@inproceedings{vihrovsInverseDistancebasedPotential2014,
+  title = {An Inverse Distance-Based Potential Field Function for Overlapping Point Set Visualization},
+  abstract = {In this paper we address the problem of visualizing overlapping sets of points with a fixed positioning in a comprehensible way. A standard visualization technique is to enclose the point sets in isocontours generated by bounding a potential field function. The most commonly used functions are various approximations of the Gaussian distribution. Such an approach produces smooth and appealing shapes, however it may produce an incorrect point nesting in generated regions, e.g. some point is contained inside a foreign set region. We introduce a different potential field function that keeps the desired properties of Gaussian distribution, and in addition guarantees that every point belongs to all its sets' regions and no others, and that regions of two sets with no common points have no overlaps. The presented function works well if the sets intersect each other, a situation that often arises in social network graphs, producing regions that reveal the structure of their clustering.},
+  booktitle = {2014 {{International Conference}} on {{Information Visualization Theory}} and {{Applications}} ({{IVAPP}})},
+  author = {Vihrovs, J. and Pr\=usis, K. and Freivalds, K. and Ru{\v c}evskis, P. and Krebs, V.},
+  month = jan,
+  year = {2014},
+  keywords = {Shape,Visualization,Data visualization,Gaussian distribution,Implicit Surfaces,Information Visualization,Layout,Silicon,Standards},
+  pages = {29-38},
+  file = {/media/khaled/data/research/zotero/storage/62CWKYIG/Vihrovs et al. - 2014 - An inverse distance-based potential field function.pdf;/media/khaled/data/research/zotero/storage/8LAHC9J4/7294395.html}
+}
+
+@article{caoZGlyphVisualizingOutliers2018,
+  title = {Z-{{Glyph}}: {{Visualizing}} Outliers in Multivariate Data},
+  volume = {17},
+  issn = {1473-8716},
+  shorttitle = {Z-{{Glyph}}},
+  doi = {10.1177/1473871616686635},
+  abstract = {Outlier analysis techniques are extensively used in many domains such as intrusion detection. Today, even with the most advanced statistical learning techniques, human judgment still plays an important role in outlier analysis tasks due to the difficulty of defining and collecting outlier examples. This work seeks to tackle this problem by introducing a new visualization design, ``Z-Glyph,'' a family of glyphs designed to facilitate human judgment in outlier analysis of multivariate data. By employing a location-scale transformation, a Z-Glyph represents the ``normal'' data using regular shapes (e.g. straight line and circle), such that the abnormal data can be revealed when deviating from the regular shapes. Extensive controlled experiment and case studies based on real-world datasets indicate the superior performance of the Z-Glyph family, compared with the baselines, suggesting that the proposed design is able to leverage human perceptional features with statistical characterization. This study contributes to a more fundamental understanding about designing visual representations for revealing outliers in multivariate data, which can be applied as a building block in many domain-specific anomaly detection applications.},
+  language = {en},
+  number = {1},
+  journal = {Information Visualization},
+  author = {Cao, Nan and Lin, Yu-Ru and Gotz, David and Du, Fan},
+  month = jan,
+  year = {2018},
+  pages = {22-40},
+  file = {/media/khaled/data/research/zotero/storage/EAU65AB4/Cao et al. - 2018 - Z-Glyph Visualizing outliers in multivariate data.pdf}
+}
+
+@inproceedings{filipicTaxonomyMethodsVisualizing2018,
+  address = {New York, NY, USA},
+  series = {GECCO '18},
+  title = {A {{Taxonomy}} of {{Methods}} for {{Visualizing Pareto Front Approximations}}},
+  isbn = {978-1-4503-5618-3},
+  doi = {10.1145/3205455.3205607},
+  abstract = {In multiobjective optimization, many techniques are used to visualize the results, ranging from traditional general-purpose data visualization techniques to approaches tailored to the specificities of multiobjective optimization. The number of specialized approaches rapidly grows in the recent years. To assist both the users and developers in this field, we propose a taxonomy of methods for visualizing Pareto front approximations. It builds on the nature of the visualized data and the properties of visualization methods rather than on the employed visual representations. It covers the methods for visualizing individual approximation sets resulting from a single algorithm run as well as multiple approximation sets produced in repeated runs. The proposed taxonomy categories are characterized and illustrated with selected examples of visualization methods. We expect that proposed taxonomy will be insightful to the multiobjective optimization community, make the communication among the participants easier and help focus further development of visualization methods.},
+  booktitle = {Proceedings of the {{Genetic}} and {{Evolutionary Computation Conference}}},
+  publisher = {{ACM}},
+  author = {Filipi{\v c}, Bogdan and Tu{\v s}ar, Tea},
+  year = {2018},
+  keywords = {multiobjective optimization,visualization methods,taxonomy},
+  pages = {649--656},
+  file = {/media/khaled/data/research/zotero/storage/YKJ4L5GZ/Filipič and Tušar - 2018 - A Taxonomy of Methods for Visualizing Pareto Front.pdf}
+}
+
+@inproceedings{longOptimalRadialLayout2015,
+  title = {An Optimal Radial Layout for High Dimensional Data Class Visualization},
+  doi = {10.1109/ATC.2015.7388347},
+  abstract = {Multivariate data visualization is an interesting research field with many applications in ubiquitous fields of sciences. Radial visualization is one of the most common information visualization techniques for visualizing multivariate data. Unfortunately, Radial visualization display different information about structures of multivariate data on the different positions of dimensional anchors on the unit circle. In this paper, we propose a method that improve the Radviz layout for class visualization of high-dimensional data. We apply the differential evolution algorithm to find the optimal dimensional anchors of the RadViz such that maximum the quality of Radial visualization for classifier data. We use the k nearest neighbors classifier for quality measurement. Our method provides an improvement visualizing class structures of high-dimensional data sets on the RadViz. We demonstrate the efficiency of our method for some data sets.},
+  booktitle = {2015 {{International Conference}} on {{Advanced Technologies}} for {{Communications}} ({{ATC}})},
+  author = {Long, T. Van and Ngan, V. T.},
+  month = oct,
+  year = {2015},
+  keywords = {data visualisation,Visualization,Data visualization,Principal component analysis,multivariate data visualization,Layout,classifier data,Complexity theory,Density measurement,differential evolution algorithm,high dimensional data class visualization,information visualization techniques,k nearest neighbors classifier,Linear programming,natural sciences computing,optimal dimensional anchors,optimal radial layout,pattern classification,quality measurement,radial visualization,Radviz layout,ubiquitous science fields},
+  pages = {343-346},
+  file = {/media/khaled/data/research/zotero/storage/BZUNN92E/Long and Ngan - 2015 - An optimal radial layout for high dimensional data.pdf;/media/khaled/data/research/zotero/storage/G39Q2Z8A/authors.html}
+}
+
+@inproceedings{albuquerqueImprovingVisualAnalysis2010,
+  title = {Improving the Visual Analysis of High-Dimensional Datasets Using Quality Measures},
+  doi = {10.1109/VAST.2010.5652433},
+  abstract = {Modern visualization methods are needed to cope with very high-dimensional data. Efficient visual analytical techniques are required to extract the information content in these data. The large number of possible projections for each method, which usually grow quadrat-ically or even exponentially with the number of dimensions, urges the necessity to employ automatic reduction techniques, automatic sorting or selecting the projections, based on their information-bearing content. Different quality measures have been successfully applied for several specified user tasks and established visualization techniques, like Scatterplots, Scatterplot Matrices or Parallel Coordinates. Many other popular visualization techniques exist, but due to the structural differences, the measures are not directly applicable to them and new approaches are needed. In this paper we propose new quality measures for three popular visualization methods: Radviz, Pixel-Oriented Displays and Table Lenses. Our experiments show that these measures efficiently guide the visual analysis task.},
+  booktitle = {2010 {{IEEE Symposium}} on {{Visual Analytics Science}} and {{Technology}}},
+  author = {Albuquerque, G. and Eisemann, M. and Lehmann, D. J. and Theisel, H. and Magnor, M.},
+  month = oct,
+  year = {2010},
+  keywords = {data visualisation,Visualization,Data visualization,Image color analysis,Noise,data analysis,Clustering algorithms,automatic reduction techniques,data reduction,H.3.3 [Information Storage and Retrieval]: Information Search and Retrieval,high-dimensional datasets,I.3.3 [Computer Graphics]: Picture/Image Generation,information content,information retrieval,Lenses,modern visualization methods,Pixel,pixel-oriented displays,quality measures,Radviz,structural differences,table lenses,visual analysis},
+  pages = {19-26},
+  file = {/media/khaled/data/research/zotero/storage/4N8F6SQQ/Albuquerque et al. - 2010 - Improving the visual analysis of high-dimensional .pdf;/media/khaled/data/research/zotero/storage/LPFJBD2P/5652433.html}
+}
+
+@inproceedings{russellClusteredDataSeparation2014,
+  title = {Clustered {{Data Separation}} via {{Barycentric Radial Visualization}}},
+  abstract = {This paper addresses visualizing clusters of multi-dimensional data using barycenters as cluster representatives within the RadViz radial visualization technique. RadViz is a composition of two mappings. Where in this twostage mapping the cluster barycenters are formed is a key decision. Motivated by the nature of the second mapping, we form cluster barycenters at the end of the first stage, rather than at the start of the first stage. In the second stage we must select an appropriate configuration of dimensional representatives (dimensional anchors). Since this problem is intractable we present a heuristic to: 1) separate clusters and 2) move clusters away from the barycenter of the dimensional anchors. The heuristic uses our prior Voronoi quality assessment technique and our recent observation that circular motion of dimensional anchors confines each data image to an annulus. We demonstrate the benefit of our barycentric approach for a variety of clustered datasets.},
+  author = {Russell, Adam and Marceau, Robert and Kamayou, Franck and Daniels, Karen and Grinstein, Georges},
+  year = {2014},
+  keywords = {Barycentric subdivision,Heuristic,Imagery,Numerous,Radial (radio),Stage level 1,Stage level 2},
+  file = {/media/khaled/data/research/zotero/storage/TZ8P4LUA/Russell et al. - 2014 - Clustered Data Separation via Barycentric Radial V.pdf}
+}
+
+@article{xiaBORDEREfficientComputation2006,
+  title = {{{BORDER}}: Efficient Computation of Boundary Points},
+  volume = {18},
+  issn = {1041-4347},
+  shorttitle = {{{BORDER}}},
+  doi = {10.1109/TKDE.2006.38},
+  abstract = {This work addresses the problem of finding boundary points in multidimensional data sets. Boundary points are data points that are located at the margin of densely distributed data such as a cluster. We describe a novel approach called BORDER (a BOundaRy points DEtectoR) to detect such points. BORDER employs the state-of-the-art database technique - the Gorder kNN join and makes use of the special property of the reverse k nearest neighbor (RkNN). Experimental studies on data sets with varying characteristics indicate that BORDER is able to detect the boundary points effectively and efficiently.},
+  number = {3},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  author = {Xia, Chenyi and Hsu, W. and Lee, M. L. and Ooi, B. C.},
+  month = mar,
+  year = {2006},
+  keywords = {Multidimensional systems,data mining,Data mining,Association rules,BORDER,boundary point computation,Boundary points,BOundaRy points DEtectoR,database management systems,database technique,Databases,Detectors,Diseases,Information analysis,Information technology,k-nearest neighbor,kNN join,multidimensional data sets,Nearest neighbor searches,Pattern analysis,reverse k nearest neighbor,reverse k-nearest neighbor.},
+  pages = {289-303},
+  file = {/media/khaled/data/research/zotero/storage/WPFC4WJG/Xia et al. - 2006 - BORDER efficient computation of boundary points.pdf;/media/khaled/data/research/zotero/storage/K2VQ47ZU/1583580.html}
+}
+
+@inproceedings{qiuBRIMEfficientBoundary2007,
+  series = {Lecture Notes in Computer Science},
+  title = {{{BRIM}}: {{An Efficient Boundary Points Detecting Algorithm}}},
+  isbn = {978-3-540-71701-0},
+  shorttitle = {{{BRIM}}},
+  abstract = {In order to detect boundary points of clusters effectively, we propose a technique making use of a point's distribution feature of its Eps neighborhood to detect boundary points, and develop a boundary points detecting algorithm BRIM (an efficient Boundary points detecting algorithm). Experimental results show that BRIM can detect boundary points in noisy datasets containing clusters of different shapes and sizes effectively and efficiently.},
+  language = {en},
+  booktitle = {Advances in {{Knowledge Discovery}} and {{Data Mining}}},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Qiu, Bao-Zhi and Yue, Feng and Shen, Jun-Yi},
+  editor = {Zhou, Zhi-Hua and Li, Hang and Yang, Qiang},
+  year = {2007},
+  keywords = {Data mining,boundary points,density,neighborhood},
+  pages = {761-768},
+  file = {/media/khaled/data/research/zotero/storage/2PA5JJHP/Qiu et al. - 2007 - BRIM An Efficient Boundary Points Detecting Algor.pdf}
+}
+
+@inproceedings{singhTopologicalMethodsAnalysis2007,
+  title = {Topological {{Methods}} for the {{Analysis}} of {{High Dimensional Data Sets}} and {{3D Object Recognition}}},
+  doi = {10.2312/SPBG/SPBG07/091-100},
+  abstract = {We present a computational method for extracting simple descriptions of high dimensional data sets in the form of simplicial complexes. Our method, called Mapper, is based on the idea of partial clustering of the data guided by a set of functions defined on the data. The proposed method is not dependent on any particular clustering algorithm, i.e. any clustering algorithm may be used with Mapper. We implement this method and present a few sample applications in which simple descriptions of the data present important information about its structure.},
+  booktitle = {{{SPBG}}},
+  author = {Singh, Gurjeet and M\'emoli, Facundo and Carlsson, Gunnar E.},
+  year = {2007},
+  keywords = {3D single-object recognition,Algorithm,Cluster analysis,MAPPER,Simplicial complex},
+  file = {/media/khaled/data/research/zotero/storage/C9LVYAKK/Singh et al. - 2007 - Topological Methods for the Analysis of High Dimen.pdf}
+}
+
+@article{miettinenSurveyMethodsVisualize2014,
+  title = {Survey of Methods to Visualize Alternatives in Multiple Criteria Decision Making Problems},
+  volume = {36},
+  copyright = {Springer-Verlag Berlin Heidelberg 2014},
+  issn = {01716468},
+  doi = {http://dx.doi.org.proxy1.cl.msu.edu/10.1007/s00291-012-0297-0},
+  abstract = {When solving decision problems where multiple conflicting criteria are to be considered simultaneously, decision makers must compare several different alternatives and select the most preferred one. The task of comparing multidimensional vectors is very demanding for the decision maker without any support. Different graphical visualization tools can be used to support and help the decision maker in understanding similarities and differences between the alternatives and graphical illustration is a very important part of decision support systems that are used in solving multiple criteria decision making problems. The visualization task is by no means trivial because, on the one hand, the graphics must be easy to comprehend and not too much information should be lost but, on the other hand, no extra unintentional information should be included. In this paper, we survey and analyze different ways of visualizing a small set of discrete alternatives graphically in the context of multiple criteria decision making. Some of the ways discussed are widely used and some others deserve to be brought into a wider awareness. This survey provides a starting point for all those who deal with multiple criteria decision making problems and need information of what kind of visualization techniques could be put to use in order to support the decision maker better. [PUBLICATION ABSTRACT]},
+  language = {English},
+  number = {1},
+  journal = {OR Spectrum; Heidelberg},
+  author = {Miettinen, Kaisa},
+  month = jan,
+  year = {2014},
+  keywords = {Visualization,Computers,Decision support systems,Multiple criteria decision making,Operations research,Problem solving,Studies},
+  pages = {3-37},
+  file = {/media/khaled/data/research/zotero/storage/2USLFT88/Miettinen - 2014 - Survey of methods to visualize alternatives in mul.pdf}
+}
+
+@article{debEvolutionaryManyObjectiveOptimization2014,
+  title = {An {{Evolutionary Many}}-{{Objective Optimization Algorithm Using Reference}}-{{Point}}-{{Based Nondominated Sorting Approach}}, {{Part I}}: {{Solving Problems With Box Constraints}}},
+  volume = {18},
+  issn = {1089-778X},
+  shorttitle = {An {{Evolutionary Many}}-{{Objective Optimization Algorithm Using Reference}}-{{Point}}-{{Based Nondominated Sorting Approach}}, {{Part I}}},
+  doi = {10.1109/TEVC.2013.2281535},
+  abstract = {Having developed multiobjective optimization algorithms using evolutionary optimization methods and demonstrated their niche on various practical problems involving mostly two and three objectives, there is now a growing need for developing evolutionary multiobjective optimization (EMO) algorithms for handling many-objective (having four or more objectives) optimization problems. In this paper, we recognize a few recent efforts and discuss a number of viable directions for developing a potential EMO algorithm for solving many-objective optimization problems. Thereafter, we suggest a reference-point-based many-objective evolutionary algorithm following NSGA-II framework (we call it NSGA-III) that emphasizes population members that are nondominated, yet close to a set of supplied reference points. The proposed NSGA-III is applied to a number of many-objective test problems with three to 15 objectives and compared with two versions of a recently suggested EMO algorithm (MOEA/D). While each of the two MOEA/D methods works well on different classes of problems, the proposed NSGA-III is found to produce satisfactory results on all problems considered in this paper. This paper presents results on unconstrained problems, and the sequel paper considers constrained and other specialties in handling many-objective optimization problems.},
+  number = {4},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {Deb, K. and Jain, H.},
+  month = aug,
+  year = {2014},
+  keywords = {evolutionary computation,Evolutionary computation,Measurement,many-objective optimization,Sociology,Statistics,Optimization,Vectors,box constraints,Educational institutions,EMO algorithms,evolutionary many-objective optimization algorithm,evolutionary multiobjective optimization algorithms,genetic algorithms,large dimension,Many-objective optimization,many-objective optimization problems,many-objective test problems,MOEA/D methods,multi-criterion optimization,multicriterion optimization,non-dominated sorting,nondominated sorting,NSGA-II framework,NSGA-III,reference points,reference-point-based many-objective evolutionary algorithm,reference-point-based nondominated sorting approach,sorting,unconstrained problems,Zirconium},
+  pages = {577-601},
+  file = {/media/khaled/data/research/zotero/storage/ILYJCKIC/Deb and Jain - 2014 - An Evolutionary Many-Objective Optimization Algori.pdf;/media/khaled/data/research/zotero/storage/WYMCJXS8/6600851.html}
+}
+
+@article{jainEvolutionaryManyObjectiveOptimization2014,
+  title = {An {{Evolutionary Many}}-{{Objective Optimization Algorithm Using Reference}}-{{Point Based Nondominated Sorting Approach}}, {{Part II}}: {{Handling Constraints}} and {{Extending}} to an {{Adaptive Approach}}},
+  volume = {18},
+  issn = {1089-778X},
+  shorttitle = {An {{Evolutionary Many}}-{{Objective Optimization Algorithm Using Reference}}-{{Point Based Nondominated Sorting Approach}}, {{Part II}}},
+  doi = {10.1109/TEVC.2013.2281534},
+  abstract = {In the precursor paper, a many-objective optimization method (NSGA-III), based on the NSGA-II framework, was suggested and applied to a number of unconstrained test and practical problems with box constraints alone. In this paper, we extend NSGA-III to solve generic constrained many-objective optimization problems. In the process, we also suggest three types of constrained test problems that are scalable to any number of objectives and provide different types of challenges to a many-objective optimizer. A previously suggested MOEA/D algorithm is also extended to solve constrained problems. Results using constrained NSGA-III and constrained MOEA/D show an edge of the former, particularly in solving problems with a large number of objectives. Furthermore, the NSGA-III algorithm is made adaptive in updating and including new reference points on the fly. The resulting adaptive NSGA-III is shown to provide a denser representation of the Pareto-optimal front, compared to the original NSGA-III with an identical computational effort. This, and the original NSGA-III paper, together suggest and amply test a viable evolutionary many-objective optimization algorithm for handling constrained and unconstrained problems. These studies should encourage researchers to use and pay further attention in evolutionary many-objective optimization.},
+  number = {4},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {Jain, H. and Deb, K.},
+  month = aug,
+  year = {2014},
+  keywords = {evolutionary computation,Evolutionary computation,Measurement,Pareto optimisation,Pareto-optimal front,many-objective optimization,Sociology,Statistics,Optimization,Algorithm design and analysis,Educational institutions,evolutionary many-objective optimization algorithm,genetic algorithms,large dimension,Many-objective optimization,multi-criterion optimization,multicriterion optimization,non-dominated sorting,nondominated sorting,NSGA-III,adaptive NSGA-III framework,constrained MOEA/D algorithm,constrained test problems,constraint handling,generic constrained many-objective optimization problems,many-objective optimizer,reference-point based nondominated sorting approach,Sorting},
+  pages = {602-622},
+  file = {/media/khaled/data/research/zotero/storage/G9A9IZJY/Jain and Deb - 2014 - An Evolutionary Many-Objective Optimization Algori.pdf;/media/khaled/data/research/zotero/storage/4D3ACTLQ/6595567.html}
+}
+
+@incollection{belkinLaplacianEigenmapsSpectral2002,
+  title = {Laplacian {{Eigenmaps}} and {{Spectral Techniques}} for {{Embedding}} and {{Clustering}}},
+  booktitle = {Advances in {{Neural Information Processing Systems}} 14},
+  publisher = {{MIT Press}},
+  author = {Belkin, Mikhail and Niyogi, Partha},
+  editor = {Dietterich, T. G. and Becker, S. and Ghahramani, Z.},
+  year = {2002},
+  pages = {585--591},
+  file = {/media/khaled/data/research/zotero/storage/C8LI4I3L/Belkin and Niyogi - 2002 - Laplacian Eigenmaps and Spectral Techniques for Em.pdf;/media/khaled/data/research/zotero/storage/IX4S2V69/1961-laplacian-eigenmaps-and-spectral-techniques-for-embedding-and-clustering.html}
+}
+
+@article{sharkoVectorizedRadvizIts2008,
+  title = {Vectorized {{Radviz}} and {{Its Application}} to {{Multiple Cluster Datasets}}},
+  volume = {14},
+  issn = {1077-2626},
+  doi = {10.1109/TVCG.2008.173},
+  abstract = {Radviz is a radial visualization with dimensions assigned to points called dimensional anchors (DAs) placed on the circumference of a circle. Records are assigned locations within the circle as a function of its relative attraction to each of the DAs. The DAs can be moved either interactively or algorithmically to reveal different meaningful patterns in the dataset. In this paper we describe Vectorized Radviz (VRV) which extends the number of dimensions through data flattening. We show how VRV increases the power of Radviz through these extra dimensions by enhancing the flexibility in the layout of the DAs. We apply VRV to the problem of analyzing the results of multiple clusterings of the same data set, called multiple cluster sets or cluster ensembles. We show how features of VRV help discern patterns across the multiple cluster sets. We use the Iris data set to explain VRV and a newt gene microarray data set used in studying limb regeneration to show its utility. We then discuss further applications of VRV.},
+  number = {6},
+  journal = {IEEE Transactions on Visualization and Computer Graphics},
+  author = {Sharko, J. and Grinstein, G. and Marx, K. A.},
+  month = nov,
+  year = {2008},
+  keywords = {data visualisation,Visualization,Data visualization,computational geometry,Index Terms—,Clustering,Clustering algorithms,Radviz,circle circumference,Cluster Ensembles,data cluster ensemble,data flattening,dimensional anchor,Displays,Flattening Datasets,Heuristic algorithms,Iris,multiple cluster dataset,Multiple Clustering,Partitioning algorithms,pattern clustering,Vectorized Radviz,vectorized radviz radial visualization,Voting},
+  pages = {1444-1427},
+  file = {/media/khaled/data/research/zotero/storage/ZAHNKZGZ/Sharko et al. - 2008 - Vectorized Radviz and Its Application to Multiple .pdf;/media/khaled/data/research/zotero/storage/7LVPJN6U/4658161.html}
+}
+
+@article{huangUsingArcedAxes2015,
+  title = {Using Arced Axes in Parallel Coordinates Geometry for High Dimensional {{BigData}} Visual Analytics in Cloud Computing},
+  volume = {97},
+  copyright = {Springer-Verlag Wien 2015},
+  issn = {0010485X},
+  doi = {http://dx.doi.org.proxy2.cl.msu.edu/10.1007/s00607-014-0383-z},
+  abstract = {Issue Title: Special Issue on Data Intensive Cloud Computing
+With the rapid growth of data in size and complexity, that are available on shared cloud computing platform, the threat of malicious activities and computer crimes has increased accordingly. Thus, investigating efficient data visualization techniques for visual analytics of such big data and visual intrusion detection over data intensive cloud computing is urgently required. In this paper, we first propose a new parallel coordinates visualization method that uses arced-axis for high-dimensional data representation. This new geometrical scheme can be efficiently used to identify the main features of network attacks by displaying recognizable visual patterns. In addition, with the aim of visualizing the clear and detailed structure of the dataset according to the contribution of each attribute, we propose a meaningful layout for the new method based on singular value decomposition algorithm, which possesses statistical property and can overcome the curse of dimensionality. Finally, we design a prototype system for network scan detection, which is based on our visualization approach. The experiments have shown that our approach is effective in visualizing multivariate datasets and detecting attacks from a variety of networking patterns, such as the features of DDoS attacks.},
+  language = {English},
+  number = {4},
+  journal = {Computing. Archives for Informatics and Numerical Computation; Wien},
+  author = {Huang, Mao Lin and Lu, Liang Fu and Zhang, Xuyun},
+  month = apr,
+  year = {2015},
+  keywords = {Visualization,Computers,Studies,Cloud computing,Computers--Calculating Machines,Computers--Information Science And Information Theory,Information systems,Multivariate analysis,Network security},
+  pages = {425-437},
+  file = {/media/khaled/data/research/zotero/storage/B4L2CXMT/Huang et al. - 2015 - Using arced axes in parallel coordinates geometry .pdf}
+}
+
+@article{wilkinsonHistoryClusterHeat2009,
+  title = {The {{History}} of the {{Cluster Heat Map}}},
+  volume = {63},
+  issn = {0003-1305},
+  doi = {10.1198/tas.2009.0033},
+  abstract = {The cluster heat map is an ingenious display that simultaneously reveals row and column hierarchical cluster structure in a data matrix. It consists of a rectangular tiling, with each tile shaded on a color scale to represent the value of the corresponding element of the data matrix. The rows (columns) of the tiling are ordered such that similar rows (columns) are near each other. On the vertical and horizontal margins of the tiling are hierarchical cluster trees. This cluster heat map is a synthesis of several different graphic displays developed by statisticians over more than a century. We locate the earliest sources of this display in late 19th century publications, and trace a diverse 20th century statistical literature that provided a foundation for this most widely used of all bioinformatics displays.},
+  number = {2},
+  journal = {The American Statistician},
+  author = {Wilkinson, Leland and Friendly, Michael},
+  month = may,
+  year = {2009},
+  keywords = {Visualization,Cluster analysis,Heatmap,Microarray},
+  pages = {179-184},
+  file = {/media/khaled/data/research/zotero/storage/CCU2XIXF/Wilkinson and Friendly - 2009 - The History of the Cluster Heat Map.pdf;/media/khaled/data/research/zotero/storage/CW5DABU3/tas.2009.html}
+}
+
+@article{zhangMOEAMultiobjectiveEvolutionary2007,
+  title = {{{MOEA}}/{{D}}: {{A Multiobjective Evolutionary Algorithm Based}} on {{Decomposition}}},
+  volume = {11},
+  issn = {1089-778X},
+  shorttitle = {{{MOEA}}/{{D}}},
+  doi = {10.1109/TEVC.2007.892759},
+  abstract = {Decomposition is a basic strategy in traditional multiobjective optimization. However, it has not yet been widely used in multiobjective evolutionary optimization. This paper proposes a multiobjective evolutionary algorithm based on decomposition (MOEA/D). It decomposes a multiobjective optimization problem into a number of scalar optimization subproblems and optimizes them simultaneously. Each subproblem is optimized by only using information from its several neighboring subproblems, which makes MOEA/D have lower computational complexity at each generation than MOGLS and nondominated sorting genetic algorithm II (NSGA-II). Experimental results have demonstrated that MOEA/D with simple decomposition methods outperforms or performs similarly to MOGLS and NSGA-II on multiobjective 0-1 knapsack problems and continuous multiobjective optimization problems. It has been shown that MOEA/D using objective normalization can deal with disparately-scaled objectives, and MOEA/D with an advanced decomposition method can generate a set of very evenly distributed solutions for 3-objective test instances. The ability of MOEA/D with small population, the scalability and sensitivity of MOEA/D have also been experimentally investigated in this paper.},
+  number = {6},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  author = {Zhang, Q. and Li, H.},
+  month = dec,
+  year = {2007},
+  keywords = {Evolutionary computation,Genetic algorithms,multiobjective evolutionary algorithm,multiobjective optimization,Pareto optimization,Testing,evolutionary algorithm,computational complexity,Scalability,Pareto optimality,Computer science,Mathematical model,genetic algorithms,Sorting,Computational complexity,decomposition,genetic algorithm,knapsack problem,Optimization methods,scalar optimization subproblem},
+  pages = {712-731},
+  file = {/media/khaled/data/research/zotero/storage/8HUIYEK3/Zhang and Li - 2007 - MOEAD A Multiobjective Evolutionary Algorithm Ba.pdf;/media/khaled/data/research/zotero/storage/Y9VJHV8N/4358754.html}
+}
+
+@article{jarvisIdentificationConvexHull1973,
+  title = {On the Identification of the Convex Hull of a Finite Set of Points in the Plane},
+  volume = {2},
+  issn = {0020-0190},
+  doi = {10.1016/0020-0190(73)90020-3},
+  number = {1},
+  journal = {Information Processing Letters},
+  author = {Jarvis, R. A.},
+  month = mar,
+  year = {1973},
+  keywords = {convex hull,algorithm},
+  pages = {18-21},
+  file = {/media/khaled/data/research/zotero/storage/L9RLR6VP/Jarvis - 1973 - On the identification of the convex hull of a fini.pdf;/media/khaled/data/research/zotero/storage/7UNWB9UE/0020019073900203.html}
+}
+
+@inproceedings{prykeHeatmapVisualizationPopulation2007,
+  series = {Lecture Notes in Computer Science},
+  title = {Heatmap {{Visualization}} of {{Population Based Multi Objective Algorithms}}},
+  isbn = {978-3-540-70928-2},
+  abstract = {Understanding the results of a multi objective optimization process can be hard. Various visualization methods have been proposed previously, but the only consistently popular one is the 2D or 3D objective scatterplot, which cannot be extended to handle more than 3 objectives. Additionally, the visualization of high dimensional parameter spaces has traditionally been neglected. We propose a new method, based on heatmaps, for the simultaneous visualization of objective and parameter spaces. We demonstrate its application on a simple 3D test function and also apply heatmaps to the analysis of real-world optimization problems. Finally we use the technique to compare the performance of two different multi-objective algorithms.},
+  language = {en},
+  booktitle = {Evolutionary {{Multi}}-{{Criterion Optimization}}},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Pryke, Andy and Mostaghim, Sanaz and Nazemi, Alireza},
+  editor = {Obayashi, Shigeru and Deb, Kalyanmoy and Poloni, Carlo and Hiroyasu, Tomoyuki and Murata, Tadahiko},
+  year = {2007},
+  keywords = {Visualization,Multi-objective optimization,Evolutionary algorithms,Multi-objective algorithms,Real-world applications},
+  pages = {361-375},
+  file = {/media/khaled/data/research/zotero/storage/K3XTCJXB/Pryke et al. - 2007 - Heatmap Visualization of Population Based Multi Ob.pdf}
+}
+
+@book{miettinenNonlinearMultiobjectiveOptimization1998,
+  series = {International Series in Operations Research \& Management Science},
+  title = {Nonlinear {{Multiobjective Optimization}}},
+  isbn = {978-0-7923-8278-2},
+  abstract = {Problems with multiple objectives and criteria are generally known as multiple criteria optimization or multiple criteria decision-making (MCDM) problems. So far, these types of problems have typically been modelled and solved by means of linear programming. However, many real-life phenomena are of a nonlinear nature, which is why we need tools for nonlinear programming capable of handling several conflicting or incommensurable objectives. In this case, methods of traditional single objective optimization and linear programming are not enough; we need new ways of thinking, new concepts, and new methods - nonlinear multiobjective optimization. Nonlinear Multiobjective Optimization provides an extensive, up-to-date, self-contained and consistent survey, review of the literature and of the state of the art on nonlinear (deterministic) multiobjective optimization, its methods, its theory and its background. The amount of literature on multiobjective optimization is immense. The treatment in this book is based on approximately 1500 publications in English printed mainly after the year 1980. Problems related to real-life applications often contain irregularities and nonsmoothnesses. The treatment of nondifferentiable multiobjective optimization in the literature is rather rare. For this reason, this book contains material about the possibilities, background, theory and methods of nondifferentiable multiobjective optimization as well. This book is intended for both researchers and students in the areas of (applied) mathematics, engineering, economics, operations research and management science; it is meant for both professionals and practitioners in many different fields of application. The intention has been to provide a consistent summary that may help in selecting an appropriate method for the problem to be solved. It is hoped the extensive bibliography will be of value to researchers.},
+  language = {en},
+  publisher = {{Springer US}},
+  author = {Miettinen, Kaisa},
+  year = {1998},
+  file = {/media/khaled/data/research/zotero/storage/VYEMLE2L/9780792382782.html}
+}
+
+@book{inselbergParallelCoordinatesVisual2009,
+  address = {New York},
+  title = {Parallel {{Coordinates}}: {{Visual Multidimensional Geometry}} and {{Its Applications}}},
+  isbn = {978-0-387-21507-5},
+  shorttitle = {Parallel {{Coordinates}}},
+  abstract = {This book is about visualization, systematically incorporating the fantastic human pattern recognition into the problem-solving process, and focusing on parallel coordinates. The barrier, imposed by our three-dimensional habitation and perceptual experience, has been breached by this innovative and versatile methodology. The accurate visualization of multidimensional problems and multivariate data unlocks insights into the role of dimensionality.Beginning with an introductory chapter on geometry, the mathematical foundations are intuitively developed, interlaced with applications to data mining, information visualization, computer vision, geometric modeling, collision avoidance for air traffic and process-control. Many results appear for the first time. Multidimensional lines, planes, proximities, surfaces and their properties are unambiguously recognized (i.e. convexity viewed in any dimension) enabling powerful construction algorithms (for intersections, interior-points, linear-programming).Key features of Parallel Coordinates:* An easy-to-read self-contained chapter on data mining and information visualization* Numerous exercises with solutions, from basic to advanced topics, course projects and research directions* "Fast Track" markers throughout provide a quick grasp of essential material.* Extensive bibliography, index, and a chapter containing a collection of recent results (i.e. visualizing large networks, complex-valued functions and more)Parallel Coordinates requires only an elementary knowledge of linear algebra. It is well-suited for self-study and as a textbook (or companion) for courses on information visualization, data mining, mathematics, statistics, computer science, engineering, finance, management, manufacturing, in scientific disciplines and even the arts.},
+  language = {en},
+  publisher = {{Springer-Verlag}},
+  author = {Inselberg, Alfred},
+  year = {2009},
+  file = {/media/khaled/data/research/zotero/storage/JRKMY5S6/9780387215075.html}
+}
+
+@inproceedings{hoffmanDimensionalAnchorsGraphic1999,
+  address = {New York, NY, USA},
+  series = {NPIVM '99},
+  title = {Dimensional {{Anchors}}: {{A Graphic Primitive}} for {{Multidimensional Multivariate Information Visualizations}}},
+  isbn = {978-1-58113-254-0},
+  shorttitle = {Dimensional {{Anchors}}},
+  doi = {10.1145/331770.331775},
+  abstract = {We introduce a graphic primitive, called a dimensional anchor (DA), which facilitates the creation of new visualizations and provides insight into the analysis of information visualizations. The DA represents an attempt to provide a unified framework or model for a variety of visualizations, including Parallel Coordinates, scatter plot matrices, Radviz, Survey Plots and Circle Segments A dimensional anchor is constructed by assigning values to parameters associated with various geometric graphic elements that encode the basics of the above visualizations. We define a visualization vector space in which all of the above visualizations and many new ones are represented by vectors. These encodings make it possible to perform a Grand Tour traveling from Parallel Coordinates to Survey Plot, and visiting many other visualizations in between},
+  booktitle = {Proceedings of the 1999 {{Workshop}} on {{New Paradigms}} in {{Information Visualization}} and {{Manipulation}} in {{Conjunction}} with the {{Eighth ACM Internation Conference}} on {{Information}} and {{Knowledge Management}}},
+  publisher = {{ACM}},
+  author = {Hoffman, Patrick and Grinstein, Georges and Pinkney, David},
+  year = {1999},
+  keywords = {visualization,dimensional anchors,graphics,information,multidimensional,multivariate},
+  pages = {9--16},
+  file = {/media/khaled/data/research/zotero/storage/4XRKFYYH/Hoffman et al. - 1999 - Dimensional Anchors A Graphic Primitive for Multi.pdf}
+}
+
+@inproceedings{jayaramanRadialFocusContext2002,
+  address = {Washington, DC, USA},
+  series = {VIS '02},
+  title = {A {{Radial Focus}}+{{Context Visualization}} for {{Multi}}-Dimensional {{Functions}}},
+  isbn = {978-0-7803-7498-0},
+  abstract = {The analysis of multidimensional functions is important in many engineering disciplines, and poses a major problem as the number of dimensions increases. Previous visualization approaches focus on representing three or fewer dimensions at a time. This paper presents a new focus+context visualization that provides an integrated overview of an entire multidimensional function space, with uniform treatment of all dimensions. The overview is displayed with respect to a user-controlled polar focal point in the function's parameter space. Function value patterns are viewed along rays that emanate from the focal point in all directions in the parameter space, and represented radially around the focal point in the visualization. Data near the focal point receives proportionally more screen space than distant data. This approach scales smoothly from two dimensions to 10-20, with a 1000 pixel range on each dimension.},
+  booktitle = {Proceedings of the {{Conference}} on {{Visualization}} '02},
+  publisher = {{IEEE Computer Society}},
+  author = {Jayaraman, Sanjini and North, Chris},
+  year = {2002},
+  keywords = {visualization,multidimensional functions},
+  pages = {443--450},
+  file = {/media/khaled/data/research/zotero/storage/RF9C4P9K/Jayaraman and North - 2002 - A Radial Focus+Context Visualization for Multi-dim.pdf}
+}
+
+@inproceedings{cordeilImAxesImmersiveAxes2017,
+  address = {New York, NY, USA},
+  series = {UIST '17},
+  title = {{{ImAxes}}: {{Immersive Axes As Embodied Affordances}} for {{Interactive Multivariate Data Visualisation}}},
+  isbn = {978-1-4503-4981-9},
+  shorttitle = {{{ImAxes}}},
+  doi = {10.1145/3126594.3126613},
+  abstract = {We introduce ImAxes immersive system for exploring multivariate data using fluid, modeless interaction. The basic interface element is an embodied data axis. The user can manipulate these axes like physical objects in the immersive environment and combine them into sophisticated visualisations. The type of visualisation that appears depends on the proximity and relative orientation of the axes with respect to one another, which we describe with a formal grammar. This straight-forward composability leads to a number of emergent visualisations and interactions, which we review, and then demonstrate with a detailed multivariate data analysis use case.},
+  booktitle = {Proceedings of the 30th {{Annual ACM Symposium}} on {{User Interface Software}} and {{Technology}}},
+  publisher = {{ACM}},
+  author = {Cordeil, Maxime and Cunningham, Andrew and Dwyer, Tim and Thomas, Bruce H. and Marriott, Kim},
+  year = {2017},
+  keywords = {information visualization,immersion,immersive analytics,immersive visualization,multidimensional data visualization,virtual reality},
+  pages = {71--83},
+  file = {/media/khaled/data/research/zotero/storage/Q46UI6RK/Cordeil et al. - 2017 - ImAxes Immersive Axes As Embodied Affordances for.pdf}
+}
+
+@inproceedings{inselbergClassificationVisualizationHighdimensional2000,
+  address = {New York, NY, USA},
+  series = {KDD '00},
+  title = {Classification and {{Visualization}} for {{High}}-Dimensional {{Data}}},
+  isbn = {978-1-58113-233-5},
+  doi = {10.1145/347090.347170},
+  booktitle = {Proceedings of the {{Sixth ACM SIGKDD International Conference}} on {{Knowledge Discovery}} and {{Data Mining}}},
+  publisher = {{ACM}},
+  author = {Inselberg, Alfred and Avidan, Tova},
+  year = {2000},
+  keywords = {classification,multidimensional visualization},
+  pages = {370--374},
+  file = {/media/khaled/data/research/zotero/storage/E8AK58ZG/Inselberg and Avidan - 2000 - Classification and Visualization for High-dimensio.pdf}
+}
+
+@article{engelStructuralDecompositionTrees2011,
+  title = {Structural {{Decomposition Trees}}},
+  volume = {30},
+  copyright = {\textcopyright{} 2011 The Author(s) Journal compilation \textcopyright{} 2011 The Eurographics Association and Blackwell Publishing Ltd.},
+  issn = {1467-8659},
+  doi = {10.1111/j.1467-8659.2011.01941.x},
+  abstract = {Researchers and analysts in modern industrial and academic environments are faced with a daunting amount of multi-dimensional data. While there has been significant development in the areas of data mining and knowledge discovery, there is still the need for improved visualizations and generic solutions. The state-of-the-art in visual analytics and exploratory data visualization is to incorporate more profound analysis methods while focusing on fast interactive abilities. The common trend in these scenarios is to either visualize an abstraction of the data set or to better utilize screen-space. This paper presents a novel technique that combines clustering, dimension reduction and multi-dimensional data representation to form a multivariate data visualization that incorporates both detail and overview. This amalgamation counters the individual drawbacks of common projection and multi-dimensional data visualization techniques, namely ambiguity and clutter. A specific clustering criterion is used to decompose a multi-dimensional data set into a hierarchical tree structure. This decomposition is embedded in a novel Dimensional Anchor visualization through the use of a weighted linear dimension reduction technique. The resulting Structural Decomposition Tree (SDT) provides not only an insight of the data set's inherent structure, but also conveys detailed coordinate value information. Further, fast and intuitive interaction techniques are explored in order to guide the user in highlighting, brushing, and filtering of the data.},
+  language = {en},
+  number = {3},
+  journal = {Computer Graphics Forum},
+  author = {Engel, D. and Rosenbaum, R. and Hamann, B. and Hagen, H.},
+  month = jun,
+  year = {2011},
+  keywords = {I.4.4 IMAGE PROCESSING AND COMPUTER VISION: Image Representation,Multidimensional I.5.4 PATTERN RECOGNITION: Clustering,Similarity measures},
+  pages = {921-930},
+  file = {/media/khaled/data/research/zotero/storage/QJGWSP78/Engel et al. - 2011 - Structural Decomposition Trees.pdf;/media/khaled/data/research/zotero/storage/KM6ZN3N6/j.1467-8659.2011.01941.html}
+}
+
+@article{lehmannGeneralProjectiveMaps2016,
+  title = {General {{Projective Maps}} for {{Multidimensional Data Projection}}},
+  volume = {35},
+  copyright = {\textcopyright{} 2016 The Author(s) Computer Graphics Forum \textcopyright{} 2016 The Eurographics Association and John Wiley \& Sons Ltd. Published by John Wiley \& Sons Ltd.},
+  issn = {1467-8659},
+  doi = {10.1111/cgf.12845},
+  abstract = {To project high-dimensional data to a 2D domain, there are two well-established classes of approaches: RadViz and Star Coordinates. Both are well-explored in terms of accuracy, completeness, distortions, and interaction issues. We present a generalization of both RadViz and Star Coordinates such that it unifies both approaches. We do so by considering the space of all projective projections. This gives additional degrees of freedom, which we use for three things: Firstly, we define a smooth transition between RadViz and Star Coordinates allowing the user to exploit the advantages of both approaches. Secondly, we define a data-dependent magic lens to explore the data. Thirdly, we optimize the new degrees of freedom to minimize distortion. We apply our approach to a number of high-dimensional benchmark datasets.},
+  language = {en},
+  number = {2},
+  journal = {Computer Graphics Forum},
+  author = {Lehmann, Dirk J. and Theisel, Holger},
+  month = may,
+  year = {2016},
+  keywords = {Categories and Subject Descriptors (according to ACM CCS),I.3.3 Computer Graphics: Picture/Image Generation—Information Visualization},
+  pages = {443-453},
+  file = {/media/khaled/data/research/zotero/storage/ETNZ72YH/Lehmann and Theisel - 2016 - General Projective Maps for Multidimensional Data .pdf;/media/khaled/data/research/zotero/storage/AHFSDTHP/cgf.html}
+}
+
+@book{kohonenSelfOrganizingMaps1995,
+  address = {Berlin Heidelberg},
+  series = {Springer Series in Information Sciences},
+  title = {Self-{{Organizing Maps}}},
+  isbn = {978-3-642-97610-0},
+  abstract = {The Self-Organizing Map (SOM) algorithm was introduced by the author in 1981. Its theory and many applications form one of the major approaches to the contemporary artificial neural networks field, and new technolgies have already been based on it. The most important practical applications are in exploratory data analysis, pattern recognition, speech analysis, robotics, industrial and medical diagnostics, instrumentation, and control, and literally hundreds of other tasks. In this monograph the mathematical preliminaries, background, basic ideas, and implications are expounded in a clear, well-organized form, accessible without prior expert knowledge. Still the contents are handled with theoretical rigor.},
+  language = {en},
+  publisher = {{Springer-Verlag}},
+  author = {Kohonen, Teuvo},
+  year = {1995},
+  file = {/media/khaled/data/research/zotero/storage/E8BGPWCW/9783642976100.html}
+}
+
+@article{sammonNonlinearMappingData1969,
+  title = {A {{Nonlinear Mapping}} for {{Data Structure Analysis}}},
+  volume = {C-18},
+  issn = {0018-9340},
+  doi = {10.1109/T-C.1969.222678},
+  abstract = {An algorithm for the analysis of multivariate data is presented along with some experimental results. The algorithm is based upon a point mapping of N L-dimensional vectors from the L-space to a lower-dimensional space such that the inherent data "structure" is approximately preserved.},
+  number = {5},
+  journal = {IEEE Transactions on Computers},
+  author = {Sammon, J. W.},
+  month = may,
+  year = {1969},
+  keywords = {Clustering; dimensionality reduction; mappings; multidimensional scaling; multivariate data analysis; nonparametric; pattern recognition; statistics.},
+  pages = {401-409},
+  file = {/media/khaled/data/research/zotero/storage/SWFHMFVM/Sammon - 1969 - A Nonlinear Mapping for Data Structure Analysis.pdf;/media/khaled/data/research/zotero/storage/AVHRIJVW/1671271.html}
+}
+
+@inproceedings{esterDensitybasedAlgorithmDiscovering1996,
+  address = {Portland, Oregon},
+  series = {KDD'96},
+  title = {A {{Density}}-Based {{Algorithm}} for {{Discovering Clusters}} a {{Density}}-Based {{Algorithm}} for {{Discovering Clusters}} in {{Large Spatial Databases}} with {{Noise}}},
+  abstract = {Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that (1) DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLAR-ANS, and that (2) DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.},
+  booktitle = {Proceedings of the {{Second International Conference}} on {{Knowledge Discovery}} and {{Data Mining}}},
+  publisher = {{AAAI Press}},
+  author = {Ester, Martin and Kriegel, Hans-Peter and Sander, J\"org and Xu, Xiaowei},
+  year = {1996},
+  keywords = {arbitrary shape of clusters,clustering algorithms,efficiency on large spatial databases,handling nlj4-275oise},
+  pages = {226--231},
+  file = {/media/khaled/data/research/zotero/storage/UX6V368S/Ester et al. - 1996 - A Density-based Algorithm for Discovering Clusters.pdf}
+}
+
+@article{liaoMultiobjectiveOptimizationCrash2008,
+  title = {Multiobjective Optimization for Crash Safety Design of Vehicles Using Stepwise Regression Model},
+  volume = {35},
+  issn = {1615-1488},
+  doi = {10.1007/s00158-007-0163-x},
+  abstract = {In automotive industry, structural optimization for crashworthiness criteria is of special importance. Due to the high nonlinearities, however, there exists substantial difficulty to obtain accurate continuum or discrete sensitivities. For this reason, metamodel or surrogate model methods have been extensively employed in vehicle design with industry interest. This paper presents a multiobjective optimization procedure for the vehicle design, where the weight, acceleration characteristics and toe-board intrusion are considered as the design objectives. The response surface method with linear and quadratic basis functions is employed to formulate these objectives, in which optimal Latin hypercube sampling and stepwise regression techniques are implemented. In this study, a nondominated sorting genetic algorithm is employed to search for Pareto solution to a full-scale vehicle design problem that undergoes both the full frontal and 40\% offset-frontal crashes. The results demonstrate the capability and potential of this procedure in solving the crashworthiness design of vehicles.},
+  language = {en},
+  number = {6},
+  journal = {Structural and Multidisciplinary Optimization},
+  author = {Liao, Xingtao and Li, Qing and Yang, Xujing and Zhang, Weigang and Li, Wei},
+  month = jun,
+  year = {2008},
+  keywords = {Multiobjective optimization,Crashworthiness,Finite element method,Genetic algorithm,Stepwise regression},
+  pages = {561-569},
+  file = {/media/khaled/data/research/zotero/storage/6VZFJ4EV/Liao et al. - 2008 - Multiobjective optimization for crash safety desig.pdf}
+}
+
+@book{hammingNumericalMethodsScientists2012,
+  edition = {2nd Revised ed. edition},
+  title = {Numerical {{Methods}} for {{Scientists}} and {{Engineers}}},
+  abstract = {Numerical analysis is a subject of extreme interest to mathematicians and computer scientists, who will welcome this first inexpensive paperback edition of a groundbreaking classic text on the subject. In an introductory chapter on numerical methods and their relevance to computing, well-known mathematician Richard Hamming ("the Hamming code," "the Hamming distance," and "Hamming window," etc.), suggests that the purpose of computing is insight, not merely numbers. In that connection he outlines five main ideas that aim at producing meaningful numbers that will be read and used, but will also lead to greater understanding of how the choice of a particular formula or algorithm influences not only the computing but our understanding of the results obtained.The five main ideas involve (1) insuring that in computing there is an intimate connection between the source of the problem and the usability of the answers (2) avoiding isolated formulas and algorithms in favor of a systematic study of alternate ways of doing the problem (3) avoidance of roundoff (4) overcoming the problem of truncation error (5) insuring the stability of a feedback system.In this second edition, Professor Hamming (Naval Postgraduate School, Monterey, California) extensively rearranged, rewrote and enlarged the material. Moreover, this book is unique in its emphasis on the frequency approach and its use in the solution of problems. Contents include:I. Fundamentals and AlgorithmsII. Polynomial Approximation- Classical TheoryIll. Fourier Approximation- Modern TheoryIV. Exponential Approximation ... and moreHighly regarded by experts in the field, this is a book with unlimited applications for undergraduate and graduate students of mathematics, science and engineering. Professionals and researchers will find it a valuable reference they will turn to again and again.},
+  language = {English},
+  publisher = {{Dover Publications}},
+  author = {Hamming, Richard},
+  month = apr,
+  year = {2012}
+}
+
+@article{demsarFreeVizIntelligentMultivariate2007,
+  series = {Intelligent Data Analysis in Biomedicine},
+  title = {{{FreeViz}}\textemdash{{An}} Intelligent Multivariate Visualization Approach to Explorative Analysis of Biomedical Data},
+  volume = {40},
+  issn = {1532-0464},
+  doi = {10.1016/j.jbi.2007.03.010},
+  abstract = {Visualization can largely improve biomedical data analysis. It plays a crucial role in explorative data analysis and may support various data mining tasks. The paper presents FreeViz, an optimization method that finds linear projection and associated scatterplot that best separates instances of different class. In a single graph, the resulting FreeViz visualization can provide a global view of the classification problem being studied, reveal interesting relations between classes and features, uncover feature interactions, and provide information about intra-class similarities. The paper gives mathematical foundations of FreeViz, and presents its utility on various biomedical data sets.},
+  number = {6},
+  journal = {Journal of Biomedical Informatics},
+  author = {Dem{\v s}ar, Janez and Leban, Gregor and Zupan, Bla{\v z}},
+  month = dec,
+  year = {2007},
+  keywords = {Explorative data analysis,Intelligent visualisation,Multivariate visualization,Projection search for supervised data},
+  pages = {661-671},
+  file = {/media/khaled/data/research/zotero/storage/955R4D6U/Demšar et al. - 2007 - FreeViz—An intelligent multivariate visualization .pdf;/media/khaled/data/research/zotero/storage/GD77DVFC/S1532046407000275.html}
+}
+
+@article{kokInterfaceDecisionMakers1986,
+  series = {Second EURO Summer Institute},
+  title = {The Interface with Decision Makers and Some Experimental Results in Interactive Multiple Objective Programming Methods},
+  volume = {26},
+  issn = {0377-2217},
+  doi = {10.1016/0377-2217(86)90162-1},
+  abstract = {We discuss the basic concepts of interactive methods in multiple objective linear programming. The underlying mathematical formulation is investigated. It turns out that these methods are all based on three different types of scalarization. This explains the exchange of information\textemdash{}the interface\textemdash{}between the decision makers and the model. Problems in designing this interface will be investigated using results from psychology concerning the ability of a human being to oversee a large number of stimuli. We present the results of some practical experiments with a model of the energy system in the Netherlands, and finally we draw some conclusions concerning the possible use of interactive methods in long-term planning.},
+  number = {1},
+  journal = {European Journal of Operational Research},
+  author = {Kok, Matthijs},
+  month = jul,
+  year = {1986},
+  keywords = {information,decision theory,energy,linear programming,Multiple criteria,planning},
+  pages = {96-107},
+  file = {/media/khaled/data/research/zotero/storage/BNPQ7C3P/Kok - 1986 - The interface with decision makers and some experi.pdf;/media/khaled/data/research/zotero/storage/NL9SIVMY/0377221786901621.html}
+}
+
+@book{ocagneCoordonneesParallelesAxiales1885,
+  title = {{Coordonn\'ees parall\`eles \& axiales: m\'ethode de transformation g\'eom\'etrique et proc\'ed\'e nouveau de calcul graphique d\'eduits de la consid\'eration des coordonn\'ees parall\`eles}},
+  shorttitle = {{Coordonn\'ees parall\`eles \& axiales}},
+  language = {fr},
+  publisher = {{Gauthier-Villars}},
+  author = {d'{\aftergroup\ignorespaces} Ocagne, Maurice},
+  year = {1885}
+}
+
+@article{millerMagicalNumberSeven1956,
+  title = {The Magical Number Seven, plus or Minus Two: Some Limits on Our Capacity for Processing Information},
+  volume = {63},
+  issn = {1939-1471(Electronic),0033-295X(Print)},
+  shorttitle = {The Magical Number Seven, plus or Minus Two},
+  doi = {10.1037/h0043158},
+  abstract = {A variety of researches are examined from the standpoint of information theory. It is shown that the unaided observer is severely limited in terms of the amount of information he can receive, process, and remember. However, it is shown that by the use of various techniques, e.g., use of several stimulus dimensions, recoding, and various mnemonic devices, this informational bottleneck can be broken. 20 references. (PsycINFO Database Record (c) 2016 APA, all rights reserved)},
+  number = {2},
+  journal = {Psychological Review},
+  author = {Miller, George A.},
+  year = {1956},
+  keywords = {Cognitive Processes,Information Theory},
+  pages = {81-97},
+  file = {/media/khaled/data/research/zotero/storage/FUENU9LS/Miller - 1956 - The magical number seven, plus or minus two some .pdf;/media/khaled/data/research/zotero/storage/I53CK4A3/1957-02914-001.html}
+}
+
+@article{krasnoshchekovOrderkAhullsAshapes2014,
+  title = {Order-k $\alpha$-Hulls and $\alpha$-Shapes},
+  volume = {114},
+  issn = {0020-0190},
+  doi = {10.1016/j.ipl.2013.07.023},
+  abstract = {We introduce order-k $\alpha$-hulls and $\alpha$-shapes \textendash{} generalizations of $\alpha$-hulls and $\alpha$-shapes. Being also a generalization of k-hull (known in statistics as ``k-depth contour''), order-k $\alpha$-hull provides a link between shape reconstruction and statistical depth. As a generalization of $\alpha$-hull, order-k $\alpha$-hull gives a robust shape estimation by ignoring locally up to k outliers in a point set. Order-k$\alpha$-shape produces an ``inner'' shape of the set, with the amount of ``digging'' into the points controlled by k. As a generalization of k-hull, order-k $\alpha$-hull is capable of determining ``deep'' points amidst samples from a multimodal distribution: it correctly identifies points which lie outside clusters of samples. The order-k $\alpha$-hulls and $\alpha$-shapes are related to order-k Voronoi diagrams in the same way in which $\alpha$-hulls and $\alpha$-shapes are related to Voronoi diagrams. This implies that order-k $\alpha$-hull and $\alpha$-shape can be readily built from order-k Voronoi diagram, and that the number of different order-k$\alpha$-shapes for all possible values of $\alpha$ is proportional to the complexity of order-k Voronoi diagram.},
+  number = {1},
+  journal = {Information Processing Letters},
+  author = {Krasnoshchekov, Dmitry and Polishchuk, Valentin},
+  month = jan,
+  year = {2014},
+  keywords = {Computational geometry,Shape reconstruction,Statistical depth},
+  pages = {76-83},
+  file = {/media/khaled/data/research/zotero/storage/U2Q55T2W/Krasnoshchekov and Polishchuk - 2014 - Order-k α-hulls and α-shapes.pdf;/media/khaled/data/research/zotero/storage/AQADZVDH/S0020019013002123.html}
+}
+
+@article{liuMultivariateAnalysisData1999a,
+  title = {Multivariate {{Analysis}} by {{Data Depth}}: {{Descriptive Statistics}}, {{Graphics}} and {{Inference}}},
+  volume = {27},
+  issn = {0090-5364},
+  shorttitle = {Multivariate {{Analysis}} by {{Data Depth}}},
+  abstract = {[A data depth can be used to measure the "depth" or "outlyingness" of a given multivariate sample with respect to its underlying distribution. This leads to a natural center-outward ordering of the sample points. Based on this ordering, quantitative and graphical methods are introduced for analyzing multivariate distributional characteristics such as location, scale, bias, skewness and kurtosis, as well as for comparing inference methods. All graphs are one-dimensional curves in the plane and can be easily visualized and interpreted. A "sunburst plot" is presented as a bivariate generalization of the box-plot. DD-(depth versus depth) plots are proposed and examined as graphical inference tools. Some new diagnostic tools for checking multivariate normality are introduced. One of them monitors the exact rate of growth of the maximum deviation from the mean, while the others examine the ratio of the overall dispersion to the dispersion of a certain central region. The affine invariance property of a data depth also leads to appropriate invariance properties for the proposed statistics and methods.]},
+  number = {3},
+  journal = {The Annals of Statistics},
+  author = {Liu, Regina Y. and Parelius, Jesse M. and Singh, Kesar},
+  year = {1999},
+  pages = {783-840},
+  file = {/media/khaled/data/research/zotero/storage/JDBNLRF4/Liu et al. - 1999 - Multivariate Analysis by Data Depth Descriptive S.pdf}
+}
+
+@article{liuNotionDataDepth1990,
+  title = {On a {{Notion}} of {{Data Depth Based}} on {{Random Simplices}}},
+  volume = {18},
+  issn = {0090-5364},
+  abstract = {[For a distribution F on Rp and a point x in Rp, the simplical depth D(x) is introduced, which is the probability that the point x is contained inside a random simplex whose vertices are p + 1 independent observations from F. Mathematically and heuristically it is argued that D(x) indeed can be viewed as a measure of depth of the point x with respect to F. An empirical version of D($\cdot$) gives rise to a natural ordering of the data points from the center outward. The ordering thus obtained leads to the introduction of multivariate generalizations of the univariate sample median and L-statistics. This generalized sample median and L-statistics are affine equivariant.]},
+  number = {1},
+  journal = {The Annals of Statistics},
+  author = {Liu, Regina Y.},
+  year = {1990},
+  pages = {405-414},
+  file = {/media/khaled/data/research/zotero/storage/8FZLSI52/Liu - 1990 - On a Notion of Data Depth Based on Random Simplice.pdf}
+}
+
+@misc{MATHEMATICSPICTURINGDATA,
+  title = {{{MATHEMATICS AND THE PICTURING OF DATA}}. - {{Bell Labs}}},
+  howpublished = {https://www.bell-labs.com/our-research/publications/254862/},
+  file = {/media/khaled/data/research/zotero/storage/N2BEGC85/254862.html}
+}
+
+@article{tukeyMathematicsPicturingData1975,
+  title = {Mathematics and the {{Picturing}} of {{Data}}},
+  volume = {2},
+  journal = {Proceedings of the International Congress of Mathematicians, Vancouver, 1975},
+  author = {TUKEY, J. W.},
+  year = {1975},
+  pages = {523-531},
+  file = {/media/khaled/data/research/zotero/storage/M7F3C5M7/10029477185.html}
+}
+
+@inproceedings{eddyConvexHullPeeling1982,
+  title = {Convex {{Hull Peeling}}},
+  isbn = {978-3-642-51461-6},
+  abstract = {Given a set of n points in the plane, a method is described for constructing a nested sequence of m $<$ n/2 convex polygons based on the points. If the points are a random sample, it is shown that the convex sets share some of the distributional properties of one-dimensional order statistics. An algorithm which requires 0(n3) time and 0(n2) space is described for constructing the sequence of convex sets.},
+  language = {en},
+  booktitle = {{{COMPSTAT}} 1982 5th {{Symposium}} Held at {{Toulouse}} 1982},
+  publisher = {{Physica-Verlag HD}},
+  author = {Eddy, W. F.},
+  editor = {Caussinus, H. and Ettinger, P. and Tomassone, R.},
+  year = {1982},
+  keywords = {convex polygon,intersection,order statistic},
+  pages = {42-47},
+  file = {/media/khaled/data/research/zotero/storage/QN4G9X8B/Eddy - 1982 - Convex Hull Peeling.pdf}
+}
+
+@article{rousseeuwRegressionDepth1999,
+  title = {Regression {{Depth}}},
+  volume = {94},
+  issn = {0162-1459},
+  doi = {10.1080/01621459.1999.10474129},
+  abstract = {In this article we introduce a notion of depth in the regression setting. It provides the ``rank'' of any line (plane), rather than ranks of observations or residuals. In simple regression we can compute the depth of any line by a fast algorithm. For any bivariate dataset Z n of size n there exists a line with depth at least n/3. The largest depth in Z n can be used as a measure of linearity versus convexity. In both simple and multiple regression we introduce the deepest regression method, which generalizes the univariate median and is equivariant for monotone transformations of the response. Throughout, the errors may be skewed and heteroscedastic. We also consider depth-based regression quantiles. They estimate the quantiles of y given x, as do the Koenker-Bassett regression quantiles, but with the advantage of being robust to leverage outliers. We explore the analogies between depth in regression and in location, where Tukey's halfspace depth is a special case of our general definition. Also, Liu's simplicial depth can be extended to the regression framework.},
+  number = {446},
+  journal = {Journal of the American Statistical Association},
+  author = {Rousseeuw, Peter J. and Hubert, Mia},
+  month = jun,
+  year = {1999},
+  keywords = {Asymmetric error distribution,Deepest regression,Depth envelopes,Depth quantiles,Geometry,Halfspace depth,Heteroscedasticity,Robust regression,Simplicial depth},
+  pages = {388-402},
+  file = {/media/khaled/data/research/zotero/storage/EJF4UFW4/Rousseeuw and Hubert - 1999 - Regression Depth.pdf;/media/khaled/data/research/zotero/storage/GN9RFYE9/01621459.1999.html}
+}
+
+@article{koltchinskiiMEstimationConvexityQuantiles1997,
+  title = {M-{{Estimation}}, {{Convexity}} and {{Quantiles}}},
+  volume = {25},
+  issn = {0090-5364},
+  abstract = {[The paper develops a class of extensions of the univariate quantile function to the multivariate case (M-quantiles), related in a certain way to M-parameters of a probability distribution and their M-estimators. The spatial (geometric) quantiles, recently introduced by Koltchinskii and Dudley and by Chaudhuri as well as the regression quantiles of Koenker and Basset, are the examples of the M-quantile function discussed in the paper. We study the main properties of M-quantiles and develop the asymptotic theory of empirical M-quantiles. We use M-quantiles to extend L-parameters and L-estimators to the multivariate case; to introduce a bootstrap test for spherical symmetry of a multivariate distribution, and to extend the notion of regression quantiles to multiresponse linear regression models.]},
+  number = {2},
+  journal = {The Annals of Statistics},
+  author = {Koltchinskii, V. I.},
+  year = {1997},
+  pages = {435-477},
+  file = {/media/khaled/data/research/zotero/storage/GNUAIRCT/Koltchinskii - 1997 - M-Estimation, Convexity and Quantiles.pdf}
+}
+
+@inproceedings{hoffmanDNAVisualAnalytic1997,
+  title = {{{DNA}} Visual and Analytic Data Mining},
+  doi = {10.1109/VISUAL.1997.663916},
+  abstract = {Describes data exploration techniques designed to classify DNA sequences. Several visualization and data mining techniques were used to validate and attempt to discover new methods for distinguishing coding DNA sequences (exons) from non-coding DNA sequences (introns). The goal of the data mining was to see whether some other, possibly non-linear combination of the fundamental position-dependent DNA nucleotide frequency values could be a better predictor than the AMI (average mutual information). We tried many different classification techniques including rule-based classifiers and neural networks. We also used visualization of both the original data and the results of the data mining to help verify patterns and to understand the distinction between the different types of data and classifications. In particular, the visualization helped us develop refinements to neural network classifiers, which have accuracies as high as any known method. Finally, we discuss the interactions between visualization and data mining and suggest an integrated approach.},
+  booktitle = {Proceedings. {{Visualization}} '97 ({{Cat}}. {{No}}. {{97CB36155}})},
+  author = {Hoffman, P. and Grinstein, G. and Marx, K. and Grosse, I. and Stanley, E.},
+  month = oct,
+  year = {1997},
+  keywords = {accuracy,AMI,analytic data mining,average mutual information,Biological cells,biology computing,coding DNA sequences,Data analysis,data exploration techniques,Data mining,data visualisation,data visualization,Data visualization,deductive databases,DNA,DNA sequence classification,exons,Frequency,fundamental position-dependent DNA nucleotide frequency values,introns,knowledge acquisition,neural nets,neural network classifiers,Neural networks,noncoding DNA sequences,nonlinear combination,Organisms,pattern classification,Proteins,rule-based classifiers,sequences,Sequences,visual data mining},
+  pages = {437-441},
+  file = {/media/khaled/data/research/zotero/storage/8ZMZKPJ3/Hoffman et al. - 1997 - DNA visual and analytic data mining.pdf;/media/khaled/data/research/zotero/storage/WXQ79IKA/663916.html}
+}
+
+@article{comaniciuMeanShiftRobust2002,
+  title = {Mean Shift: A Robust Approach toward Feature Space Analysis},
+  volume = {24},
+  issn = {0162-8828},
+  shorttitle = {Mean Shift},
+  doi = {10.1109/34.1000236},
+  abstract = {A general non-parametric technique is proposed for the analysis of a complex multimodal feature space and to delineate arbitrarily shaped clusters in it. The basic computational module of the technique is an old pattern recognition procedure: the mean shift. For discrete data, we prove the convergence of a recursive mean shift procedure to the nearest stationary point of the underlying density function and, thus, its utility in detecting the modes of the density. The relation of the mean shift procedure to the Nadaraya-Watson estimator from kernel regression and the robust M-estimators; of location is also established. Algorithms for two low-level vision tasks discontinuity-preserving smoothing and image segmentation - are described as applications. In these algorithms, the only user-set parameter is the resolution of the analysis, and either gray-level or color images are accepted as input. Extensive experimental results illustrate their excellent performance.},
+  number = {5},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  author = {Comaniciu, D. and Meer, P.},
+  month = may,
+  year = {2002},
+  keywords = {algorithm performance,analysis resolution,arbitrarily shaped cluster delineation,color images,complex multimodal feature space,computational module,computer vision,convergence,Convergence,density function,Density functional theory,density modes detection,discontinuity-preserving image smoothing,discrete data,estimation theory,gray-level images,Image analysis,Image color analysis,Image resolution,image segmentation,Image segmentation,Kernel,kernel regression,location estimation,low-level vision algorithms,mean shift,Nadaraya-Watson estimator,nearest stationary point,nonparametric statistics,nonparametric technique,pattern clustering,Pattern recognition,pattern recognition procedure,recursive mean shift procedure,robust feature space analysis,robust M-estimators,Robustness,smoothing methods,Smoothing methods,user-set parameter},
+  pages = {603-619},
+  file = {/media/khaled/data/research/zotero/storage/IINZIJIU/Comaniciu and Meer - 2002 - Mean shift a robust approach toward feature space.pdf;/media/khaled/data/research/zotero/storage/XB9I3CZD/1000236.html}
+}
+
+@inproceedings{simpsonConceptualDesignFamily1996,
+  title = {Conceptual Design of a Family of Products through the Use of the Robust Concept Exploration Method},
+  abstract = {In this paper, we present a method for designing a family of products, namely, a family of General Aviation aircraft around a given noise factor - the number of passengers. Principles from robust design embodied in the Robust Concept Exploration Method (RCEM) are used to determine a ranged set of top-level design specifications around which a family of aircraft can be developed. The robustness of the solutions found using the RCEM is examined and also compared to the appropriate baseline designs. Our focus in this paper is on describing some foundational principles for designing a family of products and not on the results of the example problem, per se. \textcopyright{} 1996 by the American Institue of Aeronautics \& Astronautics, Inc. All rights reserved.},
+  booktitle = {6th {{Symposium}} on {{Multidisciplinary Analysis}} and {{Optimization}}},
+  author = {Simpson, T.W. and Allen, J.K. and Chen, W. and Mistree, F.},
+  year = {1996},
+  pages = {1535-1545},
+  file = {/media/khaled/data/research/zotero/storage/6FCU8G92/display.html}
+}
+
+
