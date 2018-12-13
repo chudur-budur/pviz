@@ -29,7 +29,11 @@ do
         echo "Processing $fname-${dim}d with epsilon of $epsilon ..."
         python3 normalize.py    data/$fname/$fname-${dim}d.out
         python3 tradeoff.py     data/$fname/$fname-${dim}d-norm.out $epsilon
-        python3 peel.py         data/$fname/$fname-${dim}d-norm.out
+        if [ "$fname" = "line" ]; then
+            python3 peel.py         data/$fname/$fname-${dim}d-norm.out no-project
+        else
+            python3 peel.py         data/$fname/$fname-${dim}d-norm.out
+        fi
         if [ "$fname" = "isolated" ]; then
             python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3
             python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3 polar

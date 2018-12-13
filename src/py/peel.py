@@ -96,12 +96,19 @@ def peel(points):
 
 if __name__ == "__main__":
     data_file = sys.argv[1].strip()
+    mode = "default"
+    if len(sys.argv) == 3:
+        mode = sys.argv[2].strip()
+
     layer_file = data_file.split('.')[0] + "-layers.out"
     points = utils.load(data_file)
     m = len(points[0])
-    print("Peeling data point cloud ...")
-    # ppoints = project(points)
-    # cpoints = collapse(ppoints, dim = m - 1)
-    boundaries = peel(points)
+    print("Peeling data point cloud in {0:s} mode ...".format(mode))
+    if mode == "default":
+        ppoints = project(points)
+        cpoints = collapse(ppoints, dim = m - 1)
+        boundaries = peel(cpoints)
+    else:
+        boundaries = peel(points)
     print("Saving layers into {0:s} ...".format(layer_file))
     utils.save(boundaries, layer_file, dtype = 'int')    
