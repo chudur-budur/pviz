@@ -61,7 +61,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         m = int(sys.argv[1].strip())    
     (x, f, g) = surface(n[m], m, seed)
-    path = "./data/isolated/"
+    path = "./data/line/"
     try:
         os.makedirs(path)
     except OSError:
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     
     fg = [v + [g[i]] for i,v in enumerate(f)]
     utils.cat(fg)
-    outfile = path + "isolated-{0:d}d.out".format(m)
+    outfile = path + "line-{0:d}d.out".format(m)
     utils.save(f, outfile)
-    outfile = path + "isolated-{0:d}d-cv.out".format(m)
+    outfile = path + "line-{0:d}d-cv.out".format(m)
     utils.save(g, outfile)

@@ -60,6 +60,7 @@ def palettize(points, layers, n_layers = 0, zgap = 1.0):
     m = len(points_[0])
     factor = 2.0 if m > 3 else 1.0
     points_ = scale(points_, factor) 
+    # points_ = reverse_normalize(points_) # reverse radviz, f_i = (1 - f_i)^p
     S = [[math.cos(t), math.sin(t)] for t in \
             [2.0 * math.pi * (i/float(m)) for i in range(m)]]
     n_layers_orig = len(layers)
