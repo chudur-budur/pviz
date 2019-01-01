@@ -51,5 +51,5 @@ if __name__ == "__main__":
     random.seed(seed)
     s = lhcs(100, 5)
     utils.cat(s)
-    s = lhcs_constrained(1000, 8)
+    s = lhcsl2norm(1000, 8)
     utils.cat(s)
