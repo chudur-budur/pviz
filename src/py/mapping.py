@@ -58,6 +58,12 @@ if __name__ == "__main__":
     res.sort()
     print(res)
 
+    fp = open("mapping.out", "w")
+    for t in res:
+        fp.write("{0:f}".format(t[0]) + "\t" \
+                + "\t".join(["{0:f}".format(v) for v in t]) + "\n")
+    fp.close()
+    
     """
     bounds = ((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), (0.0, 1.0))
     res = minimize(error, x1, args = (points, nbr), method='L-BFGS-B', \
