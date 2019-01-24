@@ -54,14 +54,14 @@ if __name__ == "__main__":
                 for d in range(1, 7):
                     x = [a * 0.15, b * 0.15, c * 0.15, d * 0.15]
                     print(x, "-->", error(x, points, nbr))
-                    res.append([error, x])
+                    res.append([error(x, points, nbr), x])
     res.sort()
     print(res)
 
     fp = open("mapping.out", "w")
     for t in res:
         fp.write("{0:f}".format(t[0]) + "\t" \
-                + "\t".join(["{0:f}".format(v) for v in t]) + "\n")
+                + "\t".join(["{0:f}".format(v) for v in t[1]]) + "\n")
     fp.close()
     
     """
