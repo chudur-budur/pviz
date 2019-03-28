@@ -176,6 +176,54 @@ def palettize_logistic(points, layers, n_layers = 0, zgap = 1.0):
         wl = wl - zgap
     return palette_coords
 
+def palettize_scale(points, layers, n_layers = 0, zgap = 1.0, n = 2.0):
+    """
+    This function takes the data points and their corresponding 
+    layer wise assignment indices. Then it transforms the coordinates 
+    into layer wise radvis coordinates. Also each data point is scaled
+    using f_i = f_i^p where p = 2.0 if m > 3 else 1.0.
+    """
+    points_ = copy.copy(points)
+    m = len(points_[0])
+    # factor = 2.0 if m > 3 else 1.0
+    # points_ = scale(points_, factor) 
+    # points_ = reverse_normalize(points_) # reverse radviz, f_i = (1 - f_i)^p
+    S = [[math.cos(t), math.sin(t)] for t in \
+            [2.0 * math.pi * (i/float(m)) for i in range(m)]]
+    n_layers_orig = len(layers)
+    points_per_layer = len(points_)/n_layers if n_layers > 0 else float('inf')
+    palette_coords = {}
+    wl, wc, count = 0.0, 0.0, 0
+    for layer in layers:
+        for idx in layer:
+            u,v = 0.0, 0.0
+            f = points_[idx]
+            fsum = math.fsum(f)
+            if fsum > 0.0:
+                u = math.fsum([f[i] * t[0] for i,t in enumerate(S)]) / fsum
+                v = math.fsum([f[i] * t[1] for i,t in enumerate(S)]) / fsum
+                r = vu.distlp([0, 0], [u, v])
+                # r_ = 1.0 - ((1.0 - r) ** (1.0 / (n + 1.0)))
+                r_ = r ** 0.5
+                t1 = math.acos(u / r)
+                t2 = math.asin(v / r)
+                # u = r cos(t)
+                # t = acos(u / r)
+                # u = r_ cos(t)
+                u = r_ * math.cos(t1)
+                v = r_ * math.sin(t2)
+            # If the original number of layers < number of layers specified,
+            # then use wl else use wc.
+            palette_coords[idx] = [u, v, wl] \
+                    if n_layers == 0 or n_layers_orig <= n_layers \
+                    else [u, v, wc]
+            count = count + 1
+            if count >= points_per_layer:
+                count = 0
+                wc = wc - zgap
+        wl = wl - zgap
+    return palette_coords
+
 def tester():
     points_ = list(product([0.0, 0.5, 1.0]), repeat = 3)
     layers_ = range(len(points_))
@@ -192,6 +240,9 @@ if __name__ == "__main__":
         n_layers = int(sys.argv[2].strip())
         if len(sys.argv) == 4:
             mode = sys.argv[3].strip()
+        elif len(sys.argv) == 5:
+            mode = sys.argv[3].strip()
+            n = float(sys.argv[4].strip())
     
     layer_file = data_file.split('.')[0] + "-layers.out"
     
@@ -206,6 +257,9 @@ if __name__ == "__main__":
     elif mode == "logistic":
         palette_coords = palettize_logistic(points, layers, n_layers = n_layers)
         palette_file = data_file.split('.')[0] + "-palette-logistic.out"
+    elif mode == "scale":
+        palette_coords = palettize_scale(points, layers, n_layers = n_layers, n = n)
+        palette_file = data_file.split('.')[0] + "-palette-scale.out"
 
     print("Saving palette coordinates into {0:s} ...".format(palette_file))
     save_palette(palette_coords, palette_file)

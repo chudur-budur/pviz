@@ -10,6 +10,8 @@ def cat(vals, dtype = 'float'):
         fmt = "{:.4e}"
     elif dtype == 'int':
         fmt = "{:d}"
+    elif dtype == 'str':
+        fmt = "{:s}"
     for v in vals:
         if type(v) is list:
             print("\t".join([fmt.format(x) for x in v]))
@@ -25,6 +27,8 @@ def save(vals, path, sep = '\t', dtype = 'float'):
         fmt = "{:.4e}"
     elif dtype == 'int':
         fmt = "{:d}"
+    elif dtype == 'str':
+        fmt = "{:s}"
     for v in vals:
         if type(v) is list:
             fp.write(sep.join([fmt.format(x) for x in v]) + "\n")
@@ -52,5 +56,12 @@ def load(path, sep = None, dtype = 'float'):
                 data.append([int(v) for v in vals])
             else:
                 data.append([int(vals[0])])
+    elif dtype == 'str':
+        for line in fp:
+            vals = line.strip().split(sep)
+            if len(vals) > 1:
+                data.append(vals)
+            else:
+                data.append([vals[0]])
     fp.close()
     return data
