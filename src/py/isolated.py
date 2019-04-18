@@ -42,7 +42,7 @@ if __name__ == "__main__":
     seed = 123456
     rng.seed(seed)
     # n = {3: 2000, 4: 4000, 8: 8000} # uniform
-    n = {3: 1500, 4: 3000, 8: 6000} # random
+    n = {3: 5000, 4: 3000, 8: 6000} # random
     m = 3
     mode = "random"
     if len(sys.argv) > 1:

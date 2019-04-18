@@ -41,14 +41,6 @@ def scale(points, factor):
         points_.append([f**factor for f in point])
     return points_
 
-def swap_columns(points, cols):
-    points_ = copy.copy(points)
-    for point in points_:
-        swap = point[cols[0]]
-        point[cols[0]] = point[cols[1]]
-        point[cols[1]] = swap
-    return points_
-
 def palettize(points, layers, n_layers = 0, zgap = 1.0):
     """
     This function takes the data points and their corresponding 
@@ -60,7 +52,6 @@ def palettize(points, layers, n_layers = 0, zgap = 1.0):
     m = len(points_[0])
     factor = 2.0 if m > 3 else 1.0
     points_ = scale(points_, factor) 
-    # points_ = reverse_normalize(points_) # reverse radviz, f_i = (1 - f_i)^p
     S = [[math.cos(t), math.sin(t)] for t in \
             [2.0 * math.pi * (i/float(m)) for i in range(m)]]
     n_layers_orig = len(layers)
@@ -176,18 +167,13 @@ def palettize_logistic(points, layers, n_layers = 0, zgap = 1.0):
         wl = wl - zgap
     return palette_coords
 
-def palettize_scale(points, layers, n_layers = 0, zgap = 1.0, n = 2.0):
+def palettize_star(points, layers, n_layers = 0, zgap = 1.0):
     """
-    This function takes the data points and their corresponding 
-    layer wise assignment indices. Then it transforms the coordinates 
-    into layer wise radvis coordinates. Also each data point is scaled
-    using f_i = f_i^p where p = 2.0 if m > 3 else 1.0.
+    This function maps the data points using the star-coordinate
+    (SC) plot, instead of Radviz.
     """
     points_ = copy.copy(points)
     m = len(points_[0])
-    # factor = 2.0 if m > 3 else 1.0
-    # points_ = scale(points_, factor) 
-    # points_ = reverse_normalize(points_) # reverse radviz, f_i = (1 - f_i)^p
     S = [[math.cos(t), math.sin(t)] for t in \
             [2.0 * math.pi * (i/float(m)) for i in range(m)]]
     n_layers_orig = len(layers)
@@ -202,16 +188,6 @@ def palettize_scale(points, layers, n_layers = 0, zgap = 1.0, n = 2.0):
             if fsum > 0.0:
                 u = math.fsum([f[i] * t[0] for i,t in enumerate(S)]) / fsum
                 v = math.fsum([f[i] * t[1] for i,t in enumerate(S)]) / fsum
-                r = vu.distlp([0, 0], [u, v])
-                # r_ = 1.0 - ((1.0 - r) ** (1.0 / (n + 1.0)))
-                r_ = r ** 0.5
-                t1 = math.acos(u / r)
-                t2 = math.asin(v / r)
-                # u = r cos(t)
-                # t = acos(u / r)
-                # u = r_ cos(t)
-                u = r_ * math.cos(t1)
-                v = r_ * math.sin(t2)
             # If the original number of layers < number of layers specified,
             # then use wl else use wc.
             palette_coords[idx] = [u, v, wl] \
@@ -257,9 +233,6 @@ if __name__ == "__main__":
     elif mode == "logistic":
         palette_coords = palettize_logistic(points, layers, n_layers = n_layers)
         palette_file = data_file.split('.')[0] + "-palette-logistic.out"
-    elif mode == "scale":
-        palette_coords = palettize_scale(points, layers, n_layers = n_layers, n = n)
-        palette_file = data_file.split('.')[0] + "-palette-scale.out"
 
     print("Saving palette coordinates into {0:s} ...".format(palette_file))
     save_palette(palette_coords, palette_file)

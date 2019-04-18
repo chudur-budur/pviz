@@ -46,7 +46,7 @@ def surface(n, m, seed):
 if __name__ == "__main__":
     seed = 123456
     rng.seed(seed)
-    n = {3: 4000, 4: 10000, 5: 30000, 8: 150000}
+    n = {3: 8000, 4: 10000, 5: 50000, 8: 150000}
     m = 3
     mode = "uniform"
     if len(sys.argv) > 1:
