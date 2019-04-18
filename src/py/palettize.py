@@ -174,25 +174,25 @@ def palettize_star(points, layers, n_layers = 0, zgap = 1.0):
     """
     points_ = copy.copy(points)
     m = len(points_[0])
-    S = [[math.cos(t), math.sin(t)] for t in \
+    C = [[math.cos(t), math.sin(t)] for t in \
             [2.0 * math.pi * (i/float(m)) for i in range(m)]]
+    b = vu.get_bound(points)
+    U = [[x / (b[1][i] - b[0][i]), y / (b[1][i] - b[0][i])] for i, [x, y] in enumerate(C)]
     n_layers_orig = len(layers)
     points_per_layer = len(points_)/n_layers if n_layers > 0 else float('inf')
     palette_coords = {}
     wl, wc, count = 0.0, 0.0, 0
     for layer in layers:
         for idx in layer:
-            u,v = 0.0, 0.0
+            p,q = 0.0, 0.0
             f = points_[idx]
-            fsum = math.fsum(f)
-            if fsum > 0.0:
-                u = math.fsum([f[i] * t[0] for i,t in enumerate(S)]) / fsum
-                v = math.fsum([f[i] * t[1] for i,t in enumerate(S)]) / fsum
+            p = math.fsum([f[i] * u[0] for i,u in enumerate(U)])
+            q = math.fsum([f[i] * u[1] for i,u in enumerate(U)])
             # If the original number of layers < number of layers specified,
             # then use wl else use wc.
-            palette_coords[idx] = [u, v, wl] \
+            palette_coords[idx] = [p, q, wl] \
                     if n_layers == 0 or n_layers_orig <= n_layers \
-                    else [u, v, wc]
+                    else [p, q, wc]
             count = count + 1
             if count >= points_per_layer:
                 count = 0
@@ -233,6 +233,9 @@ if __name__ == "__main__":
     elif mode == "logistic":
         palette_coords = palettize_logistic(points, layers, n_layers = n_layers)
         palette_file = data_file.split('.')[0] + "-palette-logistic.out"
+    elif mode == "star":
+        palette_coords = palettize_star(points, layers, n_layers = n_layers)
+        palette_file = data_file.split('.')[0] + "-palette-star.out"
 
     print("Saving palette coordinates into {0:s} ...".format(palette_file))
     save_palette(palette_coords, palette_file)
