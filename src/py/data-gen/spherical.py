@@ -2,10 +2,10 @@ import sys
 import os
 import math
 import random as rng
-import lhcs
-import vectorutils as vu
-import utils
-import ndsort
+import utils.lhcs
+import utils.vectorutils as vu
+import utils.utils
+import utils.ndsort
 
 """
 This script generates a spherical surface on the first quadrant
@@ -109,4 +109,4 @@ if __name__ == "__main__":
         pass
     outfile = path + "spherical-{0:d}d.out".format(m)
     utils.cat(f)
-    utils.save(f, outfile)
+    # utils.save(f, outfile)
