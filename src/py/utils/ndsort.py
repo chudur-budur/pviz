@@ -54,5 +54,6 @@ if __name__ == "__main__":
     idx = ndsort(vals)
     vals_ = [vals[i] for i in idx]
     print("Pareto-front contains {0:d} data points".format(len(vals_)))
-    print("Saving Pareto-front into {0:s} ...".format(pf_file))
-    utils.save(vals_, pf_file)
+    # print("Saving Pareto-front into {0:s} ...".format(pf_file))
+    # utils.save(vals_, pf_file)
+    utils.cat(vals_)
