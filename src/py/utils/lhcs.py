@@ -1,7 +1,7 @@
 import math
 import random
 import utils
-import vectorutils as vu
+import vectorops as vops
 
 """
 This script implements a Latin hypercube sampling method.
@@ -39,7 +39,7 @@ def lhcsl2norm(n, m):
     while len(samp) < n:
         temp = lhcs(k, m)
         for v in temp:
-            if vu.norm(v, 1) > 0.0001:
+            if vops.norm(v, 1) > 0.0001:
                 samp.append(v)
         k = n - len(samp)
         # print("pass {0:d}, need {1:d} points.".format(pass_, k))
