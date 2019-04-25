@@ -58,6 +58,7 @@ if __name__ == "__main__":
         os.makedirs(path)
     except OSError:
         pass
-    outfile = path + "spherical-equidist-{0:d}d.out".format(m)
+
+    outfile = os.path.join(path, "spherical-equidist-{0:d}d.out".format(m))
     utils.cat(f)
     utils.save(f, outfile)

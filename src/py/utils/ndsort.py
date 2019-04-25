@@ -1,4 +1,5 @@
 import sys
+import os
 import utils
 
 """
@@ -47,8 +48,9 @@ def ndsort(vals):
 
 if __name__ == "__main__":
     data_file = sys.argv[1].strip()
+    path, filename = os.path.split(data_file)
     cv_all_file = None
-    pf_file = data_file.split('.')[0] + "-pf.out"
+    pf_file = os.path.join(path, filename.split('.')[0] + "-pf.out")
     vals = utils.load(data_file)
     print("Non-dominated sorting of {0:d} data points".format(len(vals)))
     idx = ndsort(vals)

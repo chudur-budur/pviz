@@ -1,3 +1,4 @@
+import os
 import sys
 import math
 import copy
@@ -67,12 +68,13 @@ def compute_tradeoff(points, epsilon = 0.05, normalize = False):
     return mu_ if normalize else mu
 
 if __name__ == "__main__":
-    data_file = sys.argv[1].strip()
+    fullpath = sys.argv[1].strip()
+    path, filename = os.path.split(fullpath)
     epsilon = 0.125
     if len(sys.argv) > 2:
         epsilon = float(sys.argv[2].strip())
-    mu_file = data_file.split('.')[0] + "-mu.out"
-    points = utils.load(data_file)
+    mufile = os.path.join(path, filename.split('.')[0] + "-mu.out")
+    points = utils.load(fullpath)
     mu = compute_tradeoff(points, epsilon, normalize = False)
-    print("Saving tradeoff values to {0:s} ...".format(mu_file))
-    utils.save(mu, mu_file)
+    print("Saving tradeoff values to {0:s} ...".format(mufile))
+    utils.save(mu, mufile)

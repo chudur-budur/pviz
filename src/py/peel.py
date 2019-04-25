@@ -1,4 +1,5 @@
 import sys
+import os
 import math
 import pyhull.convex_hull as cvhull
 
@@ -97,13 +98,14 @@ def peel(points):
     return boundaries
 
 if __name__ == "__main__":
-    data_file = sys.argv[1].strip()
+    fullpath = sys.argv[1].strip()
+    path, filename = os.path.split(fullpath)
     mode = "default"
     if len(sys.argv) == 3:
         mode = sys.argv[2].strip()
 
-    layer_file = data_file.split('.')[0] + "-layers.out"
-    points = utils.load(data_file)
+    layerfile = os.path.join(path, filename.split('.')[0] + "-layers.out")
+    points = utils.load(fullpath)
     m = len(points[0])
     print("Peeling data point cloud in {0:s} mode ...".format(mode))
     if mode == "default":
@@ -112,5 +114,5 @@ if __name__ == "__main__":
         boundaries = peel(cpoints)
     else:
         boundaries = peel(points)
-    print("Saving layers into {0:s} ...".format(layer_file))
-    utils.save(boundaries, layer_file, dtype = 'int')    
+    print("Saving layers into {0:s} ...".format(layerfile))
+    utils.save(boundaries, layerfile, dtype = 'int')    

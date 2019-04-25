@@ -69,6 +69,6 @@ if __name__ == "__main__":
     except OSError:
         pass
     
-    outfile = path + "knee-{0:d}d.out".format(m)
+    outfile = os.path.join(path, "knee-{0:d}d.out".format(m))
     utils.cat(f)
     utils.save(f, outfile)

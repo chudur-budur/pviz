@@ -111,5 +111,5 @@ if __name__ == "__main__":
         pass
     
     utils.cat(f)
-    outfile = path + "spherical-{0:d}d.out".format(m)
+    outfile = os.path.join(path, "spherical-{0:d}d.out".format(m))
     utils.save(f, outfile)

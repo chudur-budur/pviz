@@ -1,3 +1,4 @@
+import os
 import sys
 
 sys.path.insert(0, "./utils")
@@ -17,10 +18,11 @@ def normalize(vals):
     return vops.normalize(vals, lb, ub)
 
 if __name__ == "__main__":
-    raw_file = sys.argv[1].strip()
-    norm_file = raw_file.split('.')[0] + "-norm.out"
-    vals = utils.load(raw_file)
+    fullpath = sys.argv[1]
+    path, rawfile = os.path.split(fullpath)
+    normfile = os.path.join(path, rawfile.split('.')[0] + "-norm.out")
+    vals = utils.load(fullpath)
     print("Normalizing {0:d} data points.".format(len(vals)))
     vals_ = normalize(vals)
-    print("Saving normalized data into {0:s} ...".format(norm_file))
-    utils.save(vals_, norm_file)
+    print("Saving normalized data into {0:s} ...".format(normfile))
+    utils.save(vals_, normfile)

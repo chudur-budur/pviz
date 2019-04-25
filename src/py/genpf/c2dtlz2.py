@@ -74,7 +74,7 @@ if __name__ == "__main__":
     
     fgv = [v + [gv[i]] for i,v in enumerate(f)]
     utils.cat(fgv)
-    outfile = path + "c2dtlz2-{0:d}d.out".format(m)
+    outfile = os.path.join(path, "c2dtlz2-{0:d}d.out".format(m))
     utils.save(fv, outfile)
-    outfile = path + "c2dtlz2-{0:d}d-cv.out".format(m)
+    outfile = os.path.join(path, "c2dtlz2-{0:d}d-cv.out".format(m))
     utils.save(gv, outfile)

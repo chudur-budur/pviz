@@ -1,5 +1,6 @@
-import math
+import os
 import sys
+import math
 import copy
 from itertools import product
 
@@ -211,7 +212,8 @@ def tester():
 
 if __name__ == "__main__":
     # tester()
-    data_file = sys.argv[1].strip()
+    normfpath = sys.argv[1].strip()
+    path, normfile = os.path.split(normfpath)
     n_layers = 0
     mode = "default"
     if len(sys.argv) >= 3:
@@ -222,22 +224,25 @@ if __name__ == "__main__":
             mode = sys.argv[3].strip()
             n = float(sys.argv[4].strip())
     
-    layer_file = data_file.split('.')[0] + "-layers.out"
+    layerfile = normfile.split('.')[0] + "-layers.out"
     
-    points = utils.load(data_file)
-    layers = utils.load(layer_file, dtype = 'int')
+    points = utils.load(normfpath)
+    layers = utils.load(os.path.join(path, layerfile), dtype = 'int')
     if mode == "default":
         palette_coords = palettize(points, layers, n_layers = n_layers)
-        palette_file = data_file.split('.')[0] + "-palette.out"
+        palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette.out")
     elif mode == "polar":
         palette_coords = palettize_polar(points, layers, n_layers = n_layers)
-        palette_file = data_file.split('.')[0] + "-palette-polar.out"
+        palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette-polar.out")
     elif mode == "logistic":
         palette_coords = palettize_logistic(points, layers, n_layers = n_layers)
-        palette_file = data_file.split('.')[0] + "-palette-logistic.out"
+        palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette-logistic.out")
     elif mode == "star":
         palette_coords = palettize_star(points, layers, n_layers = n_layers)
-        palette_file = data_file.split('.')[0] + "-palette-star.out"
+        palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette-star.out")
+    else:
+        print("Error: unknown mode \'{0:s}\'\n".format(mode))
+        sys.exit(1)
 
-    print("Saving palette coordinates into {0:s} ...".format(palette_file))
-    save_palette(palette_coords, palette_file)
+    print("Saving palette coordinates into {0:s} ...".format(palettefpath))
+    save_palette(palette_coords, palettefpath)

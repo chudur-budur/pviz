@@ -72,7 +72,7 @@ if __name__ == "__main__":
     
     fgv = [v + [gv[i]] for i,v in enumerate(fv)]
     utils.cat(fgv)
-    outfile = path + "knee-const-mod-{0:d}d.out".format(m)
+    outfile = os.path.join(path, "knee-const-mod-{0:d}d.out".format(m))
     utils.save(fv, outfile)
-    outfile = path + "knee-const-mod-{0:d}d-cv.out".format(m)
+    outfile = os.path.join(path, "knee-const-mod-{0:d}d-cv.out".format(m))
     utils.save(gv, outfile)
