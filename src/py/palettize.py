@@ -2,7 +2,9 @@ import math
 import sys
 import copy
 from itertools import product
-import vectorutils as vu
+
+sys.path.insert(0, "./utils")
+import vectorops as vops
 import utils
 
 """
@@ -176,7 +178,7 @@ def palettize_star(points, layers, n_layers = 0, zgap = 1.0):
     m = len(points_[0])
     C = [[math.cos(t), math.sin(t)] for t in \
             [2.0 * math.pi * (i/float(m)) for i in range(m)]]
-    b = vu.get_bound(points)
+    b = vops.get_bound(points)
     U = [[x / (b[1][i] - b[0][i]), y / (b[1][i] - b[0][i])] for i, [x, y] in enumerate(C)]
     n_layers_orig = len(layers)
     points_per_layer = len(points_)/n_layers if n_layers > 0 else float('inf')

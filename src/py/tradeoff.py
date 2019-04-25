@@ -2,8 +2,10 @@ import sys
 import math
 import copy
 import numpy as np
-import utils
 from sklearn.neighbors import NearestNeighbors
+
+sys.path.insert(0, "./utils")
+import utils
 
 """
 This script calculates the knee value from a data file. 

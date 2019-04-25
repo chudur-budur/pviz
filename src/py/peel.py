@@ -1,6 +1,8 @@
 import sys
 import math
 import pyhull.convex_hull as cvhull
+
+sys.path.insert(0, "./utils")
 import utils
 
 """

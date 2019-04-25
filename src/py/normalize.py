@@ -1,5 +1,7 @@
 import sys
-import vectorutils as vu
+
+sys.path.insert(0, "./utils")
+import vectorops as vops
 import utils
 
 """
@@ -11,8 +13,8 @@ def normalize(vals):
     """
     Normalize the data.
     """
-    [lb, ub] = vu.get_bound(vals)
-    return vu.normalize(vals, lb, ub)
+    [lb, ub] = vops.get_bound(vals)
+    return vops.normalize(vals, lb, ub)
 
 if __name__ == "__main__":
     raw_file = sys.argv[1].strip()
