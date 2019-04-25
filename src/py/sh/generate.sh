@@ -1,5 +1,6 @@
 #!/bin/bash
 #comments: This script generates all data points for the visualization experiment. 
+# for the line-surface pf, use the matlab code.
 
 shopt -s extglob
 cpath=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )

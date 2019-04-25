@@ -2,8 +2,8 @@ import sys
 import os
 import math
 import random
-import mpl_toolkits.mplot3d
-import matplotlib.pyplot as pp
+
+sys.path.insert(0, "./utils")
 import utils
 import ndsort
 
