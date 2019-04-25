@@ -1,12 +1,14 @@
 import sys
 import os
 import math
-import random
+import random as rng
+
+sys.path.insert(0, "./utils")
 import lhcs
-import spherical
-import vectorutils as vu
 import utils
 import ndsort
+
+import spherical
 
 """
 This script generates a mix constrained line surface 
@@ -31,12 +33,12 @@ def constraint_violation(xvals, fvals):
             xvals_.append(xvals[i])
     return (xvals_, fvals_, cv)
 
-def surface(n, m, seed):
+def surface(n, m, mode):
     """
     Generate surface points using LHC sampling,
     n samples of m dimensional points.
     """
-    S = lhcs.lhcs(n, m, seed)
+    S = lhcs.lhcs(n, m)
     fvals = []
     xvals = []
     for x in S:
@@ -56,18 +58,32 @@ def surface(n, m, seed):
 
 if __name__ == "__main__":
     seed = 123456
+    rng.seed(seed)
     n = {3: 3000, 4: 2000, 8: 4000}
     m = 3
+    mode = "uniform"
     if len(sys.argv) > 1:
-        m = int(sys.argv[1].strip())    
-    (x, f, g) = surface(n[m], m, seed)
+        m = int(sys.argv[1].strip())
+        if len(sys.argv) > 2:
+            mode = sys.argv[2].strip()
+
+    print("Using {0:s} mode over {1:d} dim ...".format(mode, m))
+    (x, f, g) = surface(n[m], m, mode)
+
+    print("{0:d} points generated, doing non-domination sort ...".format(len(f)))
+    idx = ndsort.ndsort(f)
+    xv = [x[i] for i in idx]
+    fv = [f[i] for i in idx]
+    gv = [g[i] for i in idx]
+    print("{0:d} points found. Done.".format(len(fv)))
+
     path = "./data/line/"
     try:
         os.makedirs(path)
     except OSError:
         pass
     
-    fg = [v + [g[i]] for i,v in enumerate(f)]
+    fg = [v + [gv[i]] for i,v in enumerate(f)]
     utils.cat(fg)
     outfile = path + "line-{0:d}d.out".format(m)
     utils.save(f, outfile)

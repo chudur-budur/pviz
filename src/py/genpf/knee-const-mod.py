@@ -2,11 +2,13 @@ import sys
 import os
 import math
 import random as rng
+
+sys.path.insert(0, "./utils")
 import lhcs
-import knee
-import vectorutils as vu
 import utils
 import ndsort
+
+import knee
 
 
 """

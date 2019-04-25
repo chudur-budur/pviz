@@ -2,10 +2,13 @@ import sys
 import os
 import math
 import random as rng
+
+sys.path.insert(0, "./utils")
 import lhcs
-import spherical
 import utils
 import ndsort
+
+import spherical
 
 """
 This script generates a constrained knee surface on the first quadrant

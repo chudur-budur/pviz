@@ -2,10 +2,12 @@ import sys
 import os
 import math
 import random as rng
-import utils.lhcs
-import utils.vectorutils as vu
-import utils.utils
-import utils.ndsort
+
+sys.path.insert(0, "./utils")
+import lhcs
+import vectorops as vops
+import utils
+import ndsort
 
 """
 This script generates a spherical surface on the first quadrant
@@ -38,7 +40,7 @@ def uniform(x):
     spherical surface using the method described in:
         http://corysimon.github.io/articles/uniformdistn-on-sphere/
     """
-    nrm = vu.norm(x, 2)
+    nrm = vops.norm(x, 2)
     f = [(v / nrm) for v in x]
     return f
 
@@ -47,7 +49,7 @@ def to_spherical(f):
     Returns the spherical coordinate of a cartesian coordinate point
     in radians.
     """
-    x = [(math.acos((v / vu.norm(f[i:], 2))) / (0.5 * math.pi)) \
+    x = [(math.acos((v / vops.norm(f[i:], 2))) / (0.5 * math.pi)) \
             for i,v in enumerate(f[:-1])]
     return x
 
@@ -107,6 +109,7 @@ if __name__ == "__main__":
         os.makedirs(path)
     except OSError:
         pass
-    outfile = path + "spherical-{0:d}d.out".format(m)
+    
     utils.cat(f)
-    # utils.save(f, outfile)
+    outfile = path + "spherical-{0:d}d.out".format(m)
+    utils.save(f, outfile)

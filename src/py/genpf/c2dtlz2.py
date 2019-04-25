@@ -2,11 +2,13 @@ import sys
 import os
 import math
 import random as rng
+
+sys.path.insert(0, "./utils")
 import lhcs
-import spherical
-import vectorutils as vu
 import utils
 import ndsort
+
+import spherical
 
 """
 This script generates a constrained c2dtlz2 surface 
@@ -33,7 +35,7 @@ def constraint_violation(xvals, fvals):
             xvals_.append(xvals[k])
     return (xvals_, fvals_, cv)
 
-def surface(n, m, seed):
+def surface(n, m, mode):
     """
     Generate surface points using LHC sampling,
     n samples of m dimensional points.
