@@ -203,6 +203,63 @@ def palettize_star(points, layers, n_layers = 0, zgap = 1.0):
         wl = wl - zgap
     return palette_coords
 
+def palettize_stardecay(points, layers, n_layers = 0, zgap = 1.0):
+    """
+    This function maps the data points using the star-coordinate
+    (SC) plot, instead of Radviz.
+    """
+    points_ = copy.copy(points)
+    m = len(points_[0])
+    C = [[math.cos(t), math.sin(t)] for t in \
+            [2.0 * math.pi * (i/float(m)) for i in range(m)]]
+    b = vops.get_bound(points)
+    U = [[x / (b[1][i] - b[0][i]), y / (b[1][i] - b[0][i])] for i, [x, y] in enumerate(C)]
+    n_layers_orig = len(layers)
+    points_per_layer = len(points_)/n_layers if n_layers > 0 else float('inf')
+    palette_coords = {}
+    wl, wc, count = 0.0, 0.0, 0
+    for layer in layers:
+        for idx in layer:
+            p,q = 0.0, 0.0
+            # f = points_[idx]
+            # reverse 1 - f
+            f = [(1.0 - v) for v in points_[idx]]
+            # sort the index by the decreasing order of values
+            sid = sorted([[i, v] for i,v in enumerate(f)], key = lambda x: x[1], reverse = False)
+            # for each value f_i, replace with f_i * e^(-4 * 0.1 * i), i.e. apply decay function e^(-4x)
+            # m = 3
+            # 0 --> 0
+            # 1 --> 0.50
+            # 2 --> 1.0
+            # m = 4
+            # 0 --> 0
+            # 1 --> 0.33
+            # 2 --> 0.66
+            # 3 --> 0.99
+            # m = 5
+            # 0 --> 0
+            # 1 --> 0.25
+            # 2 --> 0.50
+            # 3 --> 0.75
+            # 4 --> 1.0
+            delta = 1.0 / (len(sid)-1)
+            for i,p in enumerate(sid):
+                f[p[0]] = f[p[0]] * math.exp(-4 * i * delta) 
+            f = [(1.0 - v) for v in points_[idx]]
+            p = math.fsum([f[i] * u[0] for i,u in enumerate(U)])
+            q = math.fsum([f[i] * u[1] for i,u in enumerate(U)])
+            # If the original number of layers < number of layers specified,
+            # then use wl else use wc.
+            palette_coords[idx] = [p, q, wl] \
+                    if n_layers == 0 or n_layers_orig <= n_layers \
+                    else [p, q, wc]
+            count = count + 1
+            if count >= points_per_layer:
+                count = 0
+                wc = wc - zgap
+        wl = wl - zgap
+    return palette_coords
+
 def tester():
     points_ = list(product([0.0, 0.5, 1.0]), repeat = 3)
     layers_ = range(len(points_))
@@ -240,6 +297,9 @@ if __name__ == "__main__":
     elif mode == "star":
         palette_coords = palettize_star(points, layers, n_layers = n_layers)
         palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette-star.out")
+    elif mode == "stardecay":
+        palette_coords = palettize_stardecay(points, layers, n_layers = n_layers)
+        palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette-stardecay.out")
     else:
         print("Error: unknown mode \'{0:s}\'\n".format(mode))
         sys.exit(1)
