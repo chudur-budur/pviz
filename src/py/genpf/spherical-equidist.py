@@ -4,8 +4,8 @@ import math
 import random
 
 sys.path.insert(0, "./utils")
-import utils
-import ndsort
+from utils import utils
+from utils import ndsort
 
 """
 This script generates a spherical surface on the first quadrant

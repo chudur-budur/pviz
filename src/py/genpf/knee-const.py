@@ -4,10 +4,10 @@ import math
 import random as rng
 
 sys.path.insert(0, "./utils")
-import lhcs
-import knee
-import utils
-import ndsort
+from utils import lhcs
+from utils import knee
+from utils import utils
+from utils import ndsort
 
 
 """

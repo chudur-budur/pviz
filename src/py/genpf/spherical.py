@@ -4,10 +4,10 @@ import math
 import random as rng
 
 sys.path.insert(0, "./utils")
-import lhcs
-import vectorops as vops
-import utils
-import ndsort
+from utils import lhcs
+from utils import vectorops as vops
+from utils import utils
+from utils import ndsort
 
 """
 This script generates a spherical surface on the first quadrant
