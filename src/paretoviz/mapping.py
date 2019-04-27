@@ -1,8 +1,9 @@
 import math
 from sklearn.neighbors import NearestNeighbors
 from scipy.optimize import minimize
-import utils
-import vectorutils as vu
+
+import utils.fmt as fmt
+import vectorops as vops
 
 def mapradviz(data, theta):
     fs = [math.fsum(v) for v in data]
@@ -18,19 +19,19 @@ def error(x, points, nbr, pad = False):
     if pad:
         x_ = [0.00] + x_
     rvpoints_ = mapradviz(points, x_)
-    [lb, ub] = vu.get_bound(rvpoints_)
-    rvpoints = vu.normalize(rvpoints_, lb, ub)
+    [lb, ub] = vops.get_bound(rvpoints_)
+    rvpoints = vops.normalize(rvpoints_, lb, ub)
     count = 0
     for i,point in enumerate(points):
         nbrs = nbr.radius_neighbors([point], epsilon, \
                 return_distance = False)[0].tolist()
         for j in nbrs:
-            if vu.distlp(list(rvpoints[i]), list(rvpoints[j])) > epsilon:
+            if vops.distlp(list(rvpoints[i]), list(rvpoints[j])) > epsilon:
                 count = count + 1
     return (count / len(rvpoints))
 
 if __name__ == "__main__":
-    points = utils.load("data/wil/wil-7d-norm.out")
+    points = fmt.load("data/wil/wil-7d-norm.out")
     
     nbr = NearestNeighbors()
     nbr.fit(points)

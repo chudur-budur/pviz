@@ -1,10 +1,9 @@
 import sys
 import os
 import math
-import pyhull.convex_hull as cvhull
+from scipy.spatial import ConvexHull
 
-sys.path.insert(0, "./utils")
-import utils
+import utils.fmt as fmt
 
 """
 This script applies alpha-shape or simple convex hull
@@ -58,8 +57,8 @@ def get_convex_hull(points, indices):
     if len(p) <= m + 1:
         hull_indices = set(p)
     else:
-        hull = cvhull.ConvexHull(p)
-        for simplex in hull.vertices:
+        hull = ConvexHull(p)
+        for simplex in hull.simplices:
             for vertex in simplex:
                 hull_indices.add(indices[vertex])
     print("alpha-shape done.")
@@ -98,21 +97,28 @@ def peel(points):
     return boundaries
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python3 peel.py [normalized data file] [projection option]")
+        sys.exit(1)
+    
     fullpath = sys.argv[1].strip()
     path, filename = os.path.split(fullpath)
-    mode = "default"
+    mode = ""
     if len(sys.argv) == 3:
         mode = sys.argv[2].strip()
 
     layerfile = os.path.join(path, filename.split('.')[0] + "-layers.out")
-    points = utils.load(fullpath)
+    points = fmt.load(fullpath)
     m = len(points[0])
     print("Peeling data point cloud in {0:s} mode ...".format(mode))
-    if mode == "default":
+    if mode == "no-project":
+        boundaries = peel(points)
+    else:
         ppoints = project(points)
         cpoints = collapse(ppoints, dim = m - 1)
         boundaries = peel(cpoints)
-    else:
-        boundaries = peel(points)
+    
+    fmt.cat(boundaries, dtype = 'int')
+    
     print("Saving layers into {0:s} ...".format(layerfile))
-    utils.save(boundaries, layerfile, dtype = 'int')    
+    fmt.save(boundaries, layerfile, dtype = 'int')

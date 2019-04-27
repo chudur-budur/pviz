@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d as plt3d
 import matplotlib.cm as cm
 
-from utils import utils
-from utils import vectorops as vops
+import utils.fmt as fmt
+import utils.vectorops as vops
 
 """
 This script contains different plotting functions including PaletteViz
@@ -311,15 +311,15 @@ if __name__ == "__main__":
     prefix = rawfile.split('.')[0]
 
     # load the normalized points
-    points = utils.load(os.path.join(path, prefix + "-norm.out"))
+    points = fmt.load(os.path.join(path, prefix + "-norm.out"))
     # load the normalized trade-off values
     mu = [v[0] if len(v) == 1 else v for v in \
-            utils.load(os.path.join(path, prefix + "-norm-mu.out"))]
+            fmt.load(os.path.join(path, prefix + "-norm-mu.out"))]
 
     # load the CV values
     cvfpath = os.path.join(path, prefix + "-cv.out")
     if not docentroid and os.path.exists(cvfpath):
-        cv = [v[0] if len(v) == 1 else v for v in utils.load(cvfpath)]
+        cv = [v[0] if len(v) == 1 else v for v in fmt.load(cvfpath)]
         [low, up] = vops.get_bound(cv)
         cv = vops.normalize(cv, low, up)
         color = recolor_by_cv(cv)
@@ -337,7 +337,7 @@ if __name__ == "__main__":
     classfpath = os.path.join(path, prefix + "-class.out")
     if os.path.exists(classfpath):
         labels = [v[0] if len(v) == 1 else v for v in \
-                utils.load(classfpath, dtype = dtypes[prefix])]
+                fmt.load(classfpath, dtype = dtypes[prefix])]
         color = recolor_by_labels(labels, dtype = dtypes[prefix])
         size = [5.0 for _ in range(len(points))]
 
@@ -346,7 +346,7 @@ if __name__ == "__main__":
     # alpha = [1.0, 1.0] # alpha for general case
     
     # use the original obj values for scatter plot.
-    rawpoints = utils.load(rawfpath)
+    rawpoints = fmt.load(rawfpath)
     # do the scatter plot
     (fig, ax) = scatter(rawpoints, s = size, c = color, alpha = alpha, \
                     camera = cam_scatter[prefix], knee_idx = knee_idx, \
@@ -355,7 +355,7 @@ if __name__ == "__main__":
     scatterfpath = os.path.join(path, prefix + "-scatter.pdf")
     plt.savefig(scatterfpath, transparent = False)
 
-    palette_coords = utils.load(os.path.join(path, prefix + "-norm-palette.out"))
+    palette_coords = fmt.load(os.path.join(path, prefix + "-norm-palette.out"))
     # do the paletteviz plot
     (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
                 s = size, c = color, alpha = alpha, \
@@ -366,7 +366,7 @@ if __name__ == "__main__":
     palettefpath = os.path.join(path, prefix + "-norm-palette.pdf")
     plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
 
-    palette_coords = utils.load(os.path.join(path, prefix + "-norm-palette-star.out"))
+    palette_coords = fmt.load(os.path.join(path, prefix + "-norm-palette-star.out"))
     # do the paletteviz plot with star-coordinate
     (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
                 s = size, c = color, alpha = alpha, \

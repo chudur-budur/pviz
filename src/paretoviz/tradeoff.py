@@ -1,12 +1,8 @@
 import os
 import sys
-import math
-import copy
-import numpy as np
-from sklearn.neighbors import NearestNeighbors
+from scipy.spatial import cKDTree
 
-sys.path.insert(0, "./utils")
-import utils
+import utils.fmt as fmt
 
 """
 This script calculates the knee value from a data file. 
@@ -26,26 +22,22 @@ def compute_tradeoff(points, epsilon = 0.05, normalize = False):
         All the objective function vector needs to be normalized.
     """
     m = len(points[0])
-    print("Sorting ...")
-    idx = sorted([v for v in range(len(points))], key = lambda i: points[i][0], reverse = False)
+    n = len(points)
     print("Computing neighborhood ...")
-    nbr = NearestNeighbors()
-    nbr.fit(points)
+    tree = cKDTree(points)
     print("Computing tradeoff values ...")
-    mu = [0.0] * len(points)
-    mu_ = [0.0] * len(points)
-    for i in idx:
+    mu, mu_ = [0.0] * n, [0.0] * n
+    # for i in idx:
+    for i in range(n):
         # First try to find neighbors within epsilon radius
-        nbrs = nbr.radius_neighbors([points[i]], epsilon, return_distance = False)[0].tolist()
+        nbrs = tree.query_ball_point([points[i]], epsilon).tolist()[0]
         # If the neighborhood is empty then get m + 1 closest neighbors.
         # The m + 1 comes from the total number of vertices in a m-dim simplex.
         if len(nbrs) < m + 1:
-            nbrs = nbr.kneighbors([points[i]], n_neighbors = m + 1, \
-                    return_distance = False)[0].tolist()
+            nbrs = tree.query([points[i]], k = m + 1)[1].tolist()[0]
         w = []
         for j in nbrs:
-            gain = 0.0
-            loss = 0.0
+            gain, loss = 0.0, 0.0
             for m_ in range(m):
                 gain = gain + max(0, points[j][m_] - points[i][m_])
                 loss = loss + max(0, points[i][m_] - points[j][m_])
@@ -68,13 +60,20 @@ def compute_tradeoff(points, epsilon = 0.05, normalize = False):
     return mu_ if normalize else mu
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python3 tradeoff.py [normalized data file] [epsilon]")
+        sys.exit(1)
+    
     fullpath = sys.argv[1].strip()
     path, filename = os.path.split(fullpath)
     epsilon = 0.125
     if len(sys.argv) > 2:
         epsilon = float(sys.argv[2].strip())
     mufile = os.path.join(path, filename.split('.')[0] + "-mu.out")
-    points = utils.load(fullpath)
+    points = fmt.load(fullpath)
     mu = compute_tradeoff(points, epsilon, normalize = False)
+    
+    fmt.cat(mu)
+    
     print("Saving tradeoff values to {0:s} ...".format(mufile))
-    utils.save(mu, mufile)
+    fmt.save(mu, mufile)

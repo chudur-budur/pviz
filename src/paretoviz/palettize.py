@@ -4,9 +4,8 @@ import math
 import copy
 from itertools import product
 
-sys.path.insert(0, "./utils")
-import vectorops as vops
-import utils
+import utils.vectorops as vops
+import utils.fmt as fmt
 
 """
 This script takes the data points and their corresponding
@@ -268,6 +267,10 @@ def tester():
         print("\t".join(["{0:.4f}".format(v) for v in palette_coords[idx]]))
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python3 palettize.py [normalized data file] [no. of layers] [mode]")
+        sys.exit(1)
+    
     # tester()
     normfpath = sys.argv[1].strip()
     path, normfile = os.path.split(normfpath)
@@ -283,8 +286,8 @@ if __name__ == "__main__":
     
     layerfile = normfile.split('.')[0] + "-layers.out"
     
-    points = utils.load(normfpath)
-    layers = utils.load(os.path.join(path, layerfile), dtype = 'int')
+    points = fmt.load(normfpath)
+    layers = fmt.load(os.path.join(path, layerfile), dtype = 'int')
     if mode == "default":
         palette_coords = palettize(points, layers, n_layers = n_layers)
         palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette.out")

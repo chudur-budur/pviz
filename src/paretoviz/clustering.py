@@ -7,8 +7,9 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift, estimate_bandwidth
 from sklearn.cluster import spectral_clustering
-import vectorutils as vu
-import utils
+
+import utils.vectorops as vops
+import utils.fmt as fmt
 
 """
 This script takes a data file, applies DBSCAN algorithm
@@ -127,7 +128,7 @@ def save_clusters(points, clusters, path, mode = "original"):
         cv = None
         cv_path = base + "/" + cv_file
         if os.path.exists(cv_path):
-            cv = utils.load(cv_path)
+            cv = fmt.load(cv_path)
         for label in keys:
             # If there are any noise, then group them as the "last" cluster.
             cluster_id = len(keys) if label == -1 else label + 1
@@ -140,7 +141,7 @@ def save_clusters(points, clusters, path, mode = "original"):
             # Save the original data point cluster
             filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) + parts[-1]
             filepath = newpath + "/" + filename
-            utils.save([points[i] for i in clusters[label]], filepath)
+            fmt.save([points[i] for i in clusters[label]], filepath)
             print("Cluster {0:d} saved in {1:s}".format(cluster_id, filepath))
             
             # Save the precomputed cluster for cv
@@ -148,7 +149,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-cv.out"
                 filepath = newpath + "/" + filename
-                utils.save([points[i] for i in clusters[label]], filepath)
+                fmt.save([points[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for cv saved in {1:s}".format(cluster_id, filepath))
     elif mode == "precomputed":
         norm_file = tail.split('.')[0] + "-norm.out"
@@ -167,17 +168,17 @@ def save_clusters(points, clusters, path, mode = "original"):
 
         norm_pts, mu, cv, plt, plr, lgs = None, None, None, None, None, None
         if os.path.exists(norm_path):
-            norm_pts = utils.load(norm_path)
+            norm_pts = fmt.load(norm_path)
         if os.path.exists(mu_path):
-            mu = utils.load(mu_path)
+            mu = fmt.load(mu_path)
         if os.path.exists(cv_path):
-            cv = utils.load(cv_path)
+            cv = fmt.load(cv_path)
         if os.path.exists(plt_path):
-            plt = utils.load(plt_path)
+            plt = fmt.load(plt_path)
         if os.path.exists(plr_path):
-            plr = utils.load(plr_path)
+            plr = fmt.load(plr_path)
         if os.path.exists(lgs_path):
-            lgs = utils.load(lgs_path)
+            lgs = fmt.load(lgs_path)
 
         for label in keys:
             # If there are any noise, then group them as the "last" cluster.
@@ -191,7 +192,7 @@ def save_clusters(points, clusters, path, mode = "original"):
             # Save the original data point cluster
             filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) + parts[-1]
             filepath = newpath + "/" + filename
-            utils.save([points[i] for i in clusters[label]], filepath)
+            fmt.save([points[i] for i in clusters[label]], filepath)
             print("Cluster {0:d} saved in {1:s}".format(cluster_id, filepath))
             
             # Save the precomputed cv cluster
@@ -199,7 +200,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-cv.out"
                 filepath = newpath + "/" + filename
-                utils.save([cv[i] for i in clusters[label]], filepath)
+                fmt.save([cv[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for cv saved in {1:s}".format(cluster_id, filepath))
             
             # Save the normalized data point cluster
@@ -207,7 +208,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-norm.out"
                 filepath = newpath + "/" + filename
-                utils.save([norm_pts[i] for i in clusters[label]], filepath)
+                fmt.save([norm_pts[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for normalized points saved in {1:s}"\
                         .format(cluster_id, filepath))
             
@@ -216,7 +217,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-norm-mu.out"
                 filepath = newpath + "/" + filename
-                utils.save([mu[i] for i in clusters[label]], filepath)
+                fmt.save([mu[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for mu saved in {1:s}"\
                         .format(cluster_id, filepath))
             
@@ -225,7 +226,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-norm-palette.out"
                 filepath = newpath + "/" + filename
-                utils.save([plt[i] for i in clusters[label]], filepath)
+                fmt.save([plt[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for palette-coords saved in {1:s}"\
                         .format(cluster_id, filepath))
             
@@ -234,7 +235,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-norm-palette-polar.out"
                 filepath = newpath + "/" + filename
-                utils.save([plr[i] for i in clusters[label]], filepath)
+                fmt.save([plr[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for polar-palette-corrds saved in {1:s}"\
                         .format(cluster_id, filepath))
             
@@ -243,7 +244,7 @@ def save_clusters(points, clusters, path, mode = "original"):
                 filename = "-".join(parts[:-1]) + "-c{0:d}-".format(cluster_id) \
                         + parts[-1].split('.')[0] + "-norm-palette-logistic.out"
                 filepath = newpath + "/" + filename
-                utils.save([lgs[i] for i in clusters[label]], filepath)
+                fmt.save([lgs[i] for i in clusters[label]], filepath)
                 print("Cluster {0:d} for logistic-palette-corrds saved in {1:s}"\
                         .format(cluster_id, filepath))
 
@@ -256,13 +257,13 @@ if __name__ == "__main__":
     spectral = {"gaa": (2, 'arpack')}
     
     path = sys.argv[1].strip()
-    points = utils.load(path)
+    points = fmt.load(path)
     
     # First normalize the data into [0.0, 1.0] so that eps can be 
     # correctly utilized.
     print("Normalizing data points in {0:s} ...".format(path))
-    [lb, ub] = vu.get_bound(points)
-    points_ = vu.normalize(points, lb, ub)
+    [lb, ub] = vops.get_bound(points)
+    points_ = vops.normalize(points, lb, ub)
     print("Normalization done. Now clustering ...")
     
     # Find clusters
