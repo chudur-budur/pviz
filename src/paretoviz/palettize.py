@@ -224,7 +224,7 @@ def palettize_stardecay(points, layers, n_layers = 0, zgap = 1.0):
             # reverse 1 - f
             f = [(1.0 - v) for v in points_[idx]]
             # sort the index by the decreasing order of values
-            sid = sorted([[i, v] for i,v in enumerate(f)], key = lambda x: x[1], reverse = False)
+            sid = sorted([[i, v] for i,v in enumerate(f)], key = lambda x: x[1], reverse = True)
             # for each value f_i, replace with f_i * e^(-4 * 0.1 * i), i.e. apply decay function e^(-4x)
             # m = 3
             # 0 --> 0
