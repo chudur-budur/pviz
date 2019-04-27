@@ -2,8 +2,8 @@ import sys
 import math
 import random
 
-import fmt
 import vectorops as vops
+import fmt
 
 """
 This script implements a Latin hypercube sampling method.
