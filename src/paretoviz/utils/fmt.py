@@ -65,3 +65,7 @@ def load(path, sep = None, dtype = 'float'):
                 data.append([vals[0]])
     fp.close()
     return data
+
+if __name__ == "__main__":
+    print("__main__ has nothing as of now.")
+    pass
