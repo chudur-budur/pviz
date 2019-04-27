@@ -2,9 +2,8 @@ import sys
 import math
 import random
 
-sys.path.insert(0, "../")
-from utils import utils
-from utils import vectorops as vops
+import utils
+import vectorops as vops
 
 """
 This script implements a Latin hypercube sampling method.
