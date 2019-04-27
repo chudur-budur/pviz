@@ -7,8 +7,8 @@ import math
 def normalize(vec, lb, ub):
     """
         Normalize a vector vec = [x1, x2, ... xn] w.r.t. [lb, ub]
-        The parameter vec can be a list of lists, 
-        in that case lb and ub need to be the same.
+        The parameter vec can be a list of lists (matrix), in that case, 
+        lb and ub need to be of same length.
     """
     errmsg = "all parameters need to be of the same structure."
     assert (type(vec[0]) == type(lb) == type(ub)), errmsg
@@ -24,7 +24,7 @@ def normalize(vec, lb, ub):
 
 def get_bound(vec):
     """
-        get the bound of the data, the data can be a list of lists. 
+        Get the bound of the data, the data can be a list of lists (matrix). 
     """
     if type(vec[0]) is list:
         lb = list(vec[0]) # ideal point
@@ -40,41 +40,78 @@ def get_bound(vec):
         return [min(vec), max(vec)]
 
 def dot(a, b):
-    errmsg = "the parameters must be the vectors of same length."
+    """
+    Dot product of two vectors.
+    """
+    errmsg = "the parameters must be vectors of same length."
     assert type(a) is list and type(b) is list, errmsg
     assert len(a) == len(b), errmsg
     return math.fsum(list(map(lambda x,y: (x * y), a, b)))
 
 def norm(a, p = 1):
+    """
+    Lp-norm of two vectors.
+    """
     errmsg = "the parameter must be a vector."
     assert type(a) is list, errmsg
     return math.pow(math.fsum(list(map(lambda x: math.fabs(x)**p, a))), 1.0/p)
 
 def unit(a):
+    """
+    Unit vector.
+    """
     errmsg = "the parameter must be a vector."
     assert type(a) is list, errmsg
     nrm = norm(a, 2)
     return [v/float(nrm) for v in a]
 
 def distlp(a, b, p = 2):
+    """
+    Lp-norm of two vectors.
+    """
     errmsg = "the parameters must be the vectors of same length."
     assert type(a) is list and type(b) is list, errmsg
     assert len(a) == len(b), errmsg
     return math.pow(math.fsum(list(map(lambda x,y: math.fabs(x - y)**p, a, b))), 1.0/p)
 
 def cross(a, b):
+    """
+    Cross product of two vectors.
+    """
     errmsg = "the parameters must be the vectors of maximum length 3."
     assert type(a) is list and type(b) is list, errmsg
     assert len(a) == len(b) == 3, errmsg
     return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]
 
 def angle(a, b):
-    return math.degrees(math.acos(dot(a,b)/float(norm(a, 2) * norm(b, 2))))
+    """
+    Angle between two vectors.
+    """
+    val = dot(a, b)/float(norm(a, 2) * norm(b, 2))
+    if val > 1.0:
+        val = 1.0
+    if val < -1.0:
+        val = -1.0
+    return math.degrees(math.acos(val))
 
 def mean(a):
-    return math.fsum(a)/float(len(a))
+    """
+    Mean of a vector. If a is a matrix, then it will compute the
+    center of mass.
+    """
+    if type(a[0]) is list:
+        cols = list(zip(*a))
+        centroid = []
+        for col in cols:
+            centroid.append(sum(col)/float(len(col)))
+        return centroid
+    else:
+        return math.fsum(a)/float(len(a))
 
 def median(a):
+    """
+    Median of a vector. Not implemented for a matrix.
+    """
     # this is slow, need to write the 'quickselect' algorithm
     a_ = sorted(a)
     l = len(a_)
@@ -82,6 +119,9 @@ def median(a):
     return ret
 
 def tostr(a):
+    """
+    Make a nice string representation.
+    """
     string = "["
     for v in a:
         if type(v) is list:
@@ -93,6 +133,9 @@ def tostr(a):
     return string
 
 def tocsvstr(a):
+    """
+    Make a nice csv string representation.
+    """
     string = ""
     for v in a:
         if type(v) is list:
@@ -106,6 +149,16 @@ def tocsvstr(a):
 # tester main
 if __name__ == "__main__":
     
+    v12 = [0.12345, 0.1213, [1, 0.1234, [[4, 10.0, 0.23490, 10], 0.9897], 10], 6, [5, 0.4637]]
+    v13 = [1]
+    v14 = []
+    print("tostr(v12) = {:s}".format(tostr(v12)))
+    print("tostr(v13) = {:s}".format(tostr(v13)))
+    print("tostr(v14) = {:s}".format(tostr(v14)))
+    print("tocsvstr(v12) = {:s}".format(tocsvstr(v12)))
+    print("tocsvstr(v13) = {:s}".format(tocsvstr(v13)))
+    print("tocsvstr(v14) = {:s}".format(tocsvstr(v14)))
+    
     v1 = [1, 2, 3, 4]
     [lb, ub] = get_bound(v1)
     print("normalize([{0:s}], {1:d}, {2:d}) = [{3:s}]".format(
@@ -115,7 +168,7 @@ if __name__ == "__main__":
     v2 = [[1, 5, 4], [6, 2, 3]]
     [lb, ub] = get_bound(v2)
     print("normalize([{0:s}], [{1:s}], [{2:s}]) = [{3:s}]".format(
-        ", ".join([str(v) for v in v1]), 
+        ", ".join([str(v) for v in v2]), 
         ", ".join([str(v) for v in lb]), 
         ", ".join([str(v) for v in ub]), 
         ", ".join([str(v) for v in normalize(v2, lb, ub)])))
@@ -142,21 +195,36 @@ if __name__ == "__main__":
 
     v6 = [1, 0, 1, 0, 1, 0]
     v7 = [0, 1, 0, 1, 0, 1]
-    print(angle(v6, v7))
-    print(dot(v6, v6)/(norm(v6, 2) * norm(v6, 2)))
-    # print(angle(v6, v6))
+    print("angle([{0:s}], [{1:s}]) = {2:.2f}".format(
+        ", ".join([str(v) for v in v6]),
+        ", ".join([str(v) for v in v7]),
+        angle(v6, v7)))
+    print("dot([{0:s}], [{0:s}])/float(norm([{0:s}], 2), norm([{0:s}], 2)) = {1:.2f}".format(
+        ", ".join([str(v) for v in v6]), 
+        dot(v6, v6)/float(norm(v6, 2) * norm(v6, 2))))
+    print("angle([{0:s}], [{0:s}]) = {1:.2f}".format(
+        ", ".join([str(v) for v in v6]), 
+        angle(v6, v6)))
+    
+    v8 = [1.0 * math.cos(math.pi/4), 0]
+    v9 = [1.0 * math.cos(math.pi/4), 1.0 * math.sin(math.pi/4)]
+    print("angle([{0:s}], [{1:s}]) = {2:.2f}".format(
+        ", ".join([str(v) for v in v8]), 
+        ", ".join([str(v) for v in v9]), 
+        angle(v8, v9)))
 
-    v8 = [0, 0, 0, 0]
-    v9 = [1, 1, 1, 1]
-    print(distlp(v8, v9))
+    v10 = [0, 0, 0, 0]
+    v11 = [1, 1, 1, 1]
+    print("distlp([{0:s}], [{1:s}]) = {2:.2f}".format(
+        ", ".join([str(v) for v in v10]), 
+        ", ".join([str(v) for v in v11]), 
+        distlp(v10, v11)))
 
-    v10 = [0.12345, 0.1213, [1, 0.1234, [[4, 10.0, 0.23490, 10], 0.9897], 10], 6, [5, 0.4637]]
-    v11 = [1]
-    v12 = []
-    print(tostr(v10))
-    print(tostr(v11))
-    print(tostr(v12))
+    v12 = [1, 2, 3, 4]
+    print("mean({0:s}) = {1:.2f}".format(
+        ", ".join([str(v) for v in v12]), 
+        mean(v12)))
+    v13 = [[1, 2], [3, 4], [5, 6]]
+    print("mean({0:s}) = {1:s}".format(tostr(v13), tostr(mean(v13))))
 
-    v13 = [1.0 * math.cos(math.pi/4), 0]
-    v14 = [1.0 * math.cos(math.pi/4), 1.0 * math.sin(math.pi/4)]
-    prinqt(angle(v14, v13))
+

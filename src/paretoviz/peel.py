@@ -3,7 +3,7 @@ import os
 import math
 from scipy.spatial import ConvexHull
 
-import utils.fmt as fmt
+from utils import fmt
 
 """
 This script applies alpha-shape or simple convex hull

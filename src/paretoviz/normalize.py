@@ -1,8 +1,8 @@
 import sys
 import os
 
-import utils.vectorops as vops
-import utils.fmt as fmt
+from utils import vectorops as vops
+from utils import fmt
 
 """
 This script takes a data file and normalizes it.

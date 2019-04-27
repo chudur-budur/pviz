@@ -4,8 +4,8 @@ import math
 import copy
 from itertools import product
 
-import utils.vectorops as vops
-import utils.fmt as fmt
+from utils import vectorops as vops
+from utils import fmt
 
 """
 This script takes the data points and their corresponding

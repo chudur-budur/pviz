@@ -2,7 +2,7 @@ import os
 import sys
 from scipy.spatial import cKDTree
 
-import utils.fmt as fmt
+from utils import fmt
 
 """
 This script calculates the knee value from a data file. 
