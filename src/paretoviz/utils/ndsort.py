@@ -1,7 +1,7 @@
 import sys
 import os
 
-import utils
+import fmt
 
 """
 This script loads a data file, then dumps the first front (i.e. Pareto front)
@@ -52,11 +52,11 @@ if __name__ == "__main__":
     path, filename = os.path.split(data_file)
     cv_all_file = None
     pf_file = os.path.join(path, filename.split('.')[0] + "-pf.out")
-    vals = utils.load(data_file)
+    vals = fmt.load(data_file)
     print("Non-dominated sorting of {0:d} data points".format(len(vals)))
     idx = ndsort(vals)
     vals_ = [vals[i] for i in idx]
     print("Pareto-front contains {0:d} data points".format(len(vals_)))
     # print("Saving Pareto-front into {0:s} ...".format(pf_file))
     # utils.save(vals_, pf_file)
-    utils.cat(vals_)
+    fmt.cat(vals_)

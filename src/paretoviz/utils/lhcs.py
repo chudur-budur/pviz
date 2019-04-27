@@ -2,7 +2,7 @@ import sys
 import math
 import random
 
-import utils
+import fmt
 import vectorops as vops
 
 """
@@ -52,6 +52,6 @@ if __name__ == "__main__":
     seed = 123456
     random.seed(seed)
     s = lhcs(100, 5)
-    utils.cat(s)
+    fmt.cat(s)
     s = lhcsl2norm(1000, 8)
-    utils.cat(s)
+    fmt.cat(s)

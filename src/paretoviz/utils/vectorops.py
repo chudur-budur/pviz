@@ -159,4 +159,4 @@ if __name__ == "__main__":
 
     v13 = [1.0 * math.cos(math.pi/4), 0]
     v14 = [1.0 * math.cos(math.pi/4), 1.0 * math.sin(math.pi/4)]
-    print(angle(v14, v13))
+    prinqt(angle(v14, v13))
