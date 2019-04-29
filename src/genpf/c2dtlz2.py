@@ -3,10 +3,11 @@ import os
 import math
 import random as rng
 
-sys.path.insert(0, "../")
-from utils import lhcs
-from utils import utils
-from utils import ndsort
+sys.path.append("./paretoviz/utils")
+
+import lhcs
+import fmt
+import ndsort
 
 import spherical
 
@@ -73,8 +74,8 @@ if __name__ == "__main__":
         pass
     
     fgv = [v + [gv[i]] for i,v in enumerate(f)]
-    utils.cat(fgv)
+    fmt.cat(fgv)
     outfile = os.path.join(path, "c2dtlz2-{0:d}d.out".format(m))
-    utils.save(fv, outfile)
+    fmt.save(fv, outfile)
     outfile = os.path.join(path, "c2dtlz2-{0:d}d-cv.out".format(m))
-    utils.save(gv, outfile)
+    fmt.save(gv, outfile)

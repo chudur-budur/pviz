@@ -3,14 +3,15 @@ import os
 import math
 import random as rng
 
-sys.path.insert(0, "./utils")
-from utils import lhcs
-from utils import vectorops as vops
-from utils import utils
-from utils import ndsort
+sys.path.append("./")
+from paretoviz.utils import lhcs
+from paretoviz.utils import vectorops as vops
+from paretoviz.utils import fmt
+from paretoviz.utils import ndsort
 
 """
-This script generates a spherical surface on the first quadrant
+This script generates a spherical surface on the first quadrant.
+If you want to run this script from commandline, run it from the ./src fodler.
 """
 
 def random(x):
@@ -110,6 +111,6 @@ if __name__ == "__main__":
     except OSError:
         pass
     
-    utils.cat(f)
+    fmt.cat(f)
     outfile = os.path.join(path, "spherical-{0:d}d.out".format(m))
-    utils.save(f, outfile)
+    fmt.save(f, outfile)
