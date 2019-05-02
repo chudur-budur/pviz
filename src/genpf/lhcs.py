@@ -2,8 +2,9 @@ import sys
 import math
 import random
 
-import vectorops as vops
-import fmt
+sys.path.append("./")
+from paretoviz.utils import vectorops as vops
+from paretoviz.utils import fmt
 
 """
 This script implements a Latin hypercube sampling method.

@@ -3,11 +3,9 @@ import os
 import math
 import random as rng
 
-sys.path.insert(0, "./utils")
-from utils import lhcs
-from utils import utils
-from utils import ndsort
-
+sys.path.append("./")
+from paretoviz.utils import fmt
+import ndsort
 import spherical
 
 """
@@ -44,7 +42,7 @@ if __name__ == "__main__":
     seed = 123456
     rng.seed(seed)
     # n = {3: 2000, 4: 4000, 8: 8000} # uniform
-    n = {3: 5000, 4: 3000, 8: 6000} # random
+    n = {3: 5000, 4: 10000, 8: 16000} # random
     m = 3
     mode = "random"
     if len(sys.argv) > 1:
@@ -69,8 +67,8 @@ if __name__ == "__main__":
         pass
     
     fgv = [v + [gv[i]] for i,v in enumerate(fv)]
-    utils.cat(fgv)
+    fmt.cat(fgv)
     outfile = os.path.join(path, "isolated-{0:d}d.out".format(m))
-    utils.save(fv, outfile)
+    fmt.save(fv, outfile)
     outfile = os.path.join(path, "isolated-{0:d}d-cv.out".format(m))
-    utils.save(gv, outfile)
+    fmt.save(gv, outfile)

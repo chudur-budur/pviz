@@ -3,12 +3,9 @@ import os
 import math
 import random as rng
 
-sys.path.append("./paretoviz/utils")
-
-import lhcs
-import fmt
+sys.path.append("./")
+from paretoviz.utils import fmt
 import ndsort
-
 import spherical
 
 """

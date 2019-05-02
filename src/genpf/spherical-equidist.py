@@ -3,9 +3,9 @@ import os
 import math
 import random
 
-sys.path.insert(0, "./utils")
-from utils import utils
-from utils import ndsort
+sys.path.append("./")
+from paretoviz.utils import fmt
+import ndsort
 
 """
 This script generates a spherical surface on the first quadrant
@@ -60,5 +60,5 @@ if __name__ == "__main__":
         pass
 
     outfile = os.path.join(path, "spherical-equidist-{0:d}d.out".format(m))
-    utils.cat(f)
-    utils.save(f, outfile)
+    fmt.cat(f)
+    fmt.save(f, outfile)

@@ -3,11 +3,9 @@ import os
 import math
 import random as rng
 
-sys.path.insert(0, "./utils")
-from utils import lhcs
-from utils import utils
-from utils import ndsort
-
+sys.path.append("./")
+from paretoviz.utils import fmt
+import ndsort
 import knee
 
 
@@ -46,7 +44,7 @@ if __name__ == "__main__":
     seed = 123456
     rng.seed(seed)
     # 2262->986 3279->1232 3962->3789
-    n = {3: 8000, 4: 15000, 8: 47500}
+    n = {3: 16000, 4: 30000, 8: 95000}
     m = 3
     mode = "uniform"
     if len(sys.argv) > 1:
@@ -71,8 +69,8 @@ if __name__ == "__main__":
         pass
     
     fgv = [v + [gv[i]] for i,v in enumerate(fv)]
-    utils.cat(fgv)
+    fmt.cat(fgv)
     outfile = os.path.join(path, "knee-const-mod-{0:d}d.out".format(m))
-    utils.save(fv, outfile)
+    fmt.save(fv, outfile)
     outfile = os.path.join(path, "knee-const-mod-{0:d}d-cv.out".format(m))
-    utils.save(gv, outfile)
+    fmt.save(gv, outfile)

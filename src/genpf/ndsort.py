@@ -1,7 +1,8 @@
 import sys
 import os
 
-import fmt
+sys.path.append("./")
+from paretoviz.utils import fmt
 
 """
 This script loads a data file, then dumps the first front (i.e. Pareto front)
@@ -48,6 +49,9 @@ def ndsort(vals):
     return F
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python3 genpf/ndsort.py [input file path]")
+        sys.exit(1)
     data_file = sys.argv[1].strip()
     path, filename = os.path.split(data_file)
     cv_all_file = None

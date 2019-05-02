@@ -4,10 +4,10 @@ import math
 import random as rng
 
 sys.path.append("./")
-from paretoviz.utils import lhcs
 from paretoviz.utils import vectorops as vops
 from paretoviz.utils import fmt
-from paretoviz.utils import ndsort
+import lhcs
+import ndsort
 
 """
 This script generates a spherical surface on the first quadrant.

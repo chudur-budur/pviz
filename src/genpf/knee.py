@@ -3,11 +3,9 @@ import os
 import math
 import random as rng
 
-sys.path.insert(0, "./utils")
-from utils import lhcs
-from utils import utils
-from utils import ndsort
-
+sys.path.append("./")
+from paretoviz.utils import fmt
+import ndsort
 import spherical
 
 """
@@ -70,5 +68,5 @@ if __name__ == "__main__":
         pass
     
     outfile = os.path.join(path, "knee-{0:d}d.out".format(m))
-    utils.cat(f)
-    utils.save(f, outfile)
+    fmt.cat(f)
+    fmt.save(f, outfile)

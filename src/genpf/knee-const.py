@@ -3,12 +3,10 @@ import os
 import math
 import random as rng
 
-sys.path.insert(0, "./utils")
-from utils import lhcs
-from utils import knee
-from utils import utils
-from utils import ndsort
-
+sys.path.append("./")
+from paretoviz.utils import fmt
+import ndsort
+import knee
 
 """
 This script generates a constrained knee surface on the first quadrant
@@ -70,8 +68,8 @@ if __name__ == "__main__":
         pass
     
     fgv = [v + [gv[i]] for i,v in enumerate(fv)]
-    utils.cat(fgv)
+    fmt.cat(fgv)
     outfile = os.path.join(path, "knee-const-{0:d}d.out".format(m))
-    utils.save(fv, outfile)
+    fmt.save(fv, outfile)
     outfile = os.path.join(path, "knee-const-{0:d}d-cv.out".format(m))
-    utils.save(gv, outfile)
+    fmt.save(gv, outfile)
