@@ -217,6 +217,8 @@ def palettize_stardecay(points, layers, n_layers = 0, zgap = 1.0):
     points_per_layer = len(points_)/n_layers if n_layers > 0 else float('inf')
     palette_coords = {}
     wl, wc, count = 0.0, 0.0, 0
+    k = -4.0
+    print("Spreading with e^({0:.2f}x)".format(k))
     for layer in layers:
         for idx in layer:
             p,q = 0.0, 0.0
@@ -243,7 +245,7 @@ def palettize_stardecay(points, layers, n_layers = 0, zgap = 1.0):
             # 4 --> 1.0
             delta = 1.0 / (len(sid)-1)
             for i,p in enumerate(sid):
-                f[p[0]] = f[p[0]] * math.exp(-0.125 * i * delta) 
+                f[p[0]] = f[p[0]] * math.exp(-k * i * delta) 
             # f = [(1.0 - v) for v in points_[idx]]
             p = math.fsum([f[i] * u[0] for i,u in enumerate(U)])
             q = math.fsum([f[i] * u[1] for i,u in enumerate(U)])
