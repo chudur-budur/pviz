@@ -243,8 +243,8 @@ def palettize_stardecay(points, layers, n_layers = 0, zgap = 1.0):
             # 4 --> 1.0
             delta = 1.0 / (len(sid)-1)
             for i,p in enumerate(sid):
-                f[p[0]] = f[p[0]] * math.exp(-4 * i * delta) 
-            f = [(1.0 - v) for v in points_[idx]]
+                f[p[0]] = f[p[0]] * math.exp(-0.125 * i * delta) 
+            # f = [(1.0 - v) for v in points_[idx]]
             p = math.fsum([f[i] * u[0] for i,u in enumerate(U)])
             q = math.fsum([f[i] * u[1] for i,u in enumerate(U)])
             # If the original number of layers < number of layers specified,
