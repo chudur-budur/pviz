@@ -63,17 +63,15 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python3 tradeoff.py [normalized data file] [epsilon]")
         sys.exit(1)
+    epsilon = 0.125 if len(sys.argv) < 3 else float(sys.argv[2].strip())
     
-    fullpath = sys.argv[1].strip()
-    path, filename = os.path.split(fullpath)
-    epsilon = 0.125
-    if len(sys.argv) > 2:
-        epsilon = float(sys.argv[2].strip())
-    mufile = os.path.join(path, filename.split('.')[0] + "-mu.out")
-    points = fmt.load(fullpath)
+    normfpath = sys.argv[1].strip()
+    points = fmt.load(normfpath)
+    
     mu = compute_tradeoff(points, epsilon, normalize = False)
-    
     fmt.cat(mu)
     
-    print("Saving tradeoff values to {0:s} ...".format(mufile))
-    fmt.save(mu, mufile)
+    path, normfname = os.path.split(normfpath)
+    mufpath = os.path.join(path, normfname.split('.')[0] + "-mu.out")
+    print("Saving tradeoff values to {0:s} ...".format(mufpath))
+    fmt.save(mu, mufpath)

@@ -21,14 +21,14 @@ if __name__ == "__main__":
         print("Usage: python3 normalize.py [input data file]")
         sys.exit(1)
     
-    fullpath = sys.argv[1]
-    path, rawfile = os.path.split(fullpath)
-    normfile = os.path.join(path, rawfile.split('.')[0] + "-norm.out")
-    vals = fmt.load(fullpath)
+    rawfpath = sys.argv[1].strip()
+    vals = fmt.load(rawfpath)
+    
     print("Normalizing {0:d} data points.".format(len(vals)))
     vals_ = normalize(vals)
-    
     fmt.cat(vals_)
     
+    path, rawfile = os.path.split(rawfpath)
+    normfile = os.path.join(path, rawfile.split('.')[0] + "-norm.out")
     print("Saving normalized data into {0:s} ...".format(normfile))
     fmt.save(vals_, normfile)

@@ -101,14 +101,11 @@ if __name__ == "__main__":
         print("Usage: python3 peel.py [normalized data file] [projection option]")
         sys.exit(1)
     
-    fullpath = sys.argv[1].strip()
-    path, filename = os.path.split(fullpath)
-    mode = ""
-    if len(sys.argv) == 3:
-        mode = sys.argv[2].strip()
+    mode = "" if len(sys.argv) < 3 else sys.argv[2].strip()
+    
+    normfpath = sys.argv[1].strip()
+    points = fmt.load(normfpath)
 
-    layerfile = os.path.join(path, filename.split('.')[0] + "-layers.out")
-    points = fmt.load(fullpath)
     m = len(points[0])
     print("Peeling data point cloud in {0:s} mode ...".format(mode))
     if mode == "no-project":
@@ -117,8 +114,9 @@ if __name__ == "__main__":
         ppoints = project(points)
         cpoints = collapse(ppoints, dim = m - 1)
         boundaries = peel(cpoints)
-    
     fmt.cat(boundaries, dtype = 'int')
-    
-    print("Saving layers into {0:s} ...".format(layerfile))
-    fmt.save(boundaries, layerfile, dtype = 'int')
+   
+    path, normfname = os.path.split(normfpath)
+    layerfpath = os.path.join(path, normfname.split('.')[0] + "-layers.out")
+    print("Saving layers into {0:s} ...".format(layerfpath))
+    fmt.save(boundaries, layerfpath, dtype = 'int')
