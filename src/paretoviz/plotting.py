@@ -3,6 +3,8 @@ import os
 import math
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d as plt3d
+from matplotlib.patches import Circle
+import mpl_toolkits.mplot3d.art3d as art3d
 
 from utils import fmt
 from utils import vectorops as vops
@@ -12,7 +14,7 @@ import decorator as dcor
 This script contains different plotting functions including PaletteViz
 """
 
-def scatter(points, s = 1.0, c = 'blue', alpha = [1.0, 1.0], \
+def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                 axes = [0, 1, 2], lims = None, camera = [None, None], \
                 knee_idx = None, label = 'f{:d}', title = ""):
     """
@@ -33,8 +35,8 @@ def scatter(points, s = 1.0, c = 'blue', alpha = [1.0, 1.0], \
         p = list(zip(*knee_points))
         p_ = list(zip(*other_points))
     else:
-        p = list(zip(*points))
-        p_, colors_, sizes_ = None, None, None
+        p, color, size = list(zip(*points)), c, s
+        p_, color_, size_ = None, None, None
 
     if dim < 3:
         fig = plt.figure()
@@ -73,7 +75,7 @@ def scatter(points, s = 1.0, c = 'blue', alpha = [1.0, 1.0], \
                    color = color, marker = 'o', s = size, alpha = alpha[1])
     return (fig, ax)
 
-def make_scaffold(m, layers, ax, label = "f{:d}"):
+def make_scaffold_rv(m, layers, ax, label = "f{:d}"):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
@@ -110,9 +112,52 @@ def make_scaffold(m, layers, ax, label = "f{:d}"):
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
                         va = 'bottom', size = 'small')
 
+                
+def make_scaffold_sc(m, layers, ax, label = "f{:d}"):
+    """
+    If the Palette visualization needs to show the scaffolding for the RadVis, this
+    function will do all the necessary stuffs to show the scaffold.
+    """
+    # calculate the coordinates of all polygon corners.
+    S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(m)) for i in range(m)]]
+    for z in layers:
+        # draw polygons
+        for i in range(0, len(S)-1):
+            # draw one polygon line
+            ax.plot([S[i][0], S[i + 1][0]], [S[i][1], S[i + 1][1]], zs = [z, z], \
+                    c = 'gray', alpha = 0.15 * len(S), linewidth = 0.75, linestyle = 'dashdot')
+            # draw a pair of polygon points
+            ax.scatter(S[i][0], S[i][1], zs = z, color = 'gray', marker = 'o', \
+                       s = 20.0, alpha = 1.0)
+        # last polygon line
+        ax.plot([S[len(S) - 1][0], S[0][0]], [S[len(S) - 1][1], S[0][1]], zs = [z, z], \
+                c = 'gray', alpha = 0.15 * len(S), linewidth = 0.75, linestyle = 'dashdot')
+        # last pair of polygon points
+        ax.scatter(S[len(S) - 1][0], S[len(S) - 1][1], zs = z, \
+                   c = 'gray', marker = 'o', s = 20.0, alpha = 1.0)
+        # draw a circle on each layer
+        p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
+        ax.add_patch(p)
+        art3d.pathpatch_2d_to_3d(p, z = z)
+        # now put all the corner labels, like f1, f2, f3, ... etc.
+        for xy, name in zip(S, [label.format(i+1) for i in range(m)]):
+            if xy[0] < 0.0 and xy[1] < 0.0:
+                ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
+                        va = 'top', size = 'small')
+            elif xy[0] < 0.0 and xy[1] >= 0.0: 
+                ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
+                        va = 'bottom', size = 'small')
+            elif xy[0] >= 0.0 and xy[1] < 0.0:
+                ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
+                        va = 'top', size = 'small')
+            elif xy[0] >= 0.0 and xy[1] >= 0.0:
+                ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
+                        va = 'bottom', size = 'small')
+                
 def paletteviz(coords, m = 3, s = 1.0, c = None, alpha = [1.0, 1.0], \
-                camera = [None, None], knee_idx = None, \
-                scaffold = True, label = "f{:d}", title = ""):
+               camera = [None, None], knee_idx = None, \
+               scaffold = True, label = "f{:d}", title = "", \
+               mode = "rv"):
     """
     The Palette visualization method. This function assumes
     the palette coordinate values are already computed.
@@ -148,7 +193,10 @@ def paletteviz(coords, m = 3, s = 1.0, c = None, alpha = [1.0, 1.0], \
         ax.set_yticklabels([])
         ax.set_zticklabels([])
         ax.set_axis_off()
-        make_scaffold(m, layers, ax, label)
+        if mode == "rv":
+            make_scaffold_rv(m, layers, ax, label)
+        if mode == "sc":
+            make_scaffold_sc(m, layers, ax, label)
     return (fig, ax)
 
 if __name__ == "__main__":
