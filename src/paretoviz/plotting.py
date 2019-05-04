@@ -112,7 +112,6 @@ def make_scaffold_rv(m, layers, ax, label = "f{:d}"):
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
                         va = 'bottom', size = 'small')
 
-                
 def make_scaffold_sc(m, layers, ax, label = "f{:d}"):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
