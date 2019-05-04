@@ -27,21 +27,21 @@ for dim in ${dims[*]}
 do
     if [ -f "data/$fname/$fname-${dim}d.out" ]; then
         echo "Processing $fname-${dim}d with epsilon of $epsilon ..."
-        python3 normalize.py    data/$fname/$fname-${dim}d.out
-        python3 tradeoff.py     data/$fname/$fname-${dim}d-norm.out $epsilon
+        python3 normalizer.py    data/$fname/$fname-${dim}d.out
+        python3 tradeoff_calculator.py     data/$fname/$fname-${dim}d-norm.out $epsilon
         if [ "$fname" = "line" ]; then
-            python3 peel.py         data/$fname/$fname-${dim}d-norm.out no-project
+            python3 peeler.py         data/$fname/$fname-${dim}d-norm.out no-project
         else
-            python3 peel.py         data/$fname/$fname-${dim}d-norm.out
+            python3 peeler.py         data/$fname/$fname-${dim}d-norm.out
         fi
         if [ "$fname" = "isolated" ]; then
-            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3
-            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3 polar
-            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 3 logistic
+            python3 palettizer.py    data/$fname/$fname-${dim}d-norm.out 3
+            python3 palettizer.py    data/$fname/$fname-${dim}d-norm.out 3 polar
+            python3 palettizer.py    data/$fname/$fname-${dim}d-norm.out 3 logistic
         else
-            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 4
-            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 4 polar
-            python3 palettize.py    data/$fname/$fname-${dim}d-norm.out 4 logistic
+            python3 palettizer.py    data/$fname/$fname-${dim}d-norm.out 4
+            python3 palettizer.py    data/$fname/$fname-${dim}d-norm.out 4 polar
+            python3 palettizer.py    data/$fname/$fname-${dim}d-norm.out 4 logistic
         fi
     fi
 done

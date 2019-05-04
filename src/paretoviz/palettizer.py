@@ -246,7 +246,7 @@ def palettize_stardecay(points, layers, n_layers = 0, zgap = 1.0):
             delta = 1.0 / (len(sid)-1)
             for i,p in enumerate(sid):
                 f[p[0]] = f[p[0]] * math.exp(-k * i * delta) 
-            # f = [(1.0 - v) for v in points_[idx]]
+            f = [(1.0 - v) for v in points_[idx]]
             p = math.fsum([f[i] * u[0] for i,u in enumerate(U)])
             q = math.fsum([f[i] * u[1] for i,u in enumerate(U)])
             # If the original number of layers < number of layers specified,
@@ -273,23 +273,22 @@ if __name__ == "__main__":
         print("Usage: python3 palettize.py [normalized data file] [no. of layers] [mode]")
         sys.exit(1)
     
-    # tester()
-    normfpath = sys.argv[1].strip()
-    path, normfile = os.path.split(normfpath)
-    n_layers = 0
+    n_layers = 4
     mode = "default"
     if len(sys.argv) >= 3:
         n_layers = int(sys.argv[2].strip())
-        if len(sys.argv) == 4:
-            mode = sys.argv[3].strip()
-        elif len(sys.argv) == 5:
-            mode = sys.argv[3].strip()
-            n = float(sys.argv[4].strip())
+    if len(sys.argv) >= 4:
+        mode = sys.argv[3].strip()
     
-    layerfile = normfile.split('.')[0] + "-layers.out"
-    
+    # tester()
+    normfpath = sys.argv[1].strip()
     points = fmt.load(normfpath)
+
+    path, normfile = os.path.split(normfpath)
+    layerfile = normfile.split('.')[0] + "-layers.out"
     layers = fmt.load(os.path.join(path, layerfile), dtype = 'int')
+
+    print("Computing palette coordinates with {0:d} layers in {1:s} mode ...".format(n_layers, mode))
     if mode == "default":
         palette_coords = palettize(points, layers, n_layers = n_layers)
         palettefpath = os.path.join(path, normfile.split('.')[0] + "-palette.out")

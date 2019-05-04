@@ -101,22 +101,24 @@ if __name__ == "__main__":
         print("Usage: python3 peel.py [normalized data file] [projection option]")
         sys.exit(1)
     
-    mode = "" if len(sys.argv) < 3 else sys.argv[2].strip()
+    mode = "default" if len(sys.argv) < 3 else sys.argv[2].strip()
     
     normfpath = sys.argv[1].strip()
     points = fmt.load(normfpath)
 
     m = len(points[0])
     print("Peeling data point cloud in {0:s} mode ...".format(mode))
-    if mode == "no-project":
-        boundaries = peel(points)
-    else:
+    if mode == "default":
+        # the defualt mode will project the points 
+        # on a simplex on the first quadrant
         ppoints = project(points)
         cpoints = collapse(ppoints, dim = m - 1)
         boundaries = peel(cpoints)
+    elif mode == "no-project":
+        boundaries = peel(points)
     fmt.cat(boundaries, dtype = 'int')
    
     path, normfname = os.path.split(normfpath)
     layerfpath = os.path.join(path, normfname.split('.')[0] + "-layers.out")
-    print("Saving layers into {0:s} ...".format(layerfpath))
+    print("Saving {0:d} layers into {1:s} ...".format(len(boundaries), layerfpath))
     fmt.save(boundaries, layerfpath, dtype = 'int')

@@ -25,7 +25,7 @@ def compute_tradeoff(points, epsilon = 0.05, normalize = False):
     n = len(points)
     print("Computing neighborhood ...")
     tree = cKDTree(points)
-    print("Computing tradeoff values ...")
+    print("Computing tradeoff values with epsilon = {0:.4f}...".format(epsilon))
     mu, mu_ = [0.0] * n, [0.0] * n
     # for i in idx:
     for i in range(n):
@@ -63,6 +63,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python3 tradeoff.py [normalized data file] [epsilon]")
         sys.exit(1)
+
     epsilon = 0.125 if len(sys.argv) < 3 else float(sys.argv[2].strip())
     
     normfpath = sys.argv[1].strip()
