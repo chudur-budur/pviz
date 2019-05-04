@@ -264,7 +264,7 @@ if __name__ == "__main__":
     (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
                 s = size, c = color, alpha = alpha, \
                 camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
-                title = "PaletteViz (with RadViz)")
+                title = "PaletteViz (with RadViz)", mode = "rv")
     # save the paletteviz plot
     fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
     palettefpath = os.path.join(path, prefix + "-norm-palette.pdf")
@@ -275,7 +275,7 @@ if __name__ == "__main__":
     (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
                 s = size, c = color, alpha = alpha, \
                 camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
-                title = "PaletteViz (with Star Coordinate)")
+                title = "PaletteViz (with Star Coordinate)", mode = "sc")
     # save the paletteviz plot
     fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
     palettefpath = os.path.join(path, prefix + "-norm-palette-star.pdf")
