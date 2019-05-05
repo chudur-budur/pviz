@@ -185,7 +185,7 @@ def paletteviz(coords, m = 3, s = 1.0, c = None, alpha = [1.0, 1.0], \
     else:
         [u, v, w] = list(zip(*coords))
         layers = list(set(w))
-        ax.scatter(u, v, w, marker = 'o', s = size, color = color)        
+        ax.scatter(u, v, w, marker = 'o', s = s, color = c)        
         
     if scaffold:
         ax.set_xticklabels([])

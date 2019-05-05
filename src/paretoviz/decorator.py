@@ -110,7 +110,7 @@ def recolor_by_labels(labels, dtype = 'float'):
 # some camera angles for better visualization
 cam_scatter = {\
    "spherical-3d": [32, 20], "spherical-4d": [32, 20], "spherical-8d": [32, 20], \
-   "knee-3d": [19, -46], "knee-4d": [19, -46], "knee-8d": [19, -106], \
+   "knee-3d": [15, -41], "knee-4d": [19, -46], "knee-8d": [19, -106], \
    "knee-const-3d": [25, 9], "knee-const-4d": [17, -24], "knee-const-8d": [11, -31], \
    "knee-const-mod-3d": [25, 9], "knee-const-mod-4d": [17, -24], "knee-const-mod-8d": [11, -31], \
    "isolated-3d": [32, 20], "isolated-4d": [8, -64], "isolated-8d": [14, -112], \
