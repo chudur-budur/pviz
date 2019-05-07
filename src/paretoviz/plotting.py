@@ -216,9 +216,6 @@ if __name__ == "__main__":
 
     # load the normalized points
     points = fmt.load(os.path.join(path, prefix + "-norm.out"))
-    # load the normalized trade-off values
-    mu = [v[0] if len(v) == 1 else v for v in \
-            fmt.load(os.path.join(path, prefix + "-norm-mu.out"))]
 
     # load the CV values
     cvfpath = os.path.join(path, prefix + "-cv.out")
@@ -230,19 +227,22 @@ if __name__ == "__main__":
     else:
         color = dcor.recolor_by_centroid(points)
 
-    # resize the points w.r.t. trade-offs
-    size = dcor.rescale_by_tradeoff(mu)
-    (color, knee_idx) = dcor.recolor_by_tradeoff(size, color)
-
-    # dtypes for class labels
-    dtypes = {"yeast-8d": "str"}
+    # now use the trade-off values to recolor
+    mufpath = os.path.join(path, prefix + "-norm-mu.out")
+    knee_idx = None
+    if os.path.exists(mufpath):
+        # load the normalized trade-off values
+        mu = [v[0] if len(v) == 1 else v for v in fmt.load(mufpath)]
+            # resize the points w.r.t. trade-offs
+        size = dcor.rescale_by_tradeoff(mu)
+        (color, knee_idx) = dcor.recolor_by_tradeoff(size, color)
     
     # load the class labels
     classfpath = os.path.join(path, prefix + "-class.out")
     if os.path.exists(classfpath):
         labels = [v[0] if len(v) == 1 else v for v in \
-                fmt.load(classfpath, dtype = dtypes[prefix])]
-        color = dcor.recolor_by_labels(labels, dtype = dtypes[prefix])
+                fmt.load(classfpath, dtype = dcor.dtypes[prefix])]
+        color = dcor.recolor_by_labels(labels, dtype = dcor.dtypes[prefix])
         size = [5.0 for _ in range(len(points))]
 
     # alpha values
@@ -250,36 +250,41 @@ if __name__ == "__main__":
     # alpha = [1.0, 1.0] # alpha for general case
     
     # use the original obj values for scatter plot.
-    rawpoints = fmt.load(rawfpath)
-    # do the scatter plot
-    (fig, ax) = scatter(rawpoints, s = size, c = color, alpha = alpha, \
-                    camera = dcor.cam_scatter[prefix], knee_idx = knee_idx, \
-                    title = "Scatter plot (frist 3 dim.)")
-    # save the scatter plot
-    scatterfpath = os.path.join(path, prefix + "-scatter.pdf")
-    plt.savefig(scatterfpath, transparent = False)
+    if os.path.exists(rawfpath):
+        rawpoints = fmt.load(rawfpath)
+        # do the scatter plot
+        (fig, ax) = scatter(rawpoints, s = size, c = color, alpha = alpha, \
+                        camera = dcor.cam_scatter[prefix], knee_idx = knee_idx, \
+                        title = "Scatter plot (frist 3 dim.)")
+        # save the scatter plot
+        scatterfpath = os.path.join(path, prefix + "-scatter.pdf")
+        plt.savefig(scatterfpath, transparent = False)
 
-    palette_coords = fmt.load(os.path.join(path, prefix + "-norm-palette.out"))
-    # do the paletteviz plot
-    (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
-                s = size, c = color, alpha = alpha, \
-                camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
-                title = "PaletteViz (with RadViz)", mode = "rv")
-    # save the paletteviz plot
-    fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
-    palettefpath = os.path.join(path, prefix + "-norm-palette.pdf")
-    plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
+    datapath = os.path.join(path, prefix + "-norm-palette.out")
+    if os.path.exists(datapath):
+        palette_coords = fmt.load(datapath)
+        # do the paletteviz plot
+        (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
+                    s = size, c = color, alpha = alpha, \
+                    camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
+                    title = "PaletteViz (with RadViz)", mode = "rv")
+        # save the paletteviz plot
+        fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
+        palettefpath = os.path.join(path, prefix + "-norm-palette.pdf")
+        plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
 
-    palette_coords = fmt.load(os.path.join(path, prefix + "-norm-palette-star.out"))
-    # do the paletteviz plot with star-coordinate
-    (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
-                s = size, c = color, alpha = alpha, \
-                camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
-                title = "PaletteViz (with Star Coordinate)", mode = "sc")
-    # save the paletteviz plot
-    fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
-    palettefpath = os.path.join(path, prefix + "-norm-palette-star.pdf")
-    plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
+    datapath = os.path.join(path, prefix + "-norm-palette-star.out")
+    if os.path.exists(datapath):
+        palette_coords = fmt.load(datapath)
+        # do the paletteviz plot with star-coordinate
+        (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
+                    s = size, c = color, alpha = alpha, \
+                    camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
+                    title = "PaletteViz (with Star Coordinate)", mode = "sc")
+        # save the paletteviz plot
+        fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
+        palettefpath = os.path.join(path, prefix + "-norm-palette-star.pdf")
+        plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
     
     # show all plots
     plt.show()                                                  

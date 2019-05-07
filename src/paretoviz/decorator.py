@@ -143,5 +143,9 @@ cam_palette = {\
     "wil-7d": [None, None], "yeast-8d": [None, None], "concrete-8d": [None, None], \
     "banknote-4d": [None, None], "mammogram-5d": [None, None], "blood-4d": [None, None]}
 
+# class label data types for different UCI data
+dtypes = {"airofoil-5d": "float", "banknote-4d": "int", "blood-4d": "int", "cccp-4d": "float", \
+          "concrete-8d": "float", "iris-4d": "str", "wil-7d": "int", "yeast-8d": "str"}
+
 if __name__ == "__main__":
     print("There is nothing in the __main__ yet.")
