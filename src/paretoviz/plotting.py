@@ -75,13 +75,90 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                    color = color, marker = 'o', s = size, alpha = alpha[1])
     return (fig, ax)
 
-def make_scaffold_rv(m, layers, ax, label = "f{:d}"):
+def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
+            knee_idx = None, label = "f{:d}", title = ""):
+    """
+    This function does a generic radviz plot.
+    """
+    dim = len(points[0])
+    S = [[math.cos(t), math.sin(t)] for t in \
+            [2.0 * math.pi * (i/float(dim)) for i in range(dim)]]
+    rvpts = []
+    factor = 2.0 if dim > 3 else 1.0
+    for f in points:
+        fsum = math.fsum([(v ** factor) for v in f])
+        if fsum > 0.0:
+            u = math.fsum([(f[i] ** factor) * t[0] for i,t in enumerate(S)]) / fsum
+            v = math.fsum([(f[i] ** factor) * t[1] for i,t in enumerate(S)]) / fsum
+        rvpts.append([u,v])
+
+    fig, ax = None, None
+    fig = plt.figure()
+    ax = plt.gca(xlim = [-1, 1], ylim = [-1.01, 1.01])
+    ax.set_aspect('equal')
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.set_axis_off()
+    fig.suptitle(title)
+    if knee_idx is not None:
+        knee_points = [rvpts[i] for i in knee_idx]
+        color = [c[i] for i in knee_idx]
+        size = [s[i] for i in knee_idx]
+        other_idx = list(set([i for i in range(len(rvpts))]) - set(knee_idx))
+        other_points = [rvpts[i] for i in other_idx]
+        color_ = [c[i] for i in other_idx]
+        size_ = [s[i] for i in other_idx]
+        [u, v] = list(zip(*knee_points))
+        [u_, v_] = list(zip(*other_points))
+        # plot others first
+        ax.scatter(u_, v_, marker = 'o', s = size_, \
+                color = color_, alpha = alpha[0])
+        # then knee points
+        ax.scatter(u, v, marker = 'o', s = size, \
+                color = color, alpha = alpha[1])
+    else:
+        [u, v] = list(zip(*rvpts))
+        ax.scatter(u, v, marker = 'o', s = s, color = c)
+    
+    for i in range(0, len(S)-1):
+        # draw one polygon line
+        ax.plot([S[i][0], S[i + 1][0]], [S[i][1], S[i + 1][1]], \
+                c = 'gray', alpha = 0.15 * len(S), linewidth = 0.75, linestyle = 'dashdot')
+        # draw a pair of polygon points
+        ax.scatter(S[i][0], S[i][1], color = 'gray', marker = 'o', \
+                s = 20.0, alpha = 1.0)
+    # last polygon line
+    ax.plot([S[len(S) - 1][0], S[0][0]], [S[len(S) - 1][1], S[0][1]], \
+            c = 'gray', alpha = 0.15 * len(S), linewidth = 0.75, linestyle = 'dashdot')
+    # last pair of polygon points
+    ax.scatter(S[len(S) - 1][0], S[len(S) - 1][1], \
+            c = 'gray', marker = 'o', s = 20.0, alpha = 1.0)
+    # now put all the corner labels, like f1, f2, f3, ... etc.
+    for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
+        if xy[0] < 0.0 and xy[1] < 0.0:
+            ax.text(xy[0] - 0.025, xy[1] - 0.025, s = name, ha = 'right', \
+                    va = 'top', size = 'small')
+        elif xy[0] < 0.0 and xy[1] >= 0.0: 
+            ax.text(xy[0] - 0.025, xy[1] + 0.025, s = name, ha = 'right', \
+                    va = 'bottom', size = 'small')
+        elif xy[0] >= 0.0 and xy[1] < 0.0:
+            ax.text(xy[0] + 0.025, xy[1] - 0.025, s = name, ha = 'left', \
+                    va = 'top', size = 'small')
+        elif xy[0] >= 0.0 and xy[1] >= 0.0:
+            ax.text(xy[0] + 0.025, xy[1] + 0.025, s = name, ha = 'left', \
+                    va = 'bottom', size = 'small')
+    p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
+    ax.add_patch(p)
+    return (fig, ax)
+
+
+def make_scaffold_rv(dim, layers, ax, label = "f{:d}"):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
     """
     # calculate the coordinates of all polygon corners.
-    S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(m)) for i in range(m)]]
+    S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(dim)) for i in range(dim)]]
     for z in layers:
         # draw polygons
         for i in range(0, len(S)-1):
@@ -98,7 +175,7 @@ def make_scaffold_rv(m, layers, ax, label = "f{:d}"):
         ax.scatter(S[len(S) - 1][0], S[len(S) - 1][1], zs = z, \
                    c = 'gray', marker = 'o', s = 20.0, alpha = 1.0)
         # now put all the corner labels, like f1, f2, f3, ... etc.
-        for xy, name in zip(S, [label.format(i+1) for i in range(m)]):
+        for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
             if xy[0] < 0.0 and xy[1] < 0.0:
                 ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
                         va = 'top', size = 'small')
@@ -112,13 +189,13 @@ def make_scaffold_rv(m, layers, ax, label = "f{:d}"):
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
                         va = 'bottom', size = 'small')
 
-def make_scaffold_sc(m, layers, ax, label = "f{:d}"):
+def make_scaffold_sc(dim, layers, ax, label = "f{:d}"):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
     """
     # calculate the coordinates of all polygon corners.
-    S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(m)) for i in range(m)]]
+    S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(dim)) for i in range(dim)]]
     for z in layers:
         # draw polygons
         for i in range(0, len(S)-1):
@@ -139,7 +216,7 @@ def make_scaffold_sc(m, layers, ax, label = "f{:d}"):
         ax.add_patch(p)
         art3d.pathpatch_2d_to_3d(p, z = z)
         # now put all the corner labels, like f1, f2, f3, ... etc.
-        for xy, name in zip(S, [label.format(i+1) for i in range(m)]):
+        for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
             if xy[0] < 0.0 and xy[1] < 0.0:
                 ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
                         va = 'top', size = 'small')
@@ -153,7 +230,7 @@ def make_scaffold_sc(m, layers, ax, label = "f{:d}"):
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
                         va = 'bottom', size = 'small')
                 
-def paletteviz(coords, m = 3, s = 1.0, c = None, alpha = [1.0, 1.0], \
+def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                camera = [None, None], knee_idx = None, \
                scaffold = True, label = "f{:d}", title = "", \
                mode = "rv"):
@@ -166,24 +243,24 @@ def paletteviz(coords, m = 3, s = 1.0, c = None, alpha = [1.0, 1.0], \
     ax.view_init(elev = camera[0], azim = camera[1])
     fig.suptitle(title)
     if knee_idx is not None:
-        knee_coords = [coords[i] for i in knee_idx]
+        knee_points = [points[i] for i in knee_idx]
         knee_color = [c[i] for i in knee_idx]
         knee_size = [s[i] for i in knee_idx]
-        other_idx = list(set([i for i in range(len(coords))]) - set(knee_idx))
-        other_coords = [coords[i] for i in other_idx]
+        other_idx = list(set([i for i in range(len(points))]) - set(knee_idx))
+        other_points = [points[i] for i in other_idx]
         other_color = [c[i] for i in other_idx]
         other_size = [s[i] for i in other_idx]
         # plot others first
-        [u, v, w_] = list(zip(*other_coords))
+        [u, v, w_] = list(zip(*other_points))
         ax.scatter(u, v, w_, marker = 'o', \
                 s = other_size, color = other_color, alpha = alpha[0])
         # then knee points
-        [u, v, w] = list(zip(*knee_coords))
+        [u, v, w] = list(zip(*knee_points))
         ax.scatter(u, v, w, marker = 'o', \
                 s = knee_size, color = knee_color, alpha = alpha[1])
         layers = list(set(w).union(set(w_)))
     else:
-        [u, v, w] = list(zip(*coords))
+        [u, v, w] = list(zip(*points))
         layers = list(set(w))
         ax.scatter(u, v, w, marker = 'o', s = s, color = c)        
         
@@ -193,9 +270,9 @@ def paletteviz(coords, m = 3, s = 1.0, c = None, alpha = [1.0, 1.0], \
         ax.set_zticklabels([])
         ax.set_axis_off()
         if mode == "rv":
-            make_scaffold_rv(m, layers, ax, label)
+            make_scaffold_rv(dim, layers, ax, label)
         if mode == "sc":
-            make_scaffold_sc(m, layers, ax, label)
+            make_scaffold_sc(dim, layers, ax, label)
     return (fig, ax)
 
 if __name__ == "__main__":
@@ -253,6 +330,7 @@ if __name__ == "__main__":
     if os.path.exists(rawfpath):
         rawpoints = fmt.load(rawfpath)
         # do the scatter plot
+        print("Doing a scatter plot")
         (fig, ax) = scatter(rawpoints, s = size, c = color, alpha = alpha, \
                         camera = dcor.cam_scatter[prefix], knee_idx = knee_idx, \
                         title = "Scatter plot (frist 3 dim.)")
@@ -260,11 +338,20 @@ if __name__ == "__main__":
         scatterfpath = os.path.join(path, prefix + "-scatter.pdf")
         plt.savefig(scatterfpath, transparent = False)
 
+        # do a radviz plot
+        print("Doing a radviz plot")
+        (fig, ax) = radviz(rawpoints, s = size, c = color, alpha = alpha, \
+                knee_idx = knee_idx, title = "Radviz plot")
+        # save the radviz plot
+        radvizfpath = os.path.join(path, prefix + "-radviz.pdf")
+        plt.savefig(radvizfpath, transparent = False)
+
     datapath = os.path.join(path, prefix + "-norm-palette.out")
     if os.path.exists(datapath):
         palette_coords = fmt.load(datapath)
         # do the paletteviz plot
-        (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
+        print("Doing a paletteviz with radviz plot")
+        (fig, ax) = paletteviz(palette_coords, dim = len(points[0]), \
                     s = size, c = color, alpha = alpha, \
                     camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
                     title = "PaletteViz (with RadViz)", mode = "rv")
@@ -277,7 +364,8 @@ if __name__ == "__main__":
     if os.path.exists(datapath):
         palette_coords = fmt.load(datapath)
         # do the paletteviz plot with star-coordinate
-        (fig, ax) = paletteviz(palette_coords, m = len(points[0]), \
+        print("Doing a paletteviz with star-coordinate plot")
+        (fig, ax) = paletteviz(palette_coords, dim = len(points[0]), \
                     s = size, c = color, alpha = alpha, \
                     camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
                     title = "PaletteViz (with Star Coordinate)", mode = "sc")
