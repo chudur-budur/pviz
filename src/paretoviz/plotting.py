@@ -87,14 +87,19 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     factor = 2.0 if dim > 3 else 1.0
     for f in points:
         fsum = math.fsum([(v ** factor) for v in f])
+        u,v = 0.0, 0.0
         if fsum > 0.0:
             u = math.fsum([(f[i] ** factor) * t[0] for i,t in enumerate(S)]) / fsum
             v = math.fsum([(f[i] ** factor) * t[1] for i,t in enumerate(S)]) / fsum
         rvpts.append([u,v])
 
+    [lb, ub] = vops.get_bound(rvpts)
+
     fig, ax = None, None
     fig = plt.figure()
-    ax = plt.gca(xlim = [-1, 1], ylim = [-1.01, 1.01])
+    ax = plt.gca()
+    ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.01 if ub[0] > 1 else 1.1)
+    ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.01 if ub[1] > 1 else 1.1)
     ax.set_aspect('equal')
     ax.set_xticklabels([])
     ax.set_yticklabels([])
@@ -118,7 +123,7 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
                 color = color, alpha = alpha[1])
     else:
         [u, v] = list(zip(*rvpts))
-        ax.scatter(u, v, marker = 'o', s = s, color = c)
+        ax.scatter(u, v, marker = 'o', s = s, color = c, alpha = alpha)
     
     for i in range(0, len(S)-1):
         # draw one polygon line
@@ -151,6 +156,85 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     ax.add_patch(p)
     return (fig, ax)
 
+def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
+            knee_idx = None, label = "f{:d}", title = ""):
+    """
+    This function does a generic radviz plot.
+    """
+    dim = len(points[0])
+    C = [[math.cos(t), math.sin(t)] for t in \
+            [2.0 * math.pi * (i/float(dim)) for i in range(dim)]]
+    b = vops.get_bound(points)
+    U = [[x / (b[1][i] - b[0][i]), y / (b[1][i] - b[0][i])] for i, [x, y] in enumerate(C)]
+
+    rvpts = []
+    for f in points:
+        u = math.fsum([f[i] * u[0] for i,u in enumerate(U)])
+        v = math.fsum([f[i] * u[1] for i,u in enumerate(U)])
+        rvpts.append([u,v])
+
+    [lb, ub] = vops.get_bound(rvpts)
+    
+    fig, ax = None, None
+    fig = plt.figure()
+    ax = plt.gca()
+    ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
+    ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
+    ax.set_aspect('equal')
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.set_axis_off()
+    fig.suptitle(title)
+    if knee_idx is not None:
+        knee_points = [rvpts[i] for i in knee_idx]
+        color = [c[i] for i in knee_idx]
+        size = [s[i] for i in knee_idx]
+        other_idx = list(set([i for i in range(len(rvpts))]) - set(knee_idx))
+        other_points = [rvpts[i] for i in other_idx]
+        color_ = [c[i] for i in other_idx]
+        size_ = [s[i] for i in other_idx]
+        [u, v] = list(zip(*knee_points))
+        [u_, v_] = list(zip(*other_points))
+        # plot others first
+        ax.scatter(u_, v_, marker = 'o', s = size_, \
+                color = color_, alpha = alpha[0])
+        # then knee points
+        ax.scatter(u, v, marker = 'o', s = size, \
+                color = color, alpha = alpha[1])
+    else:
+        [u, v] = list(zip(*rvpts))
+        ax.scatter(u, v, marker = 'o', s = s, color = c, alpha = alpha)
+    
+    for i in range(0, len(C)-1):
+        # draw one polygon line
+        ax.plot([C[i][0], C[i + 1][0]], [C[i][1], C[i + 1][1]], \
+                c = 'gray', alpha = 0.15 * len(C), linewidth = 0.75, linestyle = 'dashdot')
+        # draw a pair of polygon points
+        ax.scatter(C[i][0], C[i][1], color = 'gray', marker = 'o', \
+                s = 20.0, alpha = 1.0)
+    # last polygon line
+    ax.plot([C[len(C) - 1][0], C[0][0]], [C[len(C) - 1][1], C[0][1]], \
+            c = 'gray', alpha = 0.15 * len(C), linewidth = 0.75, linestyle = 'dashdot')
+    # last pair of polygon points
+    ax.scatter(C[len(C) - 1][0], C[len(C) - 1][1], \
+            c = 'gray', marker = 'o', s = 20.0, alpha = 1.0)
+    # now put all the corner labels, like f1, f2, f3, ... etc.
+    for xy, name in zip(C, [label.format(i+1) for i in range(dim)]):
+        if xy[0] < 0.0 and xy[1] < 0.0:
+            ax.text(xy[0] - 0.025, xy[1] - 0.025, s = name, ha = 'right', \
+                    va = 'top', size = 'small')
+        elif xy[0] < 0.0 and xy[1] >= 0.0: 
+            ax.text(xy[0] - 0.025, xy[1] + 0.025, s = name, ha = 'right', \
+                    va = 'bottom', size = 'small')
+        elif xy[0] >= 0.0 and xy[1] < 0.0:
+            ax.text(xy[0] + 0.025, xy[1] - 0.025, s = name, ha = 'left', \
+                    va = 'top', size = 'small')
+        elif xy[0] >= 0.0 and xy[1] >= 0.0:
+            ax.text(xy[0] + 0.025, xy[1] + 0.025, s = name, ha = 'left', \
+                    va = 'bottom', size = 'small')
+    p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
+    ax.add_patch(p)
+    return (fig, ax)
 
 def make_scaffold_rv(dim, layers, ax, label = "f{:d}"):
     """
