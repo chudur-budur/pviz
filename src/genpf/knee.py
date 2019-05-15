@@ -44,7 +44,7 @@ if __name__ == "__main__":
     seed = 123456
     rng.seed(seed)
     # 1005 1966 3980
-    n = {3: 1500, 4:2500, 8:4000}
+    n = {2: 1500, 3: 1500, 4:2500, 8:4000}
     m = 3
     mode = "uniform"
     if len(sys.argv) > 1:

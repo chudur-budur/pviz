@@ -76,7 +76,7 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
     return (fig, ax)
 
 def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
-            knee_idx = None, label = "f{:d}", title = ""):
+            knee_idx = None, label = "f{:d}", title = "", show_axes = False):
     """
     This function does a generic radviz plot.
     """
@@ -101,9 +101,10 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.01 if ub[0] > 1 else 1.1)
     ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.01 if ub[1] > 1 else 1.1)
     ax.set_aspect('equal')
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
-    ax.set_axis_off()
+    if not show_axes:
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.set_axis_off()
     fig.suptitle(title)
     if knee_idx is not None:
         knee_points = [rvpts[i] for i in knee_idx]
@@ -123,7 +124,7 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
                 color = color, alpha = alpha[1])
     else:
         [u, v] = list(zip(*rvpts))
-        ax.scatter(u, v, marker = 'o', s = s, color = c, alpha = alpha)
+        ax.scatter(u, v, marker = 'o', s = s, color = c, alpha = alpha[0])
     
     for i in range(0, len(S)-1):
         # draw one polygon line
@@ -157,7 +158,8 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     return (fig, ax)
 
 def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
-            knee_idx = None, label = "f{:d}", title = ""):
+            knee_idx = None, label = "f{:d}", title = "", \
+            show_axes = False):
     """
     This function does a generic radviz plot.
     """
@@ -181,9 +183,10 @@ def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
     ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
     ax.set_aspect('equal')
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
-    ax.set_axis_off()
+    if not show_axes:
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.set_axis_off()
     fig.suptitle(title)
     if knee_idx is not None:
         knee_points = [rvpts[i] for i in knee_idx]
@@ -203,7 +206,7 @@ def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
                 color = color, alpha = alpha[1])
     else:
         [u, v] = list(zip(*rvpts))
-        ax.scatter(u, v, marker = 'o', s = s, color = c, alpha = alpha)
+        ax.scatter(u, v, marker = 'o', s = s, color = c, alpha = alpha[0])
     
     for i in range(0, len(C)-1):
         # draw one polygon line
@@ -317,7 +320,7 @@ def make_scaffold_sc(dim, layers, ax, label = "f{:d}"):
 def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                camera = [None, None], knee_idx = None, \
                scaffold = True, label = "f{:d}", title = "", \
-               mode = "rv"):
+               mode = "rv", show_axes = False):
     """
     The Palette visualization method. This function assumes
     the palette coordinate values are already computed.
@@ -349,10 +352,11 @@ def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
         ax.scatter(u, v, w, marker = 'o', s = s, color = c)        
         
     if scaffold:
-        ax.set_xticklabels([])
-        ax.set_yticklabels([])
-        ax.set_zticklabels([])
-        ax.set_axis_off()
+        if not show_axes:
+            ax.set_xticklabels([])
+            ax.set_yticklabels([])
+            ax.set_zticklabels([])
+            ax.set_axis_off()
         if mode == "rv":
             make_scaffold_rv(dim, layers, ax, label)
         if mode == "sc":
@@ -388,15 +392,19 @@ if __name__ == "__main__":
     else:
         color = dcor.recolor_by_centroid(points)
 
+    knee_idx = None
+    alpha = [1.0, 1.0]
+    
     # now use the trade-off values to recolor
     mufpath = os.path.join(path, prefix + "-norm-mu.out")
-    knee_idx = None
     if os.path.exists(mufpath):
         # load the normalized trade-off values
         mu = [v[0] if len(v) == 1 else v for v in fmt.load(mufpath)]
             # resize the points w.r.t. trade-offs
         size = dcor.rescale_by_tradeoff(mu)
         (color, knee_idx) = dcor.recolor_by_tradeoff(size, color)
+        # alpha values
+        alpha = [0.2, 0.8] # alpha for plots with knee
     
     # load the class labels
     classfpath = os.path.join(path, prefix + "-class.out")
@@ -405,46 +413,75 @@ if __name__ == "__main__":
                 fmt.load(classfpath, dtype = dcor.dtypes[prefix])]
         color = dcor.recolor_by_labels(labels, dtype = dcor.dtypes[prefix])
         size = [5.0 for _ in range(len(points))]
-
-    # alpha values
-    alpha = [0.2, 0.8] # alpha for plots with knee
-    # alpha = [1.0, 1.0] # alpha for general case
-    
+ 
     # use the original obj values for scatter plot.
     if os.path.exists(rawfpath):
         rawpoints = fmt.load(rawfpath)
         # do the scatter plot
         print("Doing a scatter plot")
+        (fig, ax) = scatter(rawpoints, camera = dcor.cam_scatter[prefix], \
+                title = "Scatter plot (frist 3 dim.)")
+        # save the scatter plot
+        scatterfpath = os.path.join(path, prefix + "-scatter-mono.pdf")
+        plt.savefig(scatterfpath, transparent = False)
+
+        print("Doing a scatter plot with colors")
         (fig, ax) = scatter(rawpoints, s = size, c = color, alpha = alpha, \
                         camera = dcor.cam_scatter[prefix], knee_idx = knee_idx, \
-                        title = "Scatter plot (frist 3 dim.)")
+                        title = "Scatter plot w/color (frist 3 dim.)")
         # save the scatter plot
         scatterfpath = os.path.join(path, prefix + "-scatter.pdf")
         plt.savefig(scatterfpath, transparent = False)
 
+    # Now use the normalized data points for these plots
+    normfpath = os.path.join(path, prefix + "-norm.out")
+    if os.path.exists(normfpath):
+        normpoints = fmt.load(normfpath)
         # do a radviz plot
         print("Doing a radviz plot")
-        (fig, ax) = radviz(rawpoints, s = size, c = color, alpha = alpha, \
+        (fig, ax) = radviz(normpoints, s = size, c = color, alpha = alpha, \
                 knee_idx = knee_idx, title = "Radviz plot")
         # save the radviz plot
         radvizfpath = os.path.join(path, prefix + "-radviz.pdf")
         plt.savefig(radvizfpath, transparent = False)
+        
+        # do a star-coordinate plot
+        print("Doing a star-coordinate plot")
+        (fig, ax) = star(normpoints, s = size, c = color, alpha = alpha, \
+                knee_idx = knee_idx, title = "Star-Coordinate plot")
+        # save the radviz plot
+        radvizfpath = os.path.join(path, prefix + "-star.pdf")
+        plt.savefig(radvizfpath, transparent = False)
 
-    datapath = os.path.join(path, prefix + "-norm-palette.out")
+    datapath = os.path.join(path, prefix + "-norm-palette-invsc.out")
     if os.path.exists(datapath):
         palette_coords = fmt.load(datapath)
-        # do the paletteviz plot
-        print("Doing a paletteviz with radviz plot")
+        # do the paletteviz plot with inverted star-coordinate
+        print("Doing a paletteviz with inverted star-coordinate plot")
         (fig, ax) = paletteviz(palette_coords, dim = len(points[0]), \
                     s = size, c = color, alpha = alpha, \
                     camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
-                    title = "PaletteViz (with RadViz)", mode = "rv")
+                    title = "PaletteViz (with Inv. Star-Coordinate)", mode = "sc")
         # save the paletteviz plot
         fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
-        palettefpath = os.path.join(path, prefix + "-norm-palette.pdf")
+        palettefpath = os.path.join(path, prefix + "-norm-palette-invsc.pdf")
         plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
-
-    datapath = os.path.join(path, prefix + "-norm-palette-star.out")
+    
+    datapath = os.path.join(path, prefix + "-norm-palette-invrv.out")
+    if os.path.exists(datapath):
+        palette_coords = fmt.load(datapath)
+        # do the paletteviz plot with inverted radviz
+        print("Doing a paletteviz with inverted radviz plot")
+        (fig, ax) = paletteviz(palette_coords, dim = len(points[0]), \
+                    s = size, c = color, alpha = alpha, \
+                    camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
+                    title = "PaletteViz (with Inv. RadViz)", mode = "rv")
+        # save the paletteviz plot
+        fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
+        palettefpath = os.path.join(path, prefix + "-norm-palette-invrv.pdf")
+        plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
+    
+    datapath = os.path.join(path, prefix + "-norm-palette-sc.out")
     if os.path.exists(datapath):
         palette_coords = fmt.load(datapath)
         # do the paletteviz plot with star-coordinate
@@ -452,10 +489,24 @@ if __name__ == "__main__":
         (fig, ax) = paletteviz(palette_coords, dim = len(points[0]), \
                     s = size, c = color, alpha = alpha, \
                     camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
-                    title = "PaletteViz (with Star Coordinate)", mode = "sc")
+                    title = "PaletteViz (with Star-Coordinate)", mode = "sc")
         # save the paletteviz plot
         fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
-        palettefpath = os.path.join(path, prefix + "-norm-palette-star.pdf")
+        palettefpath = os.path.join(path, prefix + "-norm-palette-sc.pdf")
+        plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
+    
+    datapath = os.path.join(path, prefix + "-norm-palette-rv.out")
+    if os.path.exists(datapath):
+        palette_coords = fmt.load(datapath)
+        # do the paletteviz plot with radviz
+        print("Doing a paletteviz with radviz plot")
+        (fig, ax) = paletteviz(palette_coords, dim = len(points[0]), \
+                    s = size, c = color, alpha = alpha, \
+                    camera = dcor.cam_palette[prefix], knee_idx = knee_idx, \
+                    title = "PaletteViz (with RadViz)", mode = "rv")
+        # save the paletteviz plot
+        fig.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, wspace = 0, hspace = 0)
+        palettefpath = os.path.join(path, prefix + "-norm-palette-rv.pdf")
         plt.savefig(palettefpath, transparent = False, bbox_inches = 'tight', pad_inches = 0)
     
     # show all plots
