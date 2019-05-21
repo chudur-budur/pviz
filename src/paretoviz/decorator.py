@@ -131,7 +131,7 @@ cam_palette = {\
     "knee-3d": [14, -77], "knee-4d": [20, 155], "knee-8d": [25, 98], \
     "knee-const-3d": [42, -68], "knee-const-4d": [16, 119], "knee-const-8d": [24, 43], \
     "knee-const-mod-3d": [44, -50], "knee-const-mod-4d": [23, 10], "knee-const-mod-8d": [23, -178], \
-    "isolated-3d": [29, -76], "isolated-4d": [19, 178], "isolated-8d": [20, 115], \
+    "isolated-3d": [29, -76], "isolated-4d": [19, 178], "isolated-8d": [40, 100], \
     "line-3d": [31, 95], "line-4d": [37, -61], "line-6d": [25, -7], "line-8d": [30, 13],\
     "c2dtlz2-3d": [33, 0], "c2dtlz2-4d": [19, -60], "c2dtlz2-5d": [24, -29], "c2dtlz2-8d": [26, -69], \
     "c2dtlz2-c1-3d": [36, -45], "c2dtlz2-c2-3d": [36, -45], "c2dtlz2-c3-3d": [36, -45], \
