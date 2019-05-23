@@ -349,7 +349,7 @@ def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
     else:
         [u, v, w] = list(zip(*points))
         layers = list(set(w))
-        ax.scatter(u, v, w, marker = 'o', s = s, color = c)        
+        ax.scatter(u, v, w, marker = 'o', s = s, color = c, alpha = alpha[0])        
         
     if scaffold:
         if not show_axes:
