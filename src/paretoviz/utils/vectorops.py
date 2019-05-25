@@ -50,7 +50,7 @@ def dot(a, b):
 
 def norm(a, p = 1):
     """
-    Lp-norm of two vectors.
+    Lp-norm of a vector.
     """
     errmsg = "the parameter must be a vector."
     assert type(a) is list, errmsg
