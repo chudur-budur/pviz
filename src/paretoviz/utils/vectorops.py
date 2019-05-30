@@ -39,6 +39,43 @@ def get_bound(vec):
     else:
         return [min(vec), max(vec)]
 
+def add(a, b):
+    """
+    Adds two vectors, c = a + b
+    """
+    errmsg = "the parameters must be vectors of same length."
+    assert type(a) is list and type(b) is list, errmsg
+    assert len(a) == len(b), errmsg
+    return [x + b[i] for i, x in enumerate(a)]
+
+def sub(a, b):
+    """
+    Subtracts two vectors, c = a - b
+    """
+    errmsg = "the parameters must be vectors of same length."
+    assert type(a) is list and type(b) is list, errmsg
+    assert len(a) == len(b), errmsg
+    return [x - b[i] for i, x in enumerate(a)]
+
+def mult(a, b):
+    """
+    Multiplies two vectors.
+    If both are vectors then it will do hadamard product.
+    If a or b is a scaler, then it will do a scalar product.
+    """
+    errmsg = "the parameters must be vectors of same length or one of them must be a scalar."
+    if type(a) is list and type(b) is list:
+        assert len(a) == len(b), errmsg
+        return [x * b[i] for i, x in enumerate(a)]
+    elif (type(a) is int or type(a) is float) and type(b) is list:
+        return [a * x for x in b]
+    elif (type(b) is int or type(b) is float) and type(a) is list:
+        return [b * x for x in a]
+    else:
+        print("the parameters are not correct.")
+        return None
+
+
 def dot(a, b):
     """
     Dot product of two vectors.
