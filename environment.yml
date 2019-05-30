@@ -2,9 +2,12 @@ name: vizemo
 channels:
   - conda-forge
 dependencies:
-  - python
+  - python=3.6.7
   - pip
   - pip:
     - numpy
     - scipy
     - matplotlib
+    - scikit-learn
+    - pandas
+    - seaborn
