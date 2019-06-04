@@ -134,7 +134,7 @@ cam_scatter = {\
    "line-3d": [None, None], "line-4d": [None, None], "line-6d": [None, None], "line-8d": [None, None], \
    "c2dtlz2-3d": [32, 20], "c2dtlz2-4d": [37, -39], "c2dtlz2-5d": [37, -39], "c2dtlz2-8d": [25, -39], \
    "c2dtlz2-c1-3d": [32, 20], "c2dtlz2-c2-3d": [32, 20], "c2dtlz2-c3-3d": [32, 20], \
-   "c2dtlz2-c4-3d": [32, 20], \
+   "c2dtlz2-c4-3d": [32, 20], "osy-3d": [42, -32], "osy-4d": [None, None], \
    "carcrash-3d": [46, 41], "carcrash-c1-3d": [30, 30,], "carcrash-c2-3d": [24, 64], \
    "gaa-das-10d": [22, -40], "gaa-lhs-10d": [22, -40], \
    "gaa-lhs-c1-10d": [7, -51], "gaa-lhs-c2-10d": [7, -51], "gaa-lhs-c3-10d": [7, -51], \
@@ -152,7 +152,7 @@ cam_palette = {\
     "line-3d": [31, 95], "line-4d": [37, -61], "line-6d": [25, -7], "line-8d": [30, 13],\
     "c2dtlz2-3d": [33, 0], "c2dtlz2-4d": [19, -60], "c2dtlz2-5d": [24, -29], "c2dtlz2-8d": [26, -69], \
     "c2dtlz2-c1-3d": [36, -45], "c2dtlz2-c2-3d": [36, -45], "c2dtlz2-c3-3d": [36, -45], \
-    "c2dtlz2-c4-3d": [36, -45], \
+    "c2dtlz2-c4-3d": [36, -45], "osy-3d": [29, -78], "osy-4d": [21, 65], \
     "carcrash-3d": [24, -58], "carcrash-c1-3d": [25, 41], "carcrash-c2-3d": [19, -38], \
     "gaa-das-10d": [27, -105], "gaa-lhs-10d": [27, -105], \
     "gaa-lhs-c1-10d": [27, -105], "gaa-lhs-c2-10d": [27, -105], "gaa-lhs-c3-10d": [27, -105], \
