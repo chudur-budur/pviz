@@ -57,6 +57,7 @@ if __name__ == "__main__":
 
     print("{0:d} points generated, doing non-domination sort ...".format(len(f_)))
     idx = ndsort.ndsort(f_)
+    # idx = [i for i in range(len(f_))]
     x = [x_[i] for i in idx]
     f = [f_[i] for i in idx]
     print("{0:d} points found. Done.".format(len(f)))    
