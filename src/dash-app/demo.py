@@ -116,7 +116,8 @@ def create_layout(app):
                     html.Div(
                         [
                             html.Img(
-                                src=app.get_asset_url("dash-logo-stripe.png"),
+                                # src=app.get_asset_url("dash-logo-stripe.png"),
+                                src=app.get_asset_url("coin-logo.png"),
                                 className="logo",
                                 id="plotly-image",
                             )
@@ -126,7 +127,7 @@ def create_layout(app):
                     html.Div(
                         [
                             html.H3(
-                                "t-SNE Explorer",
+                                "Pareto-optimal Front Explorer",
                                 className="header_title",
                                 id="app-title",
                             )
