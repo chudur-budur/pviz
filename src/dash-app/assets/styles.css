@@ -98,10 +98,12 @@ body {
 }
 #graph-3d-plot-tsne > div > div > svg:nth-child(1) {
   background-color: #f2f3f4 !important;
+  border-style: groove;
 }
 
 #graph-3d-plot-tsne > div > div > svg:nth-child(1) > g.bglayer > rect {
   fill: #f2f3f4 !important;
+  border-style: groove;
 }
 
 #graph-bar-nearest-neighbors-word > div > div > svg:nth-child(1) {
