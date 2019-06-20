@@ -20,7 +20,7 @@
 }
 
 .logo {
-  height: 50px;
+  height: 100px;
   width: auto;
   float: left;
 }
@@ -77,6 +77,7 @@
 .card-style {
   padding: 20px;
   margin: 5px;
+  border-style: groove;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
