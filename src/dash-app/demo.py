@@ -118,6 +118,11 @@ def create_layout(app):
                             html.Img(
                                 # src=app.get_asset_url("dash-logo-stripe.png"),
                                 src=app.get_asset_url("coin-logo.png"),
+                                style={
+                                    'max-height' : '192px',
+                                    'max-width' : '192px',
+                                    'padding-top' : 0,
+                                    'padding-right' : 0},
                                 className="logo",
                                 id="plotly-image",
                             )

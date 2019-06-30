@@ -1,32 +1,15 @@
 /* New style sheet for the refreshed demo app */
 
-.header {
-  padding: 15px 35px;
-}
-
-.header_img {
-  float: left;
-}
-
-.header_title_container {
-  float: right;
-}
-
-.header_title {
+.title {
   font-family: "Times New Roman";
   color: #6c7182;
-  text-align: right;
-  margin: 0 !important;
-}
-
-.logo {
-  height: 100px;
-  width: auto;
   float: left;
+  margin-top: 25px;
+  margin-left: 45px;
 }
 
 .background {
-  background-color: #f2f3f4;
+  background-color: #fffff;
   padding: 0px 0px;
 }
 
@@ -35,10 +18,10 @@
   left: 0;
   height: 4px;
   border-radius: 6px;
-  background-color: #3266c1 !important;
+  background-color: #3266c1;
 }
 .rc-slider-dot-active {
-  border-color: #3266c1 !important;
+  border-color: #3266c1;
 }
 
 .rc-slider-handle {
@@ -49,7 +32,7 @@
   height: 14px;
   cursor: pointer;
   border-radius: 50%;
-  border: solid 2px #3266c1 !important;
+  border: solid 2px #3266c1;
   background-color: #fff;
 }
 .rc-slider-step {
@@ -57,11 +40,11 @@
   width: 100%;
   height: 4px;
   background: transparent;
-  border-color: #3266c1 !important;
+  border-color: #3266c1;
 }
 
 .Select-control {
-  background-color: #f2f3f4;
+  background-color: #ffffff;
   border-radius: 4px;
   display: table;
   border-spacing: 0;
@@ -71,17 +54,7 @@
 }
 
 .js-plotly-plot .plotly .modebar-group {
-  background-color: #f2f3f4 !important;
-}
-
-.card-style {
-  padding: 20px;
-  margin: 5px;
-  border-style: groove;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  background-color: #fffff !important;
 }
 
 body {
@@ -96,18 +69,24 @@ body {
 #learn-more-button > div > div:nth-child(2) > div > p:nth-child(11) > img {
   width: 40%;
 }
-#graph-3d-plot-tsne > div > div > svg:nth-child(1) {
-  background-color: #f2f3f4 !important;
-  border-style: groove;
+#tsne-3d-plot > div > div > svg:nth-child(1) {
+  background-color: #ffffff !important;
 }
 
-#graph-3d-plot-tsne > div > div > svg:nth-child(1) > g.bglayer > rect {
-  fill: #f2f3f4 !important;
-  border-style: groove;
+#tsne-3d-plot-custom > div > div > svg:nth-child(1) {
+  background-color: #ffffff !important;
+}
+
+#tsne-3d-plot > div > div > svg:nth-child(1) > g.bglayer > rect {
+  fill: #fffff !important;
+}
+
+#tsne-3d-plot-custom > div > div > svg:nth-child(1) > g.bglayer > rect {
+  fill: #fffff !important;
 }
 
 #graph-bar-nearest-neighbors-word > div > div > svg:nth-child(1) {
-  background-color: #f2f3f4 !important;
+  background-color: #fffff !important;
 }
 
 #graph-bar-nearest-neighbors-word
@@ -116,11 +95,17 @@ body {
   > svg:nth-child(1)
   > g.bglayer
   > rect {
-  fill: #f2f3f4 !important;
+  fill: #fffff !important;
 }
 
-#graph-3d-plot-tsne > div > div > svg:nth-child(1) > g.bglayer > rect {
-  fill: #f2f3f4;
+#tsne-3d-plot > div > div > svg:nth-child(1) > g.bglayer > rect {
+  fill: #ffffff;
+  fill-opacity: 1;
+  stroke-width: 0;
+}
+
+#tsne-3d-plot-custom > div > div > svg:nth-child(1) > g.bglayer > rect {
+  fill: #ffffff;
   fill-opacity: 1;
   stroke-width: 0;
 }
@@ -129,7 +114,7 @@ body {
   color: #6c7182;
 }
 
-#graph-3d-plot-tsne
+#tsne-3d-plot
   > div
   > div
   > svg:nth-child(3)
@@ -137,9 +122,18 @@ body {
   > g.legend
   > rect.bg {
   stroke: #6c7182 !important;
-  fill: #f2f3f4 !important;
+  fill: #ffffff !important;
 }
 
+#tsne-3d-plot-custom
+  > div
+  > div
+  > svg:nth-child(3)
+  > g.infolayer
+  > g.legend
+  > rect.bg {
+  stroke: #6c7182 !important;
+  fill: #ffffff !important;
 #learn-more-button #button {
   text-transform: none;
   font-size: 14px;
@@ -151,65 +145,33 @@ body {
 
 /* ---Different Screen Sizes--- */
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 375px) {
   .columns {
     float: none;
-    width: 90%;
+    width: 70%;
   }
 
   .three.columns {
-    margin: auto;
-    width: 75%;
+    padding-left: 20px;
   }
 
   .six.columns {
-    margin: 10% 5%;
-    width: auto;
-  }
-
-  .nine.columns {
-    float: left;
-    margin: 0;
-    width: 100%;
+    padding-left: 40px;
   }
 
   background {
     width: 100%;
   }
 
+  #plotly-image {
+    float: left !important;
+    height: 30px !important;
+    margin-right: 0px !important;
+    padding-left: 20px !important;
+  }
   #app-title {
-    text-align: center;
-  }
-
-  #plotly-image {
-    height: 40px;
-  }
-
-  .header_img {
-    float: left;
-    margin: 0;
-  }
-
-  #learn-more-button {
-    text-align: center;
-    padding-right: 0 !important;
-  }
-
-  #learn-more-button > div > div:nth-child(1) {
-    padding-right: 7%;
-  }
-
-  #learn-more-button > div > div:nth-child(2) {
-    padding-right: 15%;
-  }
-
-  #learn-more-button > div > div:nth-child(3) {
-    padding-right: 15%;
-  }
-}
-@media only screen and (max-width: 550px) {
-  #plotly-image {
-    height: 35px;
-    width: auto;
+    float: right !important;
+    padding-right: 20px;
+    margin: 10px 15px;
   }
 }

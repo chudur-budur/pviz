@@ -11,6 +11,10 @@ app = dash.Dash(
     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
 
+# These are some settings done by me
+app.css.config.serve_locally = False
+app.title = 'Pareto Explorer'
+
 server = app.server
 app.layout = create_layout(app)
 demo_callbacks(app)
