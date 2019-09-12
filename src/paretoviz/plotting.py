@@ -42,8 +42,8 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
         fig = plt.figure()
         ax = plt.gca()
         fig.suptitle(title)
-        ax.set_xlabel(label.format(axes[0] + 1))
-        ax.set_ylabel(label.format(axes[1] + 1))
+        ax.set_xlabel(label.format(axes[0] + 1), fontsize = 'large')
+        ax.set_ylabel(label.format(axes[1] + 1), fontsize = 'large')
         if lims is not None and len(lims) > 1:
             ax.set_xlim(lims[0][0], lims[0][1])
             ax.set_ylim(lims[1][0], lims[1][1])
@@ -58,9 +58,9 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         fig.suptitle(title)
-        ax.set_xlabel(label.format(axes[0] + 1))
-        ax.set_ylabel(label.format(axes[1] + 1))
-        ax.set_zlabel(label.format(axes[2] + 1))
+        ax.set_xlabel(label.format(axes[0] + 1), fontsize = 'large')
+        ax.set_ylabel(label.format(axes[1] + 1), fontsize = 'large')
+        ax.set_zlabel(label.format(axes[2] + 1), fontsize = 'large')
         if lims is not None and len(lims) > 2:
             ax.set_xlim(lims[0][0], lims[0][1])
             ax.set_ylim(lims[1][0], lims[1][1])
@@ -143,16 +143,16 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
         if xy[0] < 0.0 and xy[1] < 0.0:
             ax.text(xy[0] - 0.025, xy[1] - 0.025, s = name, ha = 'right', \
-                    va = 'top', size = 'small')
+                    va = 'top', size = 'large')
         elif xy[0] < 0.0 and xy[1] >= 0.0: 
             ax.text(xy[0] - 0.025, xy[1] + 0.025, s = name, ha = 'right', \
-                    va = 'bottom', size = 'small')
+                    va = 'bottom', size = 'large')
         elif xy[0] >= 0.0 and xy[1] < 0.0:
             ax.text(xy[0] + 0.025, xy[1] - 0.025, s = name, ha = 'left', \
-                    va = 'top', size = 'small')
+                    va = 'top', size = 'large')
         elif xy[0] >= 0.0 and xy[1] >= 0.0:
             ax.text(xy[0] + 0.025, xy[1] + 0.025, s = name, ha = 'left', \
-                    va = 'bottom', size = 'small')
+                    va = 'bottom', size = 'large')
     p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
     ax.add_patch(p)
     return (fig, ax)
@@ -225,16 +225,16 @@ def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     for xy, name in zip(C, [label.format(i+1) for i in range(dim)]):
         if xy[0] < 0.0 and xy[1] < 0.0:
             ax.text(xy[0] - 0.025, xy[1] - 0.025, s = name, ha = 'right', \
-                    va = 'top', size = 'small')
+                    va = 'top', size = 'large')
         elif xy[0] < 0.0 and xy[1] >= 0.0: 
             ax.text(xy[0] - 0.025, xy[1] + 0.025, s = name, ha = 'right', \
-                    va = 'bottom', size = 'small')
+                    va = 'bottom', size = 'large')
         elif xy[0] >= 0.0 and xy[1] < 0.0:
             ax.text(xy[0] + 0.025, xy[1] - 0.025, s = name, ha = 'left', \
-                    va = 'top', size = 'small')
+                    va = 'top', size = 'large')
         elif xy[0] >= 0.0 and xy[1] >= 0.0:
             ax.text(xy[0] + 0.025, xy[1] + 0.025, s = name, ha = 'left', \
-                    va = 'bottom', size = 'small')
+                    va = 'bottom', size = 'large')
     p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
     ax.add_patch(p)
     return (fig, ax)
@@ -265,16 +265,16 @@ def make_scaffold_rv(dim, layers, ax, label = "f{:d}"):
         for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
             if xy[0] < 0.0 and xy[1] < 0.0:
                 ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
-                        va = 'top', size = 'small')
+                        va = 'top', size = 'large')
             elif xy[0] < 0.0 and xy[1] >= 0.0: 
                 ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
-                        va = 'bottom', size = 'small')
+                        va = 'bottom', size = 'large')
             elif xy[0] >= 0.0 and xy[1] < 0.0:
                 ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
-                        va = 'top', size = 'small')
+                        va = 'top', size = 'large')
             elif xy[0] >= 0.0 and xy[1] >= 0.0:
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
-                        va = 'bottom', size = 'small')
+                        va = 'bottom', size = 'large')
 
 def make_scaffold_sc(dim, layers, ax, label = "f{:d}"):
     """
@@ -306,16 +306,16 @@ def make_scaffold_sc(dim, layers, ax, label = "f{:d}"):
         for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
             if xy[0] < 0.0 and xy[1] < 0.0:
                 ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
-                        va = 'top', size = 'small')
+                        va = 'top', size = 'large')
             elif xy[0] < 0.0 and xy[1] >= 0.0: 
                 ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
-                        va = 'bottom', size = 'small')
+                        va = 'bottom', size = 'large')
             elif xy[0] >= 0.0 and xy[1] < 0.0:
                 ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
-                        va = 'top', size = 'small')
+                        va = 'top', size = 'large')
             elif xy[0] >= 0.0 and xy[1] >= 0.0:
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
-                        va = 'bottom', size = 'small')
+                        va = 'bottom', size = 'large')
                 
 def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                camera = [None, None], knee_idx = None, \
