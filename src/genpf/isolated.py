@@ -22,10 +22,12 @@ def constraint_violation(xvals, fvals):
     m = len(fvals[0])
     for i,f in enumerate(fvals):
         c = (0.98 - f[-1]) * (f[-1] - 0.75)
+        # c = (0.98 - f[-1]) * (f[-1] - 0.75)
         if c <= 0:
             cv.append(c)
             fvals_.append(fvals[i])
-            xvals_.append(xvals[i])
+            if len(xvals) > 0:
+                xvals_.append(xvals[i])
     return (xvals_, fvals_, cv)
 
 def surface(n, m, mode):
@@ -41,8 +43,8 @@ def surface(n, m, mode):
 if __name__ == "__main__":
     seed = 123456
     rng.seed(seed)
-    # n = {3: 2000, 4: 4000, 8: 8000} # uniform
-    n = {3: 5000, 4: 10000, 8: 16000} # random
+    n = {3: 2000, 4: 4000, 8: 6000} # uniform
+    # n = {3: 5000, 4: 10000, 5: 12000, 6: 12000, 7: 12000, 8: 16000} # random
     m = 3
     mode = "random"
     if len(sys.argv) > 1:
@@ -55,7 +57,10 @@ if __name__ == "__main__":
 
     print("{0:d} points generated, doing non-domination sort ...".format(len(f)))
     idx = ndsort.ndsort(f)
-    xv = [x[i] for i in idx]
+    if len(x) > 0:
+        xv = [x[i] for i in idx]
+    else:
+        xv = []
     fv = [f[i] for i in idx]
     gv = [g[i] for i in idx]
     print("{0:d} points found. Done.".format(len(fv)))

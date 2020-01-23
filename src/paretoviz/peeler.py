@@ -57,7 +57,7 @@ def get_convex_hull(points, indices):
     if len(p) <= m + 1:
         hull_indices = set(p)
     else:
-        hull = ConvexHull(p)
+        hull = ConvexHull(p, qhull_options = "QJ Q12")
         for simplex in hull.simplices:
             for vertex in simplex:
                 hull_indices.add(indices[vertex])

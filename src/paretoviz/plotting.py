@@ -76,7 +76,8 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
     return (fig, ax)
 
 def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
-            knee_idx = None, label = "f{:d}", title = "", show_axes = False):
+            knee_idx = None, label = "f{:d}", title = "", \
+            show_axes = False):
     """
     This function does a generic radviz plot.
     """
@@ -239,14 +240,17 @@ def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     ax.add_patch(p)
     return (fig, ax)
 
-def make_scaffold_rv(dim, layers, ax, label = "f{:d}"):
+def make_scaffold_rv(dim, layers, ax, label = "f{:d}", label_layers = None):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
     """
     # calculate the coordinates of all polygon corners.
     S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(dim)) for i in range(dim)]]
-    for z in layers:
+    if label_layers is not None and -1 in label_layers:
+        label_layers[len(layers) - 1] = label_layers[-1]
+        del label_layers[-1]
+    for li, z in enumerate(layers):
         # draw polygons
         for i in range(0, len(S)-1):
             # draw one polygon line
@@ -261,29 +265,43 @@ def make_scaffold_rv(dim, layers, ax, label = "f{:d}"):
         # last pair of polygon points
         ax.scatter(S[len(S) - 1][0], S[len(S) - 1][1], zs = z, \
                    c = 'gray', marker = 'o', s = 20.0, alpha = 1.0)
-        # now put all the corner labels, like f1, f2, f3, ... etc.
-        for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
-            if xy[0] < 0.0 and xy[1] < 0.0:
-                ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
-                        va = 'top', size = 'large')
-            elif xy[0] < 0.0 and xy[1] >= 0.0: 
-                ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
-                        va = 'bottom', size = 'large')
-            elif xy[0] >= 0.0 and xy[1] < 0.0:
-                ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
-                        va = 'top', size = 'large')
-            elif xy[0] >= 0.0 and xy[1] >= 0.0:
-                ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
-                        va = 'bottom', size = 'large')
 
-def make_scaffold_sc(dim, layers, ax, label = "f{:d}"):
+        # if label_layers is None, then label all layers (default)
+        if label_layers is None:
+            label_layers = {}
+            for i in range(len(layers)):
+                    label_layers[i] = None
+        if li in label_layers:
+            # now put all the corner labels, like f1, f2, f3, ... etc.
+            # if label_layers[li] is None, label all anchors
+            if label_layers[li] is None:
+                label_layers[li] = [i+1 for i in range(dim)]
+            for j, (xy, name) in enumerate(zip(S, [label.format(i+1) for i in range(dim)])):
+                if j+1 in label_layers[li]:
+                    if xy[0] < 0.0 and xy[1] < 0.0:
+                        ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
+                                va = 'bottom', size = 'large')
+                    elif xy[0] < 0.0 and xy[1] >= 0.0: 
+                        ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
+                                va = 'bottom', size = 'large')
+                    elif xy[0] >= 0.0 and xy[1] < 0.0:
+                        ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
+                                va = 'bottom', size = 'large')
+                    elif xy[0] >= 0.0 and xy[1] >= 0.0:
+                        ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
+                                va = 'bottom', size = 'large')
+
+def make_scaffold_sc(dim, layers, ax, label = "f{:d}", label_layers = None):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
     """
     # calculate the coordinates of all polygon corners.
     S = [[math.cos(t), math.sin(t)] for t in [2.0 * math.pi * (i/float(dim)) for i in range(dim)]]
-    for z in layers:
+    if label_layers is not None and -1 in label_layers:
+        label_layers[len(layers) - 1] = label_layers[-1]
+        del label_layers[-1]
+    for li, z in enumerate(layers):
         # draw polygons
         for i in range(0, len(S)-1):
             # draw one polygon line
@@ -302,25 +320,36 @@ def make_scaffold_sc(dim, layers, ax, label = "f{:d}"):
         p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
         ax.add_patch(p)
         art3d.pathpatch_2d_to_3d(p, z = z)
-        # now put all the corner labels, like f1, f2, f3, ... etc.
-        for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
-            if xy[0] < 0.0 and xy[1] < 0.0:
-                ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
-                        va = 'top', size = 'large')
-            elif xy[0] < 0.0 and xy[1] >= 0.0: 
-                ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
-                        va = 'bottom', size = 'large')
-            elif xy[0] >= 0.0 and xy[1] < 0.0:
-                ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
-                        va = 'top', size = 'large')
-            elif xy[0] >= 0.0 and xy[1] >= 0.0:
-                ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
-                        va = 'bottom', size = 'large')
+
+        # if label_layers is None, then label all layers (default)
+        if label_layers is None:
+            label_layers = {}
+            for i in range(len(layers)):
+                    label_layers[i] = None
+        if li in label_layers:
+            # now put all the corner labels, like f1, f2, f3, ... etc.
+            # if label_layers[li] is None, label all anchors
+            if label_layers[li] is None:
+                label_layers[li] = [i+1 for i in range(dim)]
+            for j, (xy, name) in enumerate(zip(S, [label.format(i+1) for i in range(dim)])):
+                if j+1 in label_layers[li]:
+                    if xy[0] < 0.0 and xy[1] < 0.0:
+                        ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
+                                va = 'bottom', size = 'large')
+                    elif xy[0] < 0.0 and xy[1] >= 0.0: 
+                        ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
+                                va = 'bottom', size = 'large')
+                    elif xy[0] >= 0.0 and xy[1] < 0.0:
+                        ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
+                                va = 'bottom', size = 'large')
+                    elif xy[0] >= 0.0 and xy[1] >= 0.0:
+                        ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
+                                va = 'bottom', size = 'large')
                 
 def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                camera = [None, None], knee_idx = None, \
                scaffold = True, label = "f{:d}", title = "", \
-               mode = "rv", show_axes = False):
+               mode = "rv", show_axes = False, label_layers = None):
     """
     The Palette visualization method. This function assumes
     the palette coordinate values are already computed.
@@ -345,10 +374,10 @@ def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
         [u, v, w] = list(zip(*knee_points))
         ax.scatter(u, v, w, marker = 'o', \
                 s = knee_size, color = knee_color, alpha = alpha[1])
-        layers = list(set(w).union(set(w_)))
+        layers = sorted(list(set(w).union(set(w_))), reverse = True)
     else:
         [u, v, w] = list(zip(*points))
-        layers = list(set(w))
+        layers = sorted(list(set(w)), reverse = True)
         ax.scatter(u, v, w, marker = 'o', s = s, color = c, alpha = alpha[0])        
         
     if scaffold:
@@ -358,9 +387,9 @@ def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
             ax.set_zticklabels([])
             ax.set_axis_off()
         if mode == "rv":
-            make_scaffold_rv(dim, layers, ax, label)
+            make_scaffold_rv(dim, layers, ax, label, label_layers = label_layers)
         if mode == "sc":
-            make_scaffold_sc(dim, layers, ax, label)
+            make_scaffold_sc(dim, layers, ax, label, label_layers = label_layers)
     return (fig, ax)
 
 if __name__ == "__main__":

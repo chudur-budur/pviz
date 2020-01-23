@@ -2,6 +2,8 @@ import sys
 import os
 import math
 import random as rng
+import numpy as np
+from pymoo.factory import get_reference_directions
 
 sys.path.append("./")
 from paretoviz.utils import vectorops as vops
@@ -59,24 +61,43 @@ def surface(n, m, mode = "random"):
     Generate surface points using LHC sampling,
     n samples of m dimensional points.
     """
-    print("Generating {0:d} points ...".format(n))
-    if mode == "random":
-        S = lhcs.lhcs(n, m - 1)
-    elif mode == "uniform":
-        S = lhcs.lhcsl2norm(n, m)
+    print("Generating points ...")
     xv, fv = [], []
     if mode == "random":
+        S = lhcs.lhcs(n, m - 1)
         for x in S:
             f = random(x)
             if f is not None:
                 fv.append(f)
                 xv.append(x)
     elif mode == "uniform":
+        S = lhcs.lhcsl2norm(n, m)
         for f_ in S:
             f = uniform(f_)[::-1]
             if f is not None:
                 fv.append(f)
                 xv.append(to_spherical(f))
+    elif mode == "das-dennis":
+        npart = {3: 45, 4: 21, 5: 14, 6: 10, 7: 9, 8: 8}
+        p = get_reference_directions("das-dennis", m, n_partitions = npart[m])
+        p_ = np.sqrt(np.sum(np.square(p), axis = 1))
+        fv = (p.T * (1 / p_)).T.tolist()
+        n = int(len(fv))
+        # S = lhcs.lhcsl2norm(n, m)
+        # for f_ in S:
+        #     f = uniform(f_)[::-1]
+        #     if f is not None:
+        #         fv.append(f)
+        S = lhcs.lhcs(n, m - 1)
+        for x in S:
+            f = random(x)
+            if f is not None:
+                fv.append(f)
+        xv = []
+        rng.shuffle(fv)
+        fv = fv[0:n]
+
+    print("Generated {0:d} points ...".format(len(fv)))
     return (xv, fv)
 
 def test():
