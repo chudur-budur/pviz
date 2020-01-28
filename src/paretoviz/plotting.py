@@ -77,7 +77,7 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
 
 def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
             knee_idx = None, label = "f{:d}", title = "", \
-            show_axes = False):
+            show_axes = False, fontname = None, fontsize = None, fontstyle = None):
     """
     This function does a generic radviz plot.
     """
@@ -144,23 +144,27 @@ def radviz(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     for xy, name in zip(S, [label.format(i+1) for i in range(dim)]):
         if xy[0] < 0.0 and xy[1] < 0.0:
             ax.text(xy[0] - 0.025, xy[1] - 0.025, s = name, ha = 'right', \
-                    va = 'top', size = 'large')
+                    va = 'top', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         elif xy[0] < 0.0 and xy[1] >= 0.0: 
             ax.text(xy[0] - 0.025, xy[1] + 0.025, s = name, ha = 'right', \
-                    va = 'bottom', size = 'large')
+                    va = 'bottom', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         elif xy[0] >= 0.0 and xy[1] < 0.0:
             ax.text(xy[0] + 0.025, xy[1] - 0.025, s = name, ha = 'left', \
-                    va = 'top', size = 'large')
+                    va = 'top', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         elif xy[0] >= 0.0 and xy[1] >= 0.0:
             ax.text(xy[0] + 0.025, xy[1] + 0.025, s = name, ha = 'left', \
-                    va = 'bottom', size = 'large')
+                    va = 'bottom', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
     p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
     ax.add_patch(p)
     return (fig, ax)
 
 def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
             knee_idx = None, label = "f{:d}", title = "", \
-            show_axes = False):
+            show_axes = False, fontname = None, fontsize = None, fontstyle = None):
     """
     This function does a generic radviz plot.
     """
@@ -226,21 +230,26 @@ def star(points, s = 1.0, c = None, alpha = [1.0, 1.0], \
     for xy, name in zip(C, [label.format(i+1) for i in range(dim)]):
         if xy[0] < 0.0 and xy[1] < 0.0:
             ax.text(xy[0] - 0.025, xy[1] - 0.025, s = name, ha = 'right', \
-                    va = 'top', size = 'large')
+                    va = 'top', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         elif xy[0] < 0.0 and xy[1] >= 0.0: 
             ax.text(xy[0] - 0.025, xy[1] + 0.025, s = name, ha = 'right', \
-                    va = 'bottom', size = 'large')
+                    va = 'bottom', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         elif xy[0] >= 0.0 and xy[1] < 0.0:
             ax.text(xy[0] + 0.025, xy[1] - 0.025, s = name, ha = 'left', \
-                    va = 'top', size = 'large')
+                    va = 'top', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         elif xy[0] >= 0.0 and xy[1] >= 0.0:
             ax.text(xy[0] + 0.025, xy[1] + 0.025, s = name, ha = 'left', \
-                    va = 'bottom', size = 'large')
+                    va = 'bottom', size = 'large', \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
     p = Circle((0, 0), 1, fill = False, linewidth = 0.8, color = 'gray')
     ax.add_patch(p)
     return (fig, ax)
 
-def make_scaffold_rv(dim, layers, ax, label = "f{:d}", label_layers = None):
+def make_scaffold_rv(dim, layers, ax, label = "f{:d}", label_layers = None, \
+        fontname = None, fontsize = None, fontstyle = None):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
@@ -280,18 +289,23 @@ def make_scaffold_rv(dim, layers, ax, label = "f{:d}", label_layers = None):
                 if j+1 in label_layers[li]:
                     if xy[0] < 0.0 and xy[1] < 0.0:
                         ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                     elif xy[0] < 0.0 and xy[1] >= 0.0: 
                         ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                     elif xy[0] >= 0.0 and xy[1] < 0.0:
                         ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                     elif xy[0] >= 0.0 and xy[1] >= 0.0:
                         ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
 
-def make_scaffold_sc(dim, layers, ax, label = "f{:d}", label_layers = None):
+def make_scaffold_sc(dim, layers, ax, label = "f{:d}", label_layers = None, \
+        fontname = None, fontsize = None, fontstyle = None):
     """
     If the Palette visualization needs to show the scaffolding for the RadVis, this
     function will do all the necessary stuffs to show the scaffold.
@@ -335,21 +349,26 @@ def make_scaffold_sc(dim, layers, ax, label = "f{:d}", label_layers = None):
                 if j+1 in label_layers[li]:
                     if xy[0] < 0.0 and xy[1] < 0.0:
                         ax.text(xy[0] - 0.025, xy[1] - 0.025, z = z, s = name, ha = 'right', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                     elif xy[0] < 0.0 and xy[1] >= 0.0: 
                         ax.text(xy[0] - 0.025, xy[1] + 0.025, z = z, s = name, ha = 'right', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                     elif xy[0] >= 0.0 and xy[1] < 0.0:
                         ax.text(xy[0] + 0.025, xy[1] - 0.025, z = z, s = name, ha = 'left', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                     elif xy[0] >= 0.0 and xy[1] >= 0.0:
                         ax.text(xy[0] + 0.025, xy[1] + 0.025, z = z, s = name, ha = 'left', \
-                                va = 'bottom', size = 'large')
+                                va = 'bottom', size = 'large', \
+                                fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
                 
 def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                camera = [None, None], knee_idx = None, \
                scaffold = True, label = "f{:d}", title = "", \
-               mode = "rv", show_axes = False, label_layers = None):
+               mode = "rv", show_axes = False, label_layers = None,
+               fontname = None, fontsize = None, fontstyle = None):
     """
     The Palette visualization method. This function assumes
     the palette coordinate values are already computed.
@@ -387,9 +406,11 @@ def paletteviz(points, dim = 3, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
             ax.set_zticklabels([])
             ax.set_axis_off()
         if mode == "rv":
-            make_scaffold_rv(dim, layers, ax, label, label_layers = label_layers)
+            make_scaffold_rv(dim, layers, ax, label, label_layers = label_layers, \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
         if mode == "sc":
-            make_scaffold_sc(dim, layers, ax, label, label_layers = label_layers)
+            make_scaffold_sc(dim, layers, ax, label, label_layers = label_layers, \
+                    fontname = fontname, fontsize = fontsize, fontstyle = fontstyle)
     return (fig, ax)
 
 if __name__ == "__main__":
