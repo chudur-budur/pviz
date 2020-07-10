@@ -1,4 +1,4 @@
-name: vizualization
+name: visualization
 channels:
   - conda-forge
 dependencies:
