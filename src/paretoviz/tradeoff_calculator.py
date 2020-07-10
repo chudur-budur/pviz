@@ -9,7 +9,7 @@ This script calculates the knee value from a data file.
 This script assumes that the data are already normalized.
 """
 
-def compute_tradeoff(points, epsilon = 0.05, normalize = False):
+def compute_tradeoff(a, eps = 0.05, penalize_extremes = False):
     """
         Calculate the trade-off weight mu(xi,xj) described in this paper:
 
@@ -21,43 +21,39 @@ def compute_tradeoff(points, epsilon = 0.05, normalize = False):
         The neighbourhood will be considered as epsilon neighbour. 
         All the objective function vector needs to be normalized.
     """
-    m = len(points[0])
-    n = len(points)
-    print("Computing neighborhood ...")
-    tree = cKDTree(points)
-    print("Computing tradeoff values with epsilon = {0:.4f}...".format(epsilon))
-    mu, mu_ = [0.0] * n, [0.0] * n
-    # for i in idx:
+    n, m = len(a), len(a[0])
+    tree = cKDTree(a)
+    mu = [0.0] * n
     for i in range(n):
         # First try to find neighbors within epsilon radius
-        nbrs = tree.query_ball_point([points[i]], epsilon).tolist()[0]
+        neighbors = tree.query_ball_point(a[i], eps)
         # If the neighborhood is empty then get m + 1 closest neighbors.
         # The m + 1 comes from the total number of vertices in a m-dim simplex.
-        if len(nbrs) < m + 1:
-            nbrs = tree.query([points[i]], k = m + 1)[1].tolist()[0]
+        if len(neighbors) < m + 1:
+            neighbors = tree.query(a[i], k = m + 1)[1]
         w = []
-        for j in nbrs:
+        for j in neighbors:
             gain, loss = 0.0, 0.0
-            for m_ in range(m):
-                gain = gain + max(0, points[j][m_] - points[i][m_])
-                loss = loss + max(0, points[i][m_] - points[j][m_])
+            for k in range(m):
+                gain = gain + max(0, a[j][k] - a[i][k])
+                loss = loss + max(0, a[i][k] - a[j][k])
             # what if the denominator is 0? 
             # i.e. there is no loss from point i
             ratio = gain/float(loss) if loss > 0 else float('inf')
             if ratio < float('inf'):
                 w.append(ratio)
         if len(w) > 0:
-            mu[i] = min(w)
-            # The below is a modification to the original
-            # knee point measurement where the extreme 
-            # points will be penalized.
-            denom = max(points[i]) - min(points[i])
-            mu_[i] = min(w)/denom if denom > 0.0 else mu[i]
+            if penalize_extremes:
+                # The below is a modification to the original
+                # knee point measurement where the extreme 
+                # points will be penalized.
+                denom = max(a[i]) - min(a[i])
+                mu[i] = min(w)/denom if denom > 0.0 else mu[i]
+            else:
+                mu[i] = min(w)
     min_mu = min([m for m in mu if m > 0.0])
     mu = [m if m > 0.0 else min_mu for m in mu]
-    min_mu_ = min([m for m in mu_ if m > 0.0])
-    mu_ = [m if m > 0.0 else min_mu_ for m in mu_]
-    return mu_ if normalize else mu
+    return mu
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

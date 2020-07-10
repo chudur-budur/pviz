@@ -3,7 +3,7 @@ import matplotlib.cm as cm
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 
-from utils import vectorops as vops
+from paretoviz.utils import vectorops as vops
 
 """
 This file contains different functions for color and size modifiers

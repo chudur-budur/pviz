@@ -6,9 +6,9 @@ import mpl_toolkits.mplot3d as plt3d
 from matplotlib.patches import Circle
 import mpl_toolkits.mplot3d.art3d as art3d
 
-from utils import fmt
-from utils import vectorops as vops
-import decorator as dcor
+from paretoviz.utils import fmt
+from paretoviz.utils import vectorops as vops
+from paretoviz import decorator as dcor
 
 """
 This script contains different plotting functions including PaletteViz
@@ -16,7 +16,7 @@ This script contains different plotting functions including PaletteViz
 
 def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
                 axes = [0, 1, 2], lims = None, camera = [None, None], \
-                knee_idx = None, label = 'f{:d}', title = ""):
+                knee_idx = None, label = 'f{:d}', title = "", fontsize = "large"):
     """
     This function plots a set of points. If dimension is more than 3 then
     this function will use the axes specified in the axes paramter. By default,
@@ -42,8 +42,8 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
         fig = plt.figure()
         ax = plt.gca()
         fig.suptitle(title)
-        ax.set_xlabel(label.format(axes[0] + 1), fontsize = 'large')
-        ax.set_ylabel(label.format(axes[1] + 1), fontsize = 'large')
+        ax.set_xlabel(label.format(axes[0] + 1), fontsize = fontsize)
+        ax.set_ylabel(label.format(axes[1] + 1), fontsize = fontsize)
         if lims is not None and len(lims) > 1:
             ax.set_xlim(lims[0][0], lims[0][1])
             ax.set_ylim(lims[1][0], lims[1][1])
@@ -58,9 +58,9 @@ def scatter(points, s = 1.0, c = 'black', alpha = [1.0, 1.0], \
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         fig.suptitle(title)
-        ax.set_xlabel(label.format(axes[0] + 1), fontsize = 'large')
-        ax.set_ylabel(label.format(axes[1] + 1), fontsize = 'large')
-        ax.set_zlabel(label.format(axes[2] + 1), fontsize = 'large')
+        ax.set_xlabel(label.format(axes[0] + 1), fontsize = fontsize)
+        ax.set_ylabel(label.format(axes[1] + 1), fontsize = fontsize)
+        ax.set_zlabel(label.format(axes[2] + 1), fontsize = fontsize)
         if lims is not None and len(lims) > 2:
             ax.set_xlim(lims[0][0], lims[0][1])
             ax.set_ylim(lims[1][0], lims[1][1])
