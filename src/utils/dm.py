@@ -1,6 +1,6 @@
 """`dm.py` -- A Collection of Different Utility Functions for Decision Making (DM)
     
-    This module provide different utility functions for decision making (DM) in
+    This module provides different utility functions for decision making (DM) in
     multi-objective optimization (MOP) scenario, for example, finding knee 
     points and the relative trade-off of the points in the objective function space.
 

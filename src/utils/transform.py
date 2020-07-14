@@ -1,6 +1,6 @@
 """`transform.py` -- A Collection of Different Utility Functions for Different Data Transformations
     
-    This module provide different utility functions for 
+    This module provides different utility functions for 
     the transformation of data and other things.
 
     Copyright (C) 2016

@@ -1,6 +1,6 @@
 """`sampling.py` -- A Collection of Different Utility Functions for DOE
     
-    This module provide different utility functions for random sampling, 
+    This module provides different utility functions for random sampling, 
     for example, Latin Hypercube Sampling (LHS) etc.
 
     Copyright (C) 2016
