@@ -67,7 +67,7 @@ def project(F):
     P = (F - uTuTFT) + (u / np.sqrt(M))
     return P
 
-def get_shape_layers(F, project_collapse = True):
+def depth_contours(F, project_collapse = True):
     r"""Describe here
     """
     N,M = F.shape
