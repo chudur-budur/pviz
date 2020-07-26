@@ -95,6 +95,7 @@ def savetxt(fname, X, fmt = '{:.18e}', delimiter = ' ', newline = '\n'):
         String or character separating lines. A `\n` when default.
     """
     fp = open(fname, 'w+')
-    for i in range(X.shape[0]):
+    for i in range(X.shape[0]-1):
         fp.write(delimiter.join([fmt.format(v) for v in X[i]]) + newline)
+    fp.write(delimiter.join([fmt.format(v) for v in X[X.shape[0]-1]]))
     fp.close()
