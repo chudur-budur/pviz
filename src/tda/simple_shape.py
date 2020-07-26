@@ -20,6 +20,7 @@
 """
 
 import numpy as np
+from scipy.spatial import ConvexHull
 
 def collapse(F, d = 0):
     r""" Function to collapse a dimension of the data points `F`.
@@ -66,7 +67,36 @@ def project(F):
     P = (F - uTuTFT) + (u / np.sqrt(M))
     return P
 
-def shape():
+def get_shape_layers(F, project_collapse = True):
     r"""Describe here
     """
-    pass
+    N,M = F.shape
+    if project_collapse:
+        if M >= 3:
+            F_ = project(F)
+            P = collapse(F, d = M-1)
+        else:
+            P = project(F)
+    else:
+        P = np.array(F, copy = True)
+
+    I = np.arange(0, N, 1).astype(np.int64)
+    Id = np.arange(0,N).astype(int)
+    # print("Id.shape:", Id.shape)
+    G = P[Id]
+
+    L = []
+    i = 0
+    while Id.shape[0] >= (2 * M + 1):
+        H = ConvexHull(G, qhull_options = "Qa QJ Q12")
+        Ih = H.vertices
+        # print("i:", i, "Ih:", Ih, "Ih.shape:", Ih.shape)
+        # print("i:", i, "Id[Ih]:", Id[Ih], "Id[Ih].shape:", Id[Ih].shape)
+        L.append(Id[Ih])
+        Id = np.delete(Id, Ih)
+        # print("i:", i, "Id.shape:", Id.shape, "\n")
+        G = P[Id]
+        i = i + 1
+    L.append(Id)
+
+    return np.array(L)
