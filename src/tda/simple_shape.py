@@ -68,7 +68,7 @@ def project(F):
     return P
 
 def depth_contours(F, project_collapse = True):
-    r"""Describe here
+    r"""Describe here more.
     """
     N,M = F.shape
     if project_collapse:
