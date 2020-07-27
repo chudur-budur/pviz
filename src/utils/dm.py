@@ -19,7 +19,14 @@ import numpy as np
 from scipy.spatial import cKDTree
 from utils import transform as tr
 
-__all__ = ["nadir", "ideal", "knees", "tradeoff"]
+__all__ = ["nadir", "ideal", "knees", "tradeoff", "epsilons"]
+
+# A set of good epsilon values to be used while computing 
+# the tradeoff neighborhoods with respect to the dimension 
+# of the space.
+epsilons = {'3d': 0.125, '4d': 0.125, '5d': 0.25, \
+            '6d': 0.375, '7d': 0.497, '8d': 0.497, \
+            '9d': 0.6, '10d': 0.7}
 
 def nadir(F):
     r"""Find the Nadir objective vector from 'F'.
