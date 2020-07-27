@@ -69,6 +69,9 @@ def project(F):
 
 def depth_contours(F, project_collapse = True):
     r"""Describe here more.
+    If `project_collapse = False`, there might be just one layer if the points are
+    on a full convex surface. Also it will be extremely slow if there are many
+    high-dimensional points (m > 4).
     """
     N,M = F.shape
     if project_collapse:
