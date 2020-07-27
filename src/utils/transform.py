@@ -205,19 +205,21 @@ def default_color(n, alpha = 1.0):
     `C` : ndarray
         An array of RGBA color values.
     """
-    C = np.array([mc.to_rgba(mc.TABLEAU_COLORS['tab:blue'], alpha) for _ in range(N)])
+    C = np.array([mc.to_rgba(mc.TABLEAU_COLORS['tab:blue'], alpha) for _ in range(n)])
     return C
 
-def resize_by_tradeoff(Mu, k = None, minsize = 1.0, factor = 30.0, kfactor = 150.0):
+def resize_by_tradeoff(Mu, k = None, minsize = 2.0, maxsize = 10.0, kminsize = 3.0, kmaxsize = 5.0):
     r"""Resize the points w.r.t. tradeoff values.
 
-    If we need to resize the points with respect to the tradeoff values, we can
-    use this function. This function assumes `Mu` values are within [0,1]. 
-    Therefore, the minimum size of the points will be 1 and the size of the points
-    will be amplified by factor of `factor` (i.e. 30). If we want to enhance 
-    certain points more, so that they 'stands out' from other data points, we can
-    index those points by those points by `k`, and they will be increased by the
-    factor of `kfactor`.
+    If we need to resize the points with respect to the tradeoff values, 
+    we can use this function. This function assumes `Mu` values are within [0,1]. 
+
+    Since point size of 0 is not visible, we normalize them within `[minsize, maxsize]`.
+    In order to capture the relative tradeoffs, we then scale the sizes by the power of 2.
+    If the user wants to emphasize a specific set of points so that they 'stand out' 
+    from all the rest of the points, they can be indexed with `k`. Those points will be 
+    pronounced by normalizing them within `[kminsize, kmaxsize]` and then scale them by 
+    the power of 2.
     
     Parameters
     ----------
@@ -227,16 +229,19 @@ def resize_by_tradeoff(Mu, k = None, minsize = 1.0, factor = 30.0, kfactor = 150
         A 1D-array of `int` indices to be used to specify which points
         will be increased in size by `kfactor`. `None` when default.
     `minsize`: float, optional
-        The minimum allowable size of each point. 1.0 when default.
-    `factor`: float, optional
-        The factor by which each point-size will be increased. 
-        30.0 when default.
-    `kfactor`: float, optional
-        The factor by which each point-size indexed by `k` will be increased. 
-        150.0 when default.
+        The minimum allowable size of each point before the exponential 
+        scaling. 2.0 when default.
+    `maxsize`: float, optional
+        The maximum allowable size of each point before the exponential 
+        scaling. 10.0 when default.
+    `kminsize`: float, optional
+        The minimum allowable size of the points indexed by `k`, before 
+        the exponential scaling. 10.0 when default.
+    `kmaxsize`: float, optional
+        The maximum allowable size of the points indexed by `k`, before 
+        the exponential scaling. 10.0 when default.
     """
-    S = np.ones(Mu.shape[0])
-    S = (Mu + minsize) * factor
+    S = np.power(normalize(Mu, lb = np.array([minsize]), ub = np.array([maxsize])), 2)
     if k is not None:
-        S[k] = (Mu[k] + 2 * minsize) * kfactor
+        S[k] = np.power(normalize(S[k], lb = np.array([kminsize]), ub = np.array([kmaxsize])), 3)
     return S
