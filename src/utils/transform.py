@@ -15,8 +15,11 @@
 """
 
 import numpy as np
+import matplotlib.cm as cm
+import matplotlib.colors as mc
 
-__all__ = ["normalize", "pfindices"]
+__all__ = ["normalize", "pfindices", "color_by_cv", "color_by_dist", \
+            "enhance_color", "resize_by_tradeoff"]
 
 def normalize(A, lb = None, ub = None):
     r"""Normalize a matrix within `[lb, ub]`.
@@ -103,3 +106,137 @@ def pfindices(A):
     I = np.where(~D.any(axis = 1))[0]
     return I
 
+def color_by_cv(CV, factor = 0.75, alpha = 0.5):
+    r"""Generate an array of color values from CV.
+
+    Generate an array of RGBA color values from an array of 
+    cumulative constraint violation values. This function
+    uses the color gradient from `cm.cool`.
+
+    Parameters
+    ----------
+    'CV': `ndarray`
+        An nd-array of cumulative contstraint violation values.
+    `factor`: float, optional
+        If `factor = 1.0`, then we will use the actual gradient
+        from `cm.cool`. When this value is smaller than 1.0, then
+        the gradient will be shifted left (i.e. some portion from 
+        the highest end will be skipped). 0.75 when default.
+    `alpha`: float, optional
+        Alpha transparency value. 0.5 when default.
+        
+    Returns
+    -------
+    `C` : ndarray
+        An array of RGBA color values.
+    """
+    C = np.array([mc.to_rgba(cm.cool(v * factor), alpha) for v in CV])
+    return C
+
+def color_by_dist(X, P, alpha = 0.5):
+    r"""Generate an array of RGBA color values w.r.t distance of 'X' from 'P'
+
+    Generate an array of RGBA color values for the corresponding points
+    in `X` with respect to the their distances from a single point `P`.
+    We generally use `P` as the center of mass of `X`, but can be used
+    in other contexts.
+
+    Parameters
+    ----------
+    'X': `ndarray`
+        An set of `m`-dimensional data points, i.e. `|X| = n x m` 
+    'P': 1D-`array`
+        A point `P`, a 1-D array. This can be the center of mass of `X`.
+    `alpha`: float, optional
+        Alpha transparency value. 0.5 when default.
+        
+    Returns
+    -------
+    `C` : ndarray
+        An array of RGBA color values.
+    """
+    pass
+
+def enhance_color(C, Ik, alpha = 1.0, color = mc.TABLEAU_COLORS['tab:red']):
+    r"""Enhance the color of selected data points.
+
+    Given an array of RGBA color values `C`, this function will enhance
+    all the points indexed by `Ik` by recoloring them with TABLEAU red
+    color. Assuming that the color of the other points won't overlap with
+    the enhanced points.
+    
+    Parameters
+    ----------
+    'C': `ndarray`
+        An array of RGBA color values as input.
+    'Ik': `array` of `int`
+        An array of `int` indices.
+    `alpha`: float, optional
+        Alpha transparency value. 0.5 when default.
+    `color`: RGB color value, optional
+        The color to be used to enhance the points. 
+        `mc.TABLEAU_COLORS['tab:red']` when default.
+        
+    Returns
+    -------
+    `C_` : ndarray
+        An array of RGBA color values.
+    """
+    C_ = np.array(C, copy=True)
+    C_[Ik] = np.array([mc.to_rgba(color, alpha) for _ in range(C[Ik].shape[0])])
+    return C_
+
+def default_color(n, alpha = 1.0):
+    r"""Get an array of RGBA color values for default coloring.
+
+    In any case, if we need to revert the point colorings to the 
+    default matplotlib (`mc.TABLEAU_COLORS['tab:blue']`) coloring 
+    scheme, we can use this function.
+
+    Parameters
+    ----------
+    'n': int
+        The length of the output array containing RGBA color values.
+    `alpha`: float, optional
+        Alpha transparency value. 0.5 when default.
+        
+    Returns
+    -------
+    `C` : ndarray
+        An array of RGBA color values.
+    """
+    C = np.array([mc.to_rgba(mc.TABLEAU_COLORS['tab:blue'], alpha) for _ in range(N)])
+    return C
+
+def resize_by_tradeoff(Mu, k = None, minsize = 1.0, factor = 30.0, kfactor = 150.0):
+    r"""Resize the points w.r.t. tradeoff values.
+
+    If we need to resize the points with respect to the tradeoff values, we can
+    use this function. This function assumes `Mu` values are within [0,1]. 
+    Therefore, the minimum size of the points will be 1 and the size of the points
+    will be amplified by factor of `factor` (i.e. 30). If we want to enhance 
+    certain points more, so that they 'stands out' from other data points, we can
+    index those points by those points by `k`, and they will be increased by the
+    factor of `kfactor`.
+    
+    Parameters
+    ----------
+    'Mu': 1-D `array`
+        A 1D-array of tradeoff values, float. Also `0.0 <= Mu <= 1.0`.
+    `k`: 1-D `array`, optional
+        A 1D-array of `int` indices to be used to specify which points
+        will be increased in size by `kfactor`. `None` when default.
+    `minsize`: float, optional
+        The minimum allowable size of each point. 1.0 when default.
+    `factor`: float, optional
+        The factor by which each point-size will be increased. 
+        30.0 when default.
+    `kfactor`: float, optional
+        The factor by which each point-size indexed by `k` will be increased. 
+        150.0 when default.
+    """
+    S = np.ones(Mu.shape[0])
+    S = (Mu + minsize) * factor
+    if k is not None:
+        S[k] = (Mu[k] + 2 * minsize) * kfactor
+    return S
