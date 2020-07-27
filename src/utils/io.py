@@ -19,7 +19,7 @@ import ast
 __all__ = ["loadtxt", ""]
 
 def cast(x, dtype):
-    r""" Typecasting a scalar value `x`.
+    r"""Typecasting a scalar value `x`.
 
     A very crude implementation of typecasting 
     a scalar `x` with respect to `dtype`.
@@ -46,7 +46,7 @@ def cast(x, dtype):
         return ast.literal_eval(x)
 
 def loadtxt(fname, dtype = float, delimiter = None):
-    r""" Load an array from a file, very similar to `npyio.loadtxt()`.
+    r"""Load an array from a file, very similar to `npyio.loadtxt()`.
 
     Since `npyio.loadtxt()` is not useful when we want to load a jagged array
     from a text file, we have added this function exactly for that reason.    
@@ -75,7 +75,7 @@ def loadtxt(fname, dtype = float, delimiter = None):
     return np.array(X)
 
 def savetxt(fname, X, fmt = '{:.18e}', delimiter = ' ', newline = '\n'):
-    r""" Save an array to a file, very similar to `npyio.savetxt()`.
+    r"""Save an array to a file, very similar to `npyio.savetxt()`.
 
     Since `npyio.savetxt()` is not useful when we want to save a jagged array
     in a text format, we have added this function exactly for that reason.
