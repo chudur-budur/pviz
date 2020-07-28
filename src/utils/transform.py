@@ -155,7 +155,10 @@ def color_by_dist(X, P, alpha = 0.5):
     `C` : ndarray
         An array of RGBA color values.
     """
-    pass
+    D = np.linalg.norm(X - P, axis = 1)
+    D = normalize(D, lb = 0.01, ub = 1.0)
+    C = np.array([cm.winter_r(v * 1.5) for v in D])
+    return C
 
 def enhance_color(C, Ik, alpha = 1.0, color = mc.TABLEAU_COLORS['tab:red']):
     r"""Enhance the color of selected data points.
