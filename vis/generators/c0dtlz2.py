@@ -16,8 +16,8 @@
 """
 
 import numpy as np
-from generators import dtlz2
-from utils import transform as tr
+from vis.generators import dtlz2
+from vis.utils import transform as tr
 
 __all__ = ["surface"]
 

@@ -24,8 +24,8 @@
 """
 
 import numpy as np
-from generators import debmdk
-from utils import transform as tr
+from vis.generators import debmdk
+from vis.utils import transform as tr
 
 __all__ = ["surface"]
 

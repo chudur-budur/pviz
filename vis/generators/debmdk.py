@@ -23,7 +23,7 @@
 """
 
 import numpy as np
-from generators import dtlz2
+from vis.generators import dtlz2
 
 __all__ = ["surface"]
 

@@ -19,7 +19,7 @@
 """
 
 import numpy as np
-from utils import sampling as smp
+from vis.utils import sampling as smp
 
 __all__ = ["surface"]
 
