@@ -106,7 +106,7 @@ def pfindices(A):
     I = np.where(~D.any(axis = 1))[0]
     return I
 
-def color_by_cv(CV, factor = 0.75, alpha = 0.5):
+def color_by_cv(CV, factor = 0.8, alpha = 0.5):
     r"""Generate an array of color values from CV.
 
     Generate an array of RGBA color values from an array of 
@@ -121,7 +121,8 @@ def color_by_cv(CV, factor = 0.75, alpha = 0.5):
         If `factor = 1.0`, then we will use the actual gradient
         from `cm.cool`. When this value is smaller than 1.0, then
         the gradient will be shifted left (i.e. some portion from 
-        the highest end will be skipped). 0.75 when default.
+        the highest end of the color gradient will be skipped). 
+        0.8 when default.
     `alpha`: float, optional
         Alpha transparency value. 0.5 when default.
         
@@ -130,10 +131,11 @@ def color_by_cv(CV, factor = 0.75, alpha = 0.5):
     `C` : ndarray
         An array of RGBA color values.
     """
-    C = np.array([mc.to_rgba(cm.cool(v * factor), alpha) for v in CV])
+    CV_ = normalize(CV, lb = 0.0, ub = 1.0)
+    C = np.array([mc.to_rgba(cm.cool(v * factor), alpha) for v in CV_])
     return C
 
-def color_by_dist(X, P, alpha = 0.5):
+def color_by_dist(X, P, alpha = 0.5, factor = 1.75):
     r"""Generate an array of RGBA color values w.r.t distance of 'X' from 'P'
 
     Generate an array of RGBA color values for the corresponding points
@@ -149,14 +151,21 @@ def color_by_dist(X, P, alpha = 0.5):
         A point `P`, a 1-D array. This can be the center of mass of `X`.
     `alpha`: float, optional
         Alpha transparency value. 0.5 when default.
+    `factor`: float, optional
+        If `factor = 1.0`, then we will use the actual gradient
+        from `cm.winter_r`. When this value is smaller than 1.0, then
+        the gradient will be shifted right (i.e. some portion from 
+        the lowest end of the color gradient will be skipped). 
+        1.75 when default. A user might want to try with different 
+        values for factor.
         
     Returns
     -------
     `C` : ndarray
         An array of RGBA color values.
     """
-    D = normalize(np.linalg.norm(X - P, axis = 1), lb = 0.1, ub = 1.0)
-    C = np.array([mc.to_rgba(cm.winter_r(v * 1.25), alpha) for v in D])
+    D = normalize(np.linalg.norm(P - X, axis = 1), lb = 0.1, ub = 1.0)
+    C = np.array([mc.to_rgba(cm.winter_r(v * 1.75), alpha) for v in D])
     return C
 
 def enhance_color(C, Ik, alpha = 1.0, color = mc.TABLEAU_COLORS['tab:red']):
