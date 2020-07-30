@@ -31,7 +31,7 @@ __all__ = ["surface"]
 #    m, nl, ns = 6, 600, 160000
 #    m, nl, ns = 8, 800, 160000
 
-def surface(m = 2, nl = 50, ns = 750, mode = 'lhc', **kwargs):
+def surface(m=2, nl=50, ns=750, mode='lhc', **kwargs):
     r"""Generate `nl + ns` number of points on 'DTLZ8' problem.
     
     This function generates points on the Pareto-optimal front of 'DTLZ8' 
@@ -140,7 +140,7 @@ def surface(m = 2, nl = 50, ns = 750, mode = 'lhc', **kwargs):
     Gs[:,0:m-1] = (Fs[:,-1] - (1.0 - m * Fs[:,0:m-1]).T).T
     Gs[:,-1] = Fs[:,-1] - t[m]
     
-    F = np.concatenate((L, Fs), axis = 0)
+    F = np.concatenate((L, Fs), axis=0)
     # print("F.shape", F.shape)
     
     maxG = np.max(Gs, axis = 0)
@@ -148,15 +148,15 @@ def surface(m = 2, nl = 50, ns = 750, mode = 'lhc', **kwargs):
     Gl = np.tile(maxG, (L.shape[0], 1)) 
     # print("Gl", Gl)
     
-    G = np.concatenate((Gl, Gs), axis = 0)
+    G = np.concatenate((Gl, Gs), axis=0)
     # print("G.shape", G.shape)
 
     if feasible_only:
-       If = np.where(~np.any(G < 0, axis = 1))
+       If = np.where(~np.any(G < 0, axis=1))
        F = F[If]
        G = G[If]
     
-    CV = tr.normalize(np.sum(G, axis = 1))
+    CV = tr.normalize(np.sum(G, axis=1))
     # print("CV.shape", CV.shape)
     # print("CV", CV)
 

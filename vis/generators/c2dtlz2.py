@@ -59,7 +59,7 @@ def get_feasible(F, X):
     If = np.where(C <= 0.0)[0]
     return F[If], X[If], C[If]
 
-def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
+def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     r"""Generate `n` number of points on split `m`-shpere.
 
     The details of 'C2-DTLZ2' is described in [1]_.
@@ -115,7 +115,7 @@ def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
     # This is needed for dtlz2
     delta = kwargs['delta'] if (len(kwargs) > 0 and 'delta' in kwargs) else 0.0001
 
-    F, X = dtlz2.surface(r = r, n = n, m = m, mode = mode, delta = delta) 
+    F, X = dtlz2.surface(r=r, n=n, m=m, mode=mode, delta=delta) 
     F, X, C = get_feasible(F, X)
     C = tr.normalize(C)
     return F, X, C

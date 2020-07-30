@@ -47,7 +47,7 @@ camera_scatter = {
 }
 
 
-def scatter(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], **kwargs):
+def scatter(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     r"""A scatter plot function.
 
     This uses `matplotlib.axes.Axes.scatter` function to do a scatter plot.
@@ -115,17 +115,17 @@ def scatter(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], **kwargs):
             ax.scatter(A[:,axes[0]], A[:,axes[1]], s = s, c = c)
             ax.set_xbound(ax.get_xbound() if xbound is None else xbound)
             ax.set_ybound(ax.get_ybound() if ybound is None else ybound)
-            ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize = label_fontsize)
-            ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize = label_fontsize)
+            ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
+            ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
         else:
             ax = Axes3D(fig)
-            ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s = s, c = c) 
+            ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c) 
             ax.set_xbound(ax.get_xbound() if xbound is None else xbound)
             ax.set_ybound(ax.get_ybound() if ybound is None else ybound)
             ax.set_zbound(ax.get_zbound() if zbound is None else zbound)
-            ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize = label_fontsize)
-            ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize = label_fontsize)
-            ax.set_zlabel(label_prefix.format(axes[2] + 1), fontsize = label_fontsize)
+            ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
+            ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
+            ax.set_zlabel(label_prefix.format(axes[2] + 1), fontsize=label_fontsize)
             ax.xaxis.set_rotate_label(False)
             ax.yaxis.set_rotate_label(False)
             ax.zaxis.set_rotate_label(False)
@@ -135,7 +135,7 @@ def scatter(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], **kwargs):
         raise TypeError("A valid `matplotlib.pyplot` object must be provided.")
 
 
-def get_radviz_coordinates(X, spread_factor = 'auto', normalized=True):
+def get_radviz_coordinates(X, spread_factor='auto', normalized=True):
     r"""Generate Radviz coordinates from data points `X`.
 
     Maps all the data points in `X` (i.e. `|X| = n x m`) onto radviz [1]_ coordinate positions. 
@@ -274,7 +274,7 @@ def set_anchor_labels(ax, A, label_prefix=r"$f_{:d}$", label_fontsize='large',
     ax.add_patch(p)
 
 
-def radviz(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], \
+def radviz(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             normalized=True, draw_axes=False, draw_anchors=True, \
             spread_factor='auto', **kwargs):
     r"""A customized radviz plot.
@@ -408,7 +408,7 @@ def get_star_coordinates(X, inverted=True, normalized=True):
     m = X.shape[1]
     # check if the data needs to be normalized
     if normalized:
-        X_ = tr.normalize(X, lb = np.zeros(m), ub = np.ones(m))
+        X_ = tr.normalize(X, lb=np.zeros(m), ub=np.ones(m))
     else:
         X_ = X
 
@@ -427,7 +427,7 @@ def get_star_coordinates(X, inverted=True, normalized=True):
     return (P, K, B)
 
 
-def star(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], \
+def star(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             inverted=True, normalized=True, \
             draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized star-coordinate plot.
@@ -518,3 +518,9 @@ def star(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], \
         return (fig, ax)
     else:
         raise TypeError("A valid `matplotlib.pyplot` object must be provided.")
+
+def paletteviz(A, plt, layer_path=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
+            inverted=True, normalized=True, \
+            draw_axes=False, draw_anchors=True, **kwargs):
+    pass
+    

@@ -22,7 +22,7 @@
 import numpy as np
 from scipy.spatial import ConvexHull
 
-def collapse(F, d = 0):
+def collapse(F, d=0):
     r""" Function to collapse a dimension of the data points `F`.
 
     A very simple function that drops a column in the data points `F`.
@@ -62,12 +62,12 @@ def project(F):
     """
     n,m = F.shape
     u = 1 / np.sqrt(np.ones(m) * m)
-    uTF = np.sum(u.T * F, axis = 1)
+    uTF = np.sum(u.T * F, axis=1)
     uTuTFT = (np.tile(u, (n,1)).T * uTF).T
     P = (F - uTuTFT) + (u / np.sqrt(m))
     return P
 
-def depth_contours(F, project_collapse = True):
+def depth_contours(F, project_collapse=True):
     r"""Function to find all the depth-contours of the data point in `F`.
 
     This function applies convex-hull (i.e. qhull, `scipy.spatial.ConvexHull`)
@@ -96,11 +96,11 @@ def depth_contours(F, project_collapse = True):
     if project_collapse:
         if m >= 3:
             F_ = project(F)
-            P = collapse(F, d = m-1)
+            P = collapse(F, d=m-1)
         else:
             P = project(F)
     else:
-        P = np.array(F, copy = True)
+        P = np.array(F, copy=True)
 
     I = np.arange(0, n, 1).astype(np.int64)
     Id = np.arange(0, n).astype(int)
@@ -110,7 +110,7 @@ def depth_contours(F, project_collapse = True):
     L = []
     i = 0
     while Id.shape[0] >= (2 * m + 1):
-        H = ConvexHull(G, qhull_options = "Qa QJ Q12")
+        H = ConvexHull(G, qhull_options="Qa QJ Q12")
         Ih = H.vertices
         # print("i:", i, "Ih:", Ih, "Ih.shape:", Ih.shape)
         # print("i:", i, "Id[Ih]:", Id[Ih], "Id[Ih].shape:", Id[Ih].shape)

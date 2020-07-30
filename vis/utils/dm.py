@@ -42,7 +42,7 @@ def nadir(F):
         The 'numpy.max' values from each column.
     """
 
-    Fmax = np.max(F, axis = 0)
+    Fmax = np.max(F, axis=0)
     return Fmax
 
 def ideal(F):
@@ -59,7 +59,7 @@ def ideal(F):
         The 'numpy.min' values from each column.
     """
 
-    Fmin = np.min(F, axis = 0)
+    Fmin = np.min(F, axis=0)
     return Fmin
 
 def knees(Mu):
@@ -100,7 +100,7 @@ def knees(Mu):
     return Ik if Ik.shape[0] > 0 else None
 
 
-def tradeoff(F, epsilon = 0.125, k = None, penalize_extremes = False):
+def tradeoff(F, epsilon=0.125, k=None, penalize_extremes=False):
     r"""Calculate the trade-off values in the objective vectors 'F' to find the 'knee points'.
 
     Calculate the trade-off weight 'mu(.)' of each points in the objective vectors in 'F'. 
@@ -148,7 +148,7 @@ def tradeoff(F, epsilon = 0.125, k = None, penalize_extremes = False):
         epsilon = None
 
     n,m = F.shape
-    F_ = tr.normalize(F, lb = np.zeros(F.shape), ub = np.ones(F.shape))
+    F_ = tr.normalize(F, lb=np.zeros(F.shape), ub=np.ones(F.shape))
     
     # Threshold on neighborhood size: 2m + 2
     s = 2 * m + 2
@@ -183,5 +183,5 @@ def tradeoff(F, epsilon = 0.125, k = None, penalize_extremes = False):
             Mu[i] = np.nanmin(T)/denom if denom > 0.0 else Mu[i]
         
     Ik = knees(Mu)
-    Mu = tr.normalize(Mu, lb = np.array([0.0]), ub = np.array([1.0]))
+    Mu = tr.normalize(Mu, lb=np.array([0.0]), ub=np.array([1.0]))
     return Mu, Ik

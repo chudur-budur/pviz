@@ -23,7 +23,7 @@ from vis.utils import sampling as smp
 
 __all__ = ["surface"]
 
-def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
+def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     r"""Generate `n` number of points on 'DTLZ2' problem (`m`-shpere).
     
     This function generates points on a 'DTLZ2' problem [1]_, which is
@@ -87,7 +87,7 @@ def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
 
     F = np.ones((n, m))
     if mode == 'lhc':
-        theta = smp.lhc(n = n, m = m - 1)
+        theta = smp.lhc(n=n, m=m - 1)
         X = np.copy(theta)
          
         # # print for sanity check
@@ -124,8 +124,8 @@ def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
         #         F[:,i] = F[:,i] * np.cos(theta[:,m - (i + 1)] * (np.pi / 2)) 
 
     elif mode == 'lhcl2':
-        Y = smp.lhcl2(n = n, m = m, delta = delta)
-        Y_ = np.linalg.norm(Y, 2, axis = 1)
+        Y = smp.lhcl2(n=n, m=m, delta=delta)
+        Y_ = np.linalg.norm(Y, 2, axis=1)
         F = (Y.T / Y_).T
         X = np.zeros((n, m-1))
         
@@ -146,10 +146,10 @@ def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
 
         # This is what is explained in wikipedia
         for i in range(m-2):
-            denom = np.linalg.norm(F[:,i:m], 2, axis = 1)
+            denom = np.linalg.norm(F[:,i:m], 2, axis=1)
             Inz = np.nonzero(denom)
             X[Inz,i] = np.arccos(F[Inz,i] / denom[Inz]) / (np.pi / 2) 
-        denom = np.linalg.norm(F[:,m-2:m], 2, axis = 1)
+        denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
         Inz = np.nonzero(denom)
         X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
         
@@ -170,11 +170,11 @@ def surface(r =  1, n = 10, m = 2, mode = 'lhc', **kwargs):
         F = smp.das_dennis(n = n, m = m)
         X = np.zeros((F.shape[0], m-1))
         for i in range(m-2):
-            denom = np.linalg.norm(F[:,i:m], 2, axis = 1)
+            denom = np.linalg.norm(F[:,i:m], 2, axis=1)
             Inz = np.nonzero(denom)
             X[Inz,i] = np.arccos(F[Inz,i] / denom[Inz]) / (np.pi / 2)
         
-        denom = np.linalg.norm(F[:,m-2:m], 2, axis = 1)
+        denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
         Inz = np.nonzero(denom)
         X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
     

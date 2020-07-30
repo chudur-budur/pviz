@@ -45,7 +45,7 @@ def cast(x, dtype):
         # fall back
         return ast.literal_eval(x)
 
-def loadtxt(fname, dtype = float, delimiter = None):
+def loadtxt(fname, dtype=float, delimiter=None):
     r"""Load an array from a file, very similar to `npyio.loadtxt()`.
 
     Since `npyio.loadtxt()` is not useful when we want to load a jagged array
@@ -74,7 +74,7 @@ def loadtxt(fname, dtype = float, delimiter = None):
     fp.close()
     return np.array(X)
 
-def savetxt(fname, X, fmt = '{:.18e}', delimiter = ' ', newline = '\n'):
+def savetxt(fname, X, fmt='{:.18e}', delimiter=' ', newline='\n'):
     r"""Save an array to a file, very similar to `npyio.savetxt()`.
 
     Since `npyio.savetxt()` is not useful when we want to save a jagged array

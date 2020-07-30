@@ -52,7 +52,7 @@ def get_feasible(F, X):
     If = np.where(C <= 0.0)[0]
     return F[If], X[If], C[If]
 
-def surface(r = 1, k = 1, n = 10, m = 2, mode = 'lhc', **kwargs):
+def surface(r=1, k=1, n=10, m=2, mode='lhc', **kwargs):
     r"""Generate `n` number of points on an 'CDEBMDK' problem [1]_.
 
     This problem is adapted from 'DEBMDK' problem, it applies a constraint function
@@ -112,7 +112,7 @@ def surface(r = 1, k = 1, n = 10, m = 2, mode = 'lhc', **kwargs):
     # This is needed for debmdk and dtlz2
     delta = kwargs['delta'] if (len(kwargs) > 0 and 'delta' in kwargs) else 0.0001
     
-    F, X = debmdk.surface(r = r, n = n, m = m, mode = mode, delta = delta)
+    F, X = debmdk.surface(r=r, n=n, m=m, mode=mode, delta=delta)
     F, X, C = get_feasible(F, X)
     C = tr.normalize(C)
     return F, X, C

@@ -27,13 +27,13 @@ from vis.generators import dtlz2
 
 __all__ = ["surface"]
 
-def rf(x, k = 1):
+def rf(x, k=1):
     r"""The radius function for the knee problem.
     """
     return 5.0 + (10.0 * (x - 0.5) * (x - 0.5)) \
             + ((2.0 / k) * np.cos(2.0 * k * np.pi * x))
 
-def surface(r = 1, k = 1, n = 10, m = 2, mode = 'lhc', **kwargs):
+def surface(r=1, k=1, n=10, m=2, mode='lhc', **kwargs):
     r"""Generate `n` number of points on an `m`-dimensional knee ('DEBMDK') problem [1]_.
 
     The Pareto-optimal front for "DEBMDK" problem is basically a hypersurface of
@@ -91,7 +91,7 @@ def surface(r = 1, k = 1, n = 10, m = 2, mode = 'lhc', **kwargs):
     # This is needed for dtlz2
     delta = kwargs['delta'] if (len(kwargs) > 0 and 'delta' in kwargs) else 0.0001
     
-    F, X = dtlz2.surface(r = r, n = n, m = m, mode = mode, delta = delta)
+    F, X = dtlz2.surface(r=r, n=n, m=m, mode=mode, delta=delta)
 
     g = 1.0
     vrf = np.vectorize(rf)

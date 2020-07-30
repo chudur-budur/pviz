@@ -21,7 +21,7 @@ from scipy.special import comb
 
 __all__ = ["grid", "lhs", "lhcl2", "das_dennis"]
 
-def grid(n = 100, m = 2):
+def grid(n=100, m=2):
     r""" A simple meshgrid generator for 'm'-dimensional coordinate.
 
     A very simple function to generate grid points in an 'm'-dimensional
@@ -52,7 +52,7 @@ def grid(n = 100, m = 2):
         warnings.warn("Genenrated {:d} points instead.".format(F.shape[0]))
     return F
 
-def lhc(n = 10, m = 2):
+def lhc(n=10, m=2):
     r""" Latin Hyper-cube Sampling (LHS) of `n` points in `m` dimension.
 
     A very simple LHS code, every point is within `[0.0, 1.0]`.
@@ -78,7 +78,7 @@ def lhc(n = 10, m = 2):
         np.random.shuffle(F[:,i])
     return F
 
-def lhcl2(n = 10, m = 2, delta = 0.0001):
+def lhcl2(n=10, m=2, delta=0.0001):
     r""" Latin Hyper-cube Sampling of `n` points in `m` dimension with L2-norm constraint.
 
     Latin hypercube sampling n samples of m-dimensional points. This function guarantees 
@@ -144,7 +144,7 @@ def _das_dennis(p, m):
         _das_dennis_inner(ref_dirs, ref_dir, p, p, 0)
         return np.concatenate(ref_dirs, axis = 0)
 
-def das_dennis(n = 100, m = 2, manifold = 'sphere'):
+def das_dennis(n=100, m=2, manifold='sphere'):
     r""" Generating equidistant points on an 'm'-simplex (or 'm'-sphere).
 
     This function uses the recursive subdivision method described by 
@@ -189,19 +189,19 @@ def das_dennis(n = 100, m = 2, manifold = 'sphere'):
         return np.linspace(0,1,d)[:,None]
 
     p = 1
-    n_ = comb(m + p - 1, p, exact = False).astype(np.int64)
+    n_ = comb(m + p - 1, p, exact=False).astype(np.int64)
     while n_ <= n:
         p += 1
-        n_ = comb(m + p - 1, p, exact = False).astype(np.int64)
+        n_ = comb(m + p - 1, p, exact=False).astype(np.int64)
     p = p - 1
     
-    R = _das_dennis(m = m, p = p)
+    R = _das_dennis(m=m, p=p)
     if R.shape[0] != n:
         warnings.warn("Das-Dennis's method couldn't generate {:d} points.".format(n))
         warnings.warn("Genenrated {:d} points instead.".format(R.shape[0]))
     
     if manifold == 'sphere':
-        F = R / np.linalg.norm(R, axis = 1)[:,None]
+        F = R / np.linalg.norm(R, axis=1)[:,None]
     else:
         F = R
     return F
