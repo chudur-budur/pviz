@@ -1,4 +1,4 @@
-"""`io.py` -- Different utility functions for I/O
+"""io.py -- Different utility functions for I/O
 
     This module provides different utility functions for I/O.
 
@@ -16,7 +16,7 @@
 import numpy as np
 import ast
 
-__all__ = ["loadtxt", ""]
+__all__ = ["loadtxt", "savetxt"]
 
 def cast(x, dtype):
     r"""Typecasting a scalar value `x`.
@@ -26,13 +26,13 @@ def cast(x, dtype):
 
     Parameters
     ----------
-    `x`: A variable `x`
-    `dtype`: data-type
+    x : A variable `x`
+    dtype : data-type
         A data-type literal, can be `int`, `float`, `str` etc.
 
     Returns
     -------
-    `dtype(x)`: typecasted `x`
+    dtype(x) : typecasted `x`
     
     """
     if dtype is float:
@@ -53,17 +53,17 @@ def loadtxt(fname, dtype = float, delimiter = None):
 
     Parameters
     ----------
-    `fname` : `str`, or `pathlib.Path`
+    fname : str or pathlib.Path
         A filename or a file path in string or `pathlib.Path` to read.
-    `dtype` : data-type, optional
+    dtype : data-type, optional
         Data-type of the resulting array. It can be `int`, `float`, `str` etc.
-        See `cast()` function for details. This value is `float` when default. 
-    `delimiter` : `str`, optional
-        The string used to separate values. The default is whitespace.
+        See `cast()` function for details. Default `float` when optional. 
+    delimiter : str, optional
+        The string used to separate values. Default is whitespace when optional.
 
     Returns
     -------
-    `X` : ndarray
+    X : ndarray
         Data read from the text file.
     """
     fp = open(fname, 'r')
@@ -82,17 +82,17 @@ def savetxt(fname, X, fmt = '{:.18e}', delimiter = ' ', newline = '\n'):
 
     Parameters
     ----------
-    `fname` : `str`
+    fname : str
         A file path in string.
-    `X` : 1D or 2D array_like
+    X : 1D or 2D array_like
         Data to be saved to a text file. It can be a jagged array.
-    `fmt` : `str` or sequence of `str`s, optional
+    fmt : str or sequence of str's, optional
         Python3 formatting string, i.e. '{:d}' for `int`, `{:f}` for `float` etc.
-        '{:.18e}' when default.
-    `delimiter` : `str`, optional
+        Default '{:.18e}' when optional.
+    delimiter : str, optional
         String or character separating columns. A whitespace when default.
-    `newline` : `str`, optional
-        String or character separating lines. A `\n` when default.
+    newline : str, optional
+        String or character separating lines. Default `\n` when optional.
     """
     fp = open(fname, 'w+')
     for i in range(X.shape[0]-1):

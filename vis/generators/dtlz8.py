@@ -1,4 +1,4 @@
-"""`dtlz8.py` -- A Module to Generate Points on a 'DTLZ8' Problem
+"""dtlz8.py -- A Module to Generate Points on a 'DTLZ8' Problem
     
     This module provides functions to generate points on a 'DTLZ8' problem [1]_.
 
@@ -44,13 +44,13 @@ def surface(m = 2, nl = 50, ns = 750, mode = 'lhc', **kwargs):
 
     Parameters
     ----------
-    `m` : int, optional
+    m : int, optional
         The dimension of the Pareto-optimal front. Default 2 when optional.
-    `nl` : int, optional
+    nl : int, optional
         The number of points on the 3 (or 2)-dimensional line. Default 50 when optional.
-    `ns` : int, optional
+    ns : int, optional
         The number of points on the 'm'-dimensional hypersurface. Default 750 when optional.
-    `mode`: str, {'lhc', 'lhcl2', 'grid'}, optional
+    mode : str, {'lhc', 'lhcl2', 'grid'}, optional
         If `mode = `lhc``, then LHC sampling will be used and points will be generated
         using standard spherical coordinate systems. If `mode = `lhcl2``, then we will
         use a normalized LHC sampling to generate uniformly distributed points on the
@@ -59,25 +59,25 @@ def surface(m = 2, nl = 50, ns = 750, mode = 'lhc', **kwargs):
 
     Other Parameters
     ----------------
-    `**kwargs` : float, `delta`
+    delta : float, optional
         `delta` value for normalized LHC, this is used so that we only keep vectors
         `V` such that `np.linalg.norm(V, 1) > delta`. The default value is 0.0001 but
         you might want to change it according to your application.
-    `**kwargs` : bool, `feasible_only`
+    feasible_only : bool, optional
         When 'feasible_only = True', the function will return only the feasible solutions.
-        Otherwise it will return all the points. Default is 'True'.
+        Otherwise it will return all the points. Default 'True' when optional.
 
     Returns
     -------
-    `F` : ndarray
+    F : ndarray
         `n` points on the `m`-sphere, i.e. `|F| = n x m`.
-    `X` : None
+    X : None
         Does not return any design variable values.
-    `G` : ndarray
+    G : ndarray
         'n' constraint violation values for each point. Where `|G| = n x m`.
         Since there are 'm' constraints. 'G[i,j] < 0' means infeasible and
         'G[i,j] >= 0' means feasible.
-    'CV': ndarray
+    CV : ndarray
         'n' cumulative constraint violation values. Where '|CV| = n x 1'. 'CV'
         is just the row wise sums of 'G'.
 

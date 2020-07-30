@@ -1,4 +1,4 @@
-"""`dm.py` -- A Collection of Different Utility Functions for Decision Making (DM)
+"""dm.py -- A Collection of Different Utility Functions for Decision Making (DM)
     
     This module provides different utility functions for decision making (DM) in
     multi-objective optimization (MOP) scenario, for example, finding knee 
@@ -33,13 +33,13 @@ def nadir(F):
 
     Parameters
     ----------
-    `F` : ndarray
+    F : ndarray
         A sample of `n` data points in `m` dimension, i.e. `|F| = n x m`.
 
     Returns
     -------
-    'Fmax' : ndarray
-        The 'np.max' values from each column.
+    Fmax : ndarray
+        The 'numpy.max' values from each column.
     """
 
     Fmax = np.max(F, axis = 0)
@@ -50,13 +50,13 @@ def ideal(F):
     
     Parameters
     ----------
-    `F` : ndarray
+    F : ndarray
         A sample of `n` data points in `m` dimension, i.e. `|F| = n x m`.
 
     Returns
     -------
-    'Fmin' : ndarray
-        The 'np.min' values from each column.
+    Fmin : ndarray
+        The 'numpy.min' values from each column.
     """
 
     Fmin = np.min(F, axis = 0)
@@ -72,14 +72,14 @@ def knees(Mu):
 
     Parameters
     ----------
-    `Mu` : ndarray
+    Mu : ndarray
         A vector of 'n' floats, i.e. '|Mu| = n x 1'.
 
     Returns
     -------
-    'Ik' : ndarray (or 'None')
-        An array of `int`, each value is the index of best trade-off 
-        values in 'Mu'. 'None' will be returned if 'Ik' is empty.
+    Ik : ndarray (or None)
+        An array of integers, each value is the index of best trade-off 
+        values in 'Mu'. A 'None' will be returned if 'Ik' is empty.
     """
 
     # filter out nan and inf values    
@@ -101,43 +101,39 @@ def knees(Mu):
 
 
 def tradeoff(F, epsilon = 0.125, k = None, penalize_extremes = False):
-    r"""Calculate the trade-off values in the objective vectors 'F' 
-        to find the 'knee points'.
+    r"""Calculate the trade-off values in the objective vectors 'F' to find the 'knee points'.
 
-        Calculate the trade-off weight 'mu(.)' of each points in the 
-        objective vectors in 'F'. The method is described in [1]_.
+    Calculate the trade-off weight 'mu(.)' of each points in the objective vectors in 'F'. 
+    The method is described in [1]_.
 
-        By default, the neighbourhood will be considered as epsilon = 0.125 
-        neighbour, therefore, all the objective function vector will be 
-        normalized within '[0.0, 1.0]' before calculation.
+    By default, the neighbourhood will be considered as `epsilon = 0.125` neighbour, 
+    therefore, all the objective function vector will be normalized within '[0.0, 1.0]' 
+    before the calculation.
     
     Parameters
     ----------
-    `F` : ndarray
-        Input data points 'F' of 'm'-dimensional objective 
-        function vector, i.e. '|F| = n x m'.
-    `epsilon` : float
+    F : ndarray
+        Input data points 'F' of 'm'-dimensional objective function vector, 
+        i.e. '|F| = n x m'.
+    epsilon : float, optional
         The 'epsilon' neighborhood radius. Default 0.125 when optional.
-    `k` : int, optional
+    k : int, optional
         The number of neighboring points. If 'k' is set, 'epsilon' will 
-        not be used. 'None' when default.
-
-    Other Parameters
-    ----------------
-    'penalize_extremes': boolean
-        The method discussed in [1]_ puts higher weights on extreme 
-        points. If this variable is set to 'True', the extreme points 
-        will have lower trade-off weights, leaving only the knee points
-        in the non-extreme (other/intermediary) part of the Pareto-optimal
-        front.
+        not be used. Default 'None' when optional.
+    penalize_extremes : boolean, optional
+        The method discussed in [1]_ puts higher weights on extreme points. 
+        If this variable is set to 'True', the extreme points will have lower 
+        trade-off weights, leaving only the knee points in the non-extreme 
+        (other/intermediary) part of the Pareto-optimal front. Default 'None' 
+        when optional
 
     Returns
     -------
-    `Mu` : ndarray
+    Mu : ndarray
         An array of trade-off values of each corresponding vector in 'F'. 
         It's an array of floats, i.e. '|Mu| = n x 1'.
-    `Ik` : ndarray
-        The indices of "knee" points in 'F'. 'None' if no such point exists. 
+    Ik : ndarray
+        The indices of "knee" points in 'F'. Returns 'None' if no such point exists. 
 
     References
     ----------

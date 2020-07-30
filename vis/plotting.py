@@ -1,4 +1,4 @@
-"""`plotting.py` -- Different plotting functions for high-dimensional Pareto-optimal front
+"""plotting.py -- Different plotting functions for high-dimensional Pareto-optimal front
 
     This module provides different plotting functions for high-dimensional
     Pareto-optimal fronts. For example, scatter, radviz, star-coordinate,
@@ -51,33 +51,37 @@ def scatter(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], **kwargs):
 
     Parameters
     ----------
-    `A` : ndarray 
+    A : ndarray 
         `n` number of `m` dim. points to be plotted.
-    `plt`: A `matplotlib.pyplot` object
+    plt : A `matplotlib.pyplot` object
         It needs to be passed.
-    `s`: `int` or 1-D array, optional
-        Point size, or an array of point sizes. 1 when default.
-    `c`: A `matplotlib.colors` object, str or an array RGBA color values.
-        Colors to be used. `mc.TABLEAU_COLORS['tab:blue']` when default.
+    s : int or 1-D array_like, optional
+        Point size, or an array of point sizes. Default 1 when optional.
+    c : A `matplotlib.colors` object, str or an array RGBA color values.
+        Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when optional.
 
     Other Parameters
     ----------------
-    `**kwargs` : str, `label_prefix`
-        The axis-label-prefix to be used, `r"$f_{:d}$"` when default.
-    `**kwargs` : str or int, `label_fontsize`
-        The fontsize for the axes labels. `'large'` when default.
-    `**kwargs` : list of int, `axes`
-        The list of columns of `A` to be plotted. `(0, 1, 2)` when default.
-    `**kwargs` : pair of int, `euler`
-        The azmiuth and elevation angle. `(-60,30)` when default.
-    `**kwargs` : pair of int, `xbound`, `ybound` and `zbound`
-        The bounds on the axes. `None` when default.
-    `**kwargs` : str, `title`
-        The plot title. `None` when default.
+    label_prefiz : str, optional
+        The axis-label-prefix to be used, default `r"$f_{:d}$"` when optional.
+    label_fontsize : str or int, optional
+        The fontsize for the axes labels. Default `'large'` when optional.
+    axes : tuple of int, optional
+        The list of columns of `A` to be plotted. Default `(0, 1, 2)` when optional.
+    euler : tuple (i.e. a pair) of int, optional
+        The azmiuth and elevation angle. Default `(-60,30)` when optional.
+    xbound : tuple (i.e. a pair) of int, optional 
+        The bounds on the X-axis. Default `None` when optional.
+    ybound : tuple (i.e. a pair) of int, optional 
+        The bounds on the Y-axis. Default `None` when optional.
+    zbound : tuple (i.e. a pair) of int, optional 
+        The bounds on the Z-axis. Default `None` when optional.
+    title : str, optional
+        The plot title. Default `None` when optional.
 
     Returns
     -------
-    `(fig,ax)` : tuple, `(matplotlib.pyplot.figure, matplotlib.axes.Axes)`
+    (fig, ax) : tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes`
         A tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes` 
         (or `mpl_toolkits.mplot3d.axes.Acxes`) objects.
     """
@@ -141,22 +145,21 @@ def get_radviz_coordinates(X, factor = 1.0, normalized=True):
     ----------
     X : ndarray 
         `n` number of `m` dim. points as input.
-    factor: float, optional
+    factor : float, optional
         The "spread-factor" to make the points less cluttered in the 
         center while dealing with high-dimensional data points. 
         1.0 when default.
-    normalized: boolean, optional 
+    normalized : boolean, optional 
         If this value is True, then all the points in `X` will be 
         normalized within `[0.0, 1.0]`. True when default.
 
     Returns
     -------
-    (`P`, `K`, `B`)  : a tuple of ndarrays
+    (P,K,B) : tuple of ndarray
         `P` is an ndarray of radviz coordinates (i.e. `|P| = n x 2`), 
         `K` is the position of the anchor points (i.e. `|K| = m x 2`),
         and `B` is the lower bound and upper bound of `P`. `K` and `B`
         will be used to draw anchor points and the polygon.
-        
     """
     m = X.shape[1]
     if normalized:

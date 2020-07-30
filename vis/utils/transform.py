@@ -1,4 +1,4 @@
-"""`transform.py` -- A Collection of Different Utility Functions for Different Data Transformations
+"""transform.py -- A Collection of Different Utility Functions for Different Data Transformations
     
     This module provides different utility functions for 
     the transformation of data and other things.
@@ -28,16 +28,16 @@ def normalize(A, lb = None, ub = None):
 
     Parameters
     ----------
-    'A' : array_like
+    A : array_like
         The input matrix.
-    `lb` : array_like, optional
+    lb : array_like, optional
         The lower bound of each column. Default 'None' when optional.
-    `ub` : array_like, optional
+    ub : array_like, optional
         The upper bound of each column. Default `None` when optional.
 
     Returns
     -------
-    `B` : ndarray
+    B : ndarray
         The result after normalizing the input array `A`.
 
     """
@@ -63,12 +63,12 @@ def pfindices(A):
 
     Parameters
     ----------
-    'A' : array_like
+    A : array_like
         The input matrix.
 
     Returns
     -------
-    `I` : ndarray
+    I : ndarray
         The indices of all non-dominated points the input array `A`.
 
     """
@@ -115,16 +115,16 @@ def color_by_cv(CV, factor = 0.8, alpha = 0.5):
 
     Parameters
     ----------
-    'CV': `ndarray`
+    CV : ndarray
         An nd-array of cumulative contstraint violation values.
-    `factor`: float, optional
+    factor : float, optional
         If `factor = 1.0`, then we will use the actual gradient
         from `cm.cool`. When this value is smaller than 1.0, then
         the gradient will be shifted left (i.e. some portion from 
         the highest end of the color gradient will be skipped). 
-        0.8 when default.
-    `alpha`: float, optional
-        Alpha transparency value. 0.5 when default.
+        Default 0.8 when optional.
+    alpha : float, optional
+        Alpha transparency value. Default 0.5 when optional.
         
     Returns
     -------
@@ -145,23 +145,23 @@ def color_by_dist(X, P, alpha = 0.5, factor = 1.75):
 
     Parameters
     ----------
-    'X': `ndarray`
+    X : ndarray
         An set of `m`-dimensional data points, i.e. `|X| = n x m` 
-    'P': 1D-`array`
+    P : 1D-array
         A point `P`, a 1-D array. This can be the center of mass of `X`.
-    `alpha`: float, optional
-        Alpha transparency value. 0.5 when default.
-    `factor`: float, optional
+    alpha : float, optional
+        Alpha transparency value. Default 0.5 when optional.
+    factor : float, optional
         If `factor = 1.0`, then we will use the actual gradient
         from `cm.winter_r`. When this value is smaller than 1.0, then
         the gradient will be shifted right (i.e. some portion from 
         the lowest end of the color gradient will be skipped). 
-        1.75 when default. A user might want to try with different 
-        values for factor.
+        Default 1.75 when optional. A user might want to try with 
+        different values for factor.
         
     Returns
     -------
-    `C` : ndarray
+    C : ndarray
         An array of RGBA color values.
     """
     D = normalize(np.linalg.norm(P - X, axis = 1), lb = 0.1, ub = 1.0)
@@ -178,19 +178,19 @@ def enhance_color(C, Ik, alpha = 1.0, color = mc.TABLEAU_COLORS['tab:red']):
     
     Parameters
     ----------
-    'C': `ndarray`
+    C: ndarray
         An array of RGBA color values as input.
-    'Ik': `array` of `int`
-        An array of `int` indices.
-    `alpha`: float, optional
-        Alpha transparency value. 0.5 when default.
-    `color`: RGB color value, optional
+    Ik : array_like of int
+        An array of integer indices.
+    alpha : float, optional
+        Alpha transparency value. Default 0.5 when optional.
+    color : RGB color value, optional
         The color to be used to enhance the points. 
-        `mc.TABLEAU_COLORS['tab:red']` when default.
+        Default `mc.TABLEAU_COLORS['tab:red']` when optional.
         
     Returns
     -------
-    `C_` : ndarray
+    C_ : ndarray
         An array of RGBA color values.
     """
     C_ = np.array(C, copy=True)
@@ -206,14 +206,14 @@ def default_color(n, alpha = 1.0):
 
     Parameters
     ----------
-    'n': int
+    n : int
         The length of the output array containing RGBA color values.
-    `alpha`: float, optional
-        Alpha transparency value. 0.5 when default.
+    alpha : float, optional
+        Alpha transparency value. Default 0.5 when optional.
         
     Returns
     -------
-    `C` : ndarray
+    C : ndarray
         An array of RGBA color values.
     """
     C = np.array([mc.to_rgba(mc.TABLEAU_COLORS['tab:blue'], alpha) for _ in range(n)])
@@ -222,8 +222,8 @@ def default_color(n, alpha = 1.0):
 def resize_by_tradeoff(Mu, k = None, minsize = 2.0, maxsize = 10.0, kminsize = 3.0, kmaxsize = 5.0):
     r"""Resize the points w.r.t. tradeoff values.
 
-    If we need to resize the points with respect to the tradeoff values, 
-    we can use this function. This function assumes `Mu` values are within [0,1]. 
+    If we need to resize the points with respect to the tradeoff values, we can use this 
+    function. This function assumes `Mu` values are within `[0.0,1.0]`. 
 
     Since point size of 0 is not visible, we normalize them within `[minsize, maxsize]`.
     In order to capture the relative tradeoffs, we then scale the sizes by the power of 2.
@@ -234,23 +234,23 @@ def resize_by_tradeoff(Mu, k = None, minsize = 2.0, maxsize = 10.0, kminsize = 3
     
     Parameters
     ----------
-    'Mu': 1-D `array`
+    Mu : 1-D array_like
         A 1D-array of tradeoff values, float. Also `0.0 <= Mu <= 1.0`.
-    `k`: 1-D `array`, optional
-        A 1D-array of `int` indices to be used to specify which points
-        will be increased in size by `kfactor`. `None` when default.
-    `minsize`: float, optional
+    k : 1-D array_like, optional
+        A 1D-array of integer indices to be used to specify which points
+        will be increased in size by `kfactor`. Default `None` when optional.
+    minsize : float, optional
         The minimum allowable size of each point before the exponential 
-        scaling. 2.0 when default.
-    `maxsize`: float, optional
+        scaling. Default 2.0 when optional.
+    maxsize : float, optional
         The maximum allowable size of each point before the exponential 
-        scaling. 10.0 when default.
-    `kminsize`: float, optional
+        scaling. Default 10.0 when optional.
+    kminsize : float, optional
         The minimum allowable size of the points indexed by `k`, before 
-        the exponential scaling. 10.0 when default.
-    `kmaxsize`: float, optional
+        the exponential scaling. Default 10.0 when optional.
+    kmaxsize : float, optional
         The maximum allowable size of the points indexed by `k`, before 
-        the exponential scaling. 10.0 when default.
+        the exponential scaling. Default 10.0 when optional.
     """
     S = np.power(normalize(Mu, lb = np.array([minsize]), ub = np.array([maxsize])), 2)
     if k is not None:

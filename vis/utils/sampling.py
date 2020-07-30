@@ -1,4 +1,4 @@
-"""`sampling.py` -- A Collection of Different Utility Functions for DOE
+"""sampling.py -- A Collection of Different Utility Functions for DOE
     
     This module provides different utility functions for random sampling, 
     for example, Latin Hypercube Sampling (LHS) etc.
@@ -29,15 +29,16 @@ def grid(n = 100, m = 2):
 
     Parameters
     ----------
-    'n' : int, optional
+    n : int, optional
         The number of points. Default is 100 when optional.
-    `m` : int
+    m : int
         The number of dimensions. Default is 2 when optional.
 
     Returns
     -------
-    `F` : ndarray
-        A sample of `⌈n^(1/m)⌉^m` data points in `m` dimension, i.e. `|F| = ⌈n^(1/m)⌉^m x m`.
+    F : ndarray
+        A sample of `⌈n^(1/m)⌉^m` data points in `m` dimension, 
+        i.e. `|F| = ⌈n^(1/m)⌉^m x m`.
 
     """
     d = np.ceil(n ** (1/m)).astype(np.int64)
@@ -54,18 +55,18 @@ def grid(n = 100, m = 2):
 def lhc(n = 10, m = 2):
     r""" Latin Hyper-cube Sampling (LHS) of `n` points in `m` dimension.
 
-    A very simple LHS code, every point is within [0.0, 1.0].
+    A very simple LHS code, every point is within `[0.0, 1.0]`.
 
     Parameters
     ----------
-    'n' : int, optional
+    n : int, optional
         The number of points. Default is 10 when optional.
-    `m` : int
+    m : int
         The number of dimensions. Default is 2 when optional.
 
     Returns
     -------
-    `F` : ndarray
+    F : ndarray
         A sample of `n` data points in `m` dimension, i.e. `|F| = n x m`.
 
     """
@@ -82,18 +83,18 @@ def lhcl2(n = 10, m = 2, delta = 0.0001):
 
     Latin hypercube sampling n samples of m-dimensional points. This function guarantees 
     that 2-norm of each sample is greater than 0.0001. This function is slower than `lhc()`.
-    Every point is within [0.0, 1.0].
+    Every point is within `[0.0, 1.0]`.
 
     Parameters
     ----------
-    'n' : int
+    n : int
         The number of points.
-    `m` : int
+    m : int
         The number of dimensions.
 
     Returns
     -------
-    `F` : ndarray
+    F : ndarray
         A sample of `n` data points in `m` dimension, i.e. `|F| = n x m`.
 
     """
@@ -157,18 +158,18 @@ def das_dennis(n = 100, m = 2, manifold = 'sphere'):
 
     Parameters
     ----------
-    'n' : int, optional
+    n : int, optional
         The number of points. Default is 100 when optional.
-    `m` : int
+    m : int
         The number of dimensions. Default is 2 when optional.
-    'manifold': str, {'sphere', 'simplex'}, optional
+    manifold : str, {'sphere', 'simplex'}, optional
         If the 'manifold' is 'simplex', the function will generate points 
         on an 'm'-simplex. If the 'manifold' is 'sphere', they will be on an 
         'm'-sphere. First when default.
 
     Returns
     -------
-    `F` : ndarray
+    F : ndarray
         A sample of `((m + p - 1)!)/(p!(m-1)!)` data points in `m` dimension, 
         i.e. `|F| = ((m + p - 1)!)/(p!(m-1)!) x m`.
 
