@@ -15,10 +15,13 @@
 
 """
 
+import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.colors as mc
+from matplotlib.patches import Circle
+from vis.utils import transform as tr
 
-__all__ = ["scatter", "camera_scatter"]
+__all__ = ["scatter", "camera_scatter", "radviz"]
 
 # Some good camera angles for scatter plots.
 camera_scatter = {
@@ -122,4 +125,134 @@ def scatter(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], **kwargs):
             ax.view_init(euler[1], euler[0])
         return (fig, ax)
     else:
-        raise TypeError("A valid `matplotlib.pyplot` object must be provided.") 
+        raise TypeError("A valid `matplotlib.pyplot` object must be provided.")
+
+def get_radviz_coordinates(X, factor = 1.0, normalized=True):
+    r"""Generate Radviz coordinates from data points `X`.
+
+    Maps all the data points in `X` (i.e. `|X| = n x m`) onto
+    Radviz coordinate positions. The `factor` parameter can be
+    used to "spread-out" the data points on Radviz. In higher
+    dimension, the points on Radviz tend to be clustered in the
+    center. We can increase this value to make the points more
+    visible.
+
+    Parameters
+    ----------
+    X : ndarray 
+        `n` number of `m` dim. points as input.
+    factor: float, optional
+        The "spread-factor" to make the points less cluttered in the 
+        center while dealing with high-dimensional data points. 
+        1.0 when default.
+    normalized: boolean, optional 
+        If this value is True, then all the points in `X` will be 
+        normalized within `[0.0, 1.0]`. True when default.
+
+    Returns
+    -------
+    (`P`, `K`, `B`)  : a tuple of ndarrays
+        `P` is an ndarray of radviz coordinates (i.e. `|P| = n x 2`), 
+        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
+        and `B` is the lower bound and upper bound of `P`. `K` and `B`
+        will be used to draw anchor points and the polygon.
+        
+    """
+    m = X.shape[1]
+    if normalized:
+        X_ = tr.normalize(X, lb = np.zeros(m), ub = np.ones(m))
+    else:
+        X_ = X
+    T = 2 * np.pi * (np.arange(0, m, 1).astype(int) / m)
+    COS = np.cos(T)
+    SIN = np.sin(T)
+    
+    Y = np.power(X_, factor)
+    S = np.sum(Y, axis=1)
+    U = np.sum(Y * COS, axis=1) / S
+    V = np.sum(Y * SIN, axis=1) / S
+    P = np.column_stack((U, V))
+
+    B = [np.amin(P, axis=0), np.amax(P, axis=0)]
+    K = np.column_stack((COS, SIN))
+    return (P, K, B)
+
+def set_anchors(ax, A):
+    tgc = mc.TABLEAU_COLORS['tab:gray']
+    for i in range(0, A.shape[0]-1):
+        # draw one polygon line
+        ax.plot([A[i,0], A[i + 1,0]], [A[i,1], A[i + 1,1]], c=tgc, alpha=1.0, \
+                    linewidth=1.0, linestyle='dashdot')
+        # draw a pair of polygon points
+        ax.scatter(A[i,0], A[i,1], c=tgc, marker='o', s=20.0, alpha=1.0)
+    # last polygon line
+    ax.plot([A[-1,0], A[0,0]], [A[-1,1], A[0,1]], c=tgc, alpha=1.0, \
+                linewidth=1.0, linestyle='dashdot')
+    # last pair of polygon points
+    ax.scatter(A[-1,0], A[-1,1], c=tgc, marker='o', s=20.0, alpha=1.0)
+
+def set_anchor_labels(ax, A, label_prefix, label_fontsize, label_fontname, label_fontstyle):
+    tgc = mc.TABLEAU_COLORS['tab:gray']
+    # now put all the corner labels, like f1, f2, f3, ... etc.
+    for xy, name in zip(A, [label_prefix.format(i+1) for i in range(A.shape[0])]):
+        if xy[0] < 0.0 and xy[1] < 0.0:
+            ax.text(xy[0] - 0.025, xy[1] - 0.025, s=name, ha='right', va='top', \
+                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+        elif xy[0] < 0.0 and xy[1] >= 0.0: 
+            ax.text(xy[0] - 0.025, xy[1] + 0.025, s=name, ha='right', va='bottom', \
+                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+        elif xy[0] >= 0.0 and xy[1] < 0.0:
+            ax.text(xy[0] + 0.025, xy[1] - 0.025, s=name, ha='left', va='top', \
+                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+        elif xy[0] >= 0.0 and xy[1] >= 0.0:
+            ax.text(xy[0] + 0.025, xy[1] + 0.025, s=name, ha='left', va='bottom', \
+                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+    p = Circle((0, 0), 1, fill=False, linewidth=0.8, color=tgc)
+    ax.add_patch(p)
+
+def radviz(A, plt, s = 1, c = mc.TABLEAU_COLORS['tab:blue'], \
+            normalized=True, draw_axes=False, draw_anchors=True, \
+            spread_factor='auto', **kwargs):
+    r"""
+    """
+    # by default label_prefix is $f_n$
+    label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
+                            else r"$f_{:d}$"
+    # default label font size is 'large'
+    label_fontsize = kwargs['label_fontsize'] if (kwargs is not None and 'label_fontsize' in kwargs) \
+                            else 'large'
+    # default label font is None
+    label_fontname = kwargs['label_fontname'] if (kwargs is not None and 'label_fontname' in kwargs) \
+                            else None
+    # default label font style is 'normal'
+    label_fontstyle = kwargs['label_fontstyle'] if (kwargs is not None and 'label_fontstyle' in kwargs) \
+                            else 'normal'
+    # default plot title is empty
+    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+
+    # by default spread-factor is auto
+    if type(spread_factor) == str and spread_factor == 'auto':
+        factor = 2.0 if A.shape[1] > 3 else 1.0
+    elif type(spread_factor) == int or type(spread_factor) == float:
+        factor = spread_factor
+    else:
+        raise TypeError("`spread_factor` must be either 'auto' or a float/int.")
+
+    P, K, [lb, ub] = get_radviz_coordinates(A, factor=factor, \
+                                            normalized=normalized)
+    fig = plt.figure()
+    ax = fig.gca()
+    ax.scatter(P[:,0], P[:,1], s=s, c=c)
+    if draw_axes:
+        # ax.set_xticklabels([])
+        # ax.set_yticklabels([])
+        ax.set_axis_on()
+    else:
+        ax.set_axis_off()
+    if draw_anchors:
+        set_anchors(ax, K)
+        set_anchor_labels(ax, K, label_prefix, label_fontsize, label_fontname, label_fontstyle)
+    ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.01 if ub[0] > 1 else 1.1)
+    ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.01 if ub[1] > 1 else 1.1)
+    ax.set_aspect('equal')
+    return (fig, ax)
