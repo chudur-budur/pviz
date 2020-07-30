@@ -1,4 +1,4 @@
-"""`debmdk.py` -- A Module to Generate Points on a 'DEBMDK' Problem
+"""debmdk.py -- A Module to Generate Points on a 'DEBMDK' Problem
     
     This module provides functions to generate points on an m-dimensional 
     Knee problem ('DEBMDK') [1]_.
@@ -46,13 +46,13 @@ def surface(r = 1, k = 1, n = 10, m = 2, mode = 'lhc', **kwargs):
 
     Parameters
     ----------
-    `k` : int
+    k : int, optional
         The total number of knees. Default 1 when optional.
-    `n` : int
+    n : int, optional
         The total number of points. Default 10 when optional.
-    `m` : int, optional
+    m : int, optional
         The dimension of the sphere. Default 2 when optional.
-    `mode`: str, {'lhc', 'lhcl2', 'dd'}, optional
+    mode : str, {'lhc', 'lhcl2', 'dd'}, optional
         If `mode = `lhc``, then LHC sampling will be used and points will be generated
         using standard spherical coordinate systems. If `mode = `lhcl2``, then we will
         use a normalized LHC sampling to generate uniformly distributed points on the
@@ -62,16 +62,16 @@ def surface(r = 1, k = 1, n = 10, m = 2, mode = 'lhc', **kwargs):
 
     Other Parameters
     ----------------
-    `**kwargs` : float, `delta`
+    delta : float, optional
         `delta` value for normalized LHC, this is used so that we only keep vectors
         `V` such that `np.linalg.norm(V, 1) > delta`. The default value is 0.0001 but
         you might want to change it according to your application.
 
     Returns
     -------
-    `F` : ndarray
+    F : ndarray
         `n` points on the `m`-sphere, i.e. `|F| = n x m`.
-    `X` : ndarray
+    X : ndarray
         `n` points of the `m-1` dimensional spherical coordinate values, i.e. `|X| = n x (m-1)`.
 
     References
