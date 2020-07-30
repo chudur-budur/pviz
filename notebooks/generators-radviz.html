@@ -13153,7 +13153,7 @@ P. Hoffman, G. Grinstein and D. Pinkney, Dimensional anchors: A graphic primitiv
     <span class="n">Ik</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">kpathf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;muid.csv&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">kpathf</span><span class="p">):</span>
-        <span class="n">Ik</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">kpathf</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+        <span class="n">Ik</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">kpathf</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">CV</span><span class="p">,</span> <span class="n">Mu</span><span class="p">,</span> <span class="n">Ik</span>
 
@@ -13164,11 +13164,11 @@ P. Hoffman, G. Grinstein and D. Pinkney, Dimensional anchors: A graphic primitiv
     <span class="c1"># decide point-size</span>
     <span class="n">S</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">Mu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Ik</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">S</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">resize_by_tradeoff</span><span class="p">(</span><span class="n">Mu</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">Ik</span><span class="p">)</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">resize_by_tradeoff</span><span class="p">(</span><span class="n">Mu</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ik</span><span class="p">)</span>
 
     <span class="c1"># decide colors</span>
-    <span class="c1"># C = tr.default_color(F.shape[0], alpha = 0.5)</span>
-    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># C = tr.default_color(F.shape[0], alpha=0.5)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">C</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">color_by_dist</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
     
     <span class="c1"># if CV is available, use CV to color</span>
@@ -13222,7 +13222,7 @@ P. Hoffman, G. Grinstein and D. Pinkney, Dimensional anchors: A graphic primitiv
             <span class="n">frontname</span> <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
 
             <span class="c1"># load the front</span>
-            <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">fullpathf</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">fullpathf</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">fullpathf</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">frontname</span><span class="p">)</span>
             
             <span class="n">CV</span><span class="p">,</span> <span class="n">Mu</span><span class="p">,</span> <span class="n">Ik</span> <span class="o">=</span> <span class="n">load_props</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -13232,7 +13232,7 @@ P. Hoffman, G. Grinstein and D. Pinkney, Dimensional anchors: A graphic primitiv
             <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">({</span><span class="s2">&quot;text.usetex&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}):</span>
                 <span class="n">radviz</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">plt</span><span class="o">=</span><span class="n">plt</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
                 <span class="c1"># save the fig</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figpath</span><span class="p">,</span> <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">150</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figpath</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
                 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
