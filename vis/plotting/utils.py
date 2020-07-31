@@ -54,14 +54,16 @@ def resize_by_tradeoff(Mu, k=None, minsize=2.0, maxsize=10.0, kminsize=3.0, kmax
         scaling. Default 10.0 when optional.
     kminsize : float, optional
         The minimum allowable size of the points indexed by `k`, before 
-        the exponential scaling. Default 10.0 when optional.
+        the exponential scaling. Default 3.0 when optional.
     kmaxsize : float, optional
         The maximum allowable size of the points indexed by `k`, before 
-        the exponential scaling. Default 10.0 when optional.
+        the exponential scaling. Default 5.0 when optional.
+
+    https://stackoverflow.com/questions/14827650/pyplot-scatter-plot-marker-size
     """
     S = np.power(tr.normalize(Mu, lb=np.array([minsize]), ub=np.array([maxsize])), 2)
     if k is not None:
-        S[k] = np.power(tr.normalize(S[k], lb=np.array([kminsize]), ub=np.array([kmaxsize])), 3)
+        S[k] = np.power(tr.normalize(Mu[k], lb=np.array([kminsize]), ub=np.array([kmaxsize])), 3)
     return S
 
 
@@ -152,7 +154,7 @@ def color_by_dist(X, P, alpha=0.5, factor=1.75):
     return C
 
 
-def enhance_color(C, Ik, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
+def enhance_color(C, k, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
     r"""Enhance the color of selected data points.
 
     Given an array of RGBA color values `C`, this function will enhance
@@ -178,7 +180,7 @@ def enhance_color(C, Ik, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
         An array of RGBA color values.
     """
     C_ = np.array(C, copy=True)
-    C_[Ik] = np.array([mc.to_rgba(color, alpha) for _ in range(C[Ik].shape[0])])
+    C_[k] = np.array([mc.to_rgba(color, alpha) for _ in range(C[k].shape[0])])
     return C_
 
 

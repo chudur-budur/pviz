@@ -96,7 +96,7 @@ def get_radviz_coordinates(X, spread_factor='auto', normalized=True):
     V = np.sum(Y * SIN, axis=1) / S
     P = np.column_stack((U, V))
 
-    B = [np.amin(P, axis=0), np.amax(P, axis=0)]
+    B = [np.min(P, axis=0), np.max(P, axis=0)]
     K = np.column_stack((COS, SIN))
     return (P, K, B)
 

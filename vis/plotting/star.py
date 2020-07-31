@@ -79,12 +79,12 @@ def get_star_coordinates(X, inverted=True, normalized=True):
     
     T = 2 * np.pi * (np.arange(0, m, 1).astype(int) / m)
     COS,SIN = np.cos(T), np.sin(T)
-    LB,UB = np.amin(X_, axis=0), np.amax(X_, axis=0)
+    LB,UB = np.min(X_, axis=0), np.max(X_, axis=0)
     D = (UB - LB)
     U, V = (COS / D), (SIN / D)
     P = np.column_stack((np.sum(X_ * U, axis=1), np.sum(X_ * V, axis=1)))
     
-    B = [np.amin(P, axis=0), np.amax(P, axis=0)]
+    B = [np.min(P, axis=0), np.max(P, axis=0)]
     K = np.column_stack((COS, SIN))
     return (P, K, B)
 

@@ -72,7 +72,7 @@ def loadtxt(fname, dtype=float, delimiter=None):
         a = [cast(v.strip(), dtype) for v in l.strip().split(delimiter)]
         X.append(np.array(a))
     fp.close()
-    return np.array(X)
+    return np.array(X, dtype=object)
 
 def savetxt(fname, X, fmt='{:.18e}', delimiter=' ', newline='\n'):
     r"""Save an array to a file, very similar to `npyio.savetxt()`.

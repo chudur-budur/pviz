@@ -102,7 +102,7 @@ def depth_contours(F, project_collapse=True):
     else:
         P = np.array(F, copy=True)
 
-    I = np.arange(0, n, 1).astype(np.int64)
+    I = np.arange(0, n, 1).astype(int)
     Id = np.arange(0, n).astype(int)
     # print("Id.shape:", Id.shape)
     G = P[Id]
@@ -121,4 +121,4 @@ def depth_contours(F, project_collapse=True):
         i = i + 1
     L.append(Id)
 
-    return np.array(L)
+    return np.array(L, dtype=object)

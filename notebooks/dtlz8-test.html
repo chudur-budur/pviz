@@ -13400,29 +13400,39 @@ div#notebook {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(3003, 3)
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-4-f340951aa448&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-red-fg"># create the reference directions to be used for the optimization</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-red-fg"># ref_dirs = get_reference_directions(&#34;das-dennis&#34;, M, n_partitions = 50)</span>
+<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> </span>ref_dirs <span class="ansi-blue-fg">=</span> get_reference_directions<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;uniform&#39;</span><span class="ansi-blue-fg">,</span> M<span class="ansi-blue-fg">,</span> n_points<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">3003</span><span class="ansi-blue-fg">,</span> seed<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span> print<span class="ansi-blue-fg">(</span>ref_dirs<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">     10</span> 
-<span class="ansi-green-intense-fg ansi-bold">     11</span> <span class="ansi-red-fg"># create the algorithm object</span>
-<span class="ansi-green-fg">---&gt; 12</span><span class="ansi-red-fg"> algorithm = NSGA3(pop_size=ref_dirs.shape[0] + 1,
-</span><span class="ansi-green-intense-fg ansi-bold">     13</span>                   ref_dirs=ref_dirs)
-<span class="ansi-green-intense-fg ansi-bold">     14</span> 
 
-<span class="ansi-red-fg">NameError</span>: name &#39;NSGA3&#39; is not defined</pre>
+<span class="ansi-green-fg">~/.viz/lib/python3.7/site-packages/pymoo/factory.py</span> in <span class="ansi-cyan-fg">get_reference_directions</span><span class="ansi-blue-fg">(name, d, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    303</span> 
+<span class="ansi-green-intense-fg ansi-bold">    304</span> <span class="ansi-green-fg">def</span> get_reference_directions<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> d<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 305</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> get_from_list<span class="ansi-blue-fg">(</span>get_reference_direction_options<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">**</span>d<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>do<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    306</span> 
+<span class="ansi-green-intense-fg ansi-bold">    307</span> 
+
+<span class="ansi-green-fg">~/.viz/lib/python3.7/site-packages/pymoo/factory.py</span> in <span class="ansi-cyan-fg">get_from_list</span><span class="ansi-blue-fg">(l, name, args, kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     47</span>             kwargs <span class="ansi-blue-fg">=</span> default_kwargs
+<span class="ansi-green-intense-fg ansi-bold">     48</span> 
+<span class="ansi-green-fg">---&gt; 49</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> clazz<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     50</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     51</span>         <span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Object &#39;%s&#39; for not found in %s&#34;</span> <span class="ansi-blue-fg">%</span> <span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">[</span>e<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span> <span class="ansi-green-fg">for</span> e <span class="ansi-green-fg">in</span> l<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/.viz/lib/python3.7/site-packages/pymoo/util/reference_direction.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, n_dim, scaling, n_points, n_partitions, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     92</span> 
+<span class="ansi-green-intense-fg ansi-bold">     93</span>     <span class="ansi-green-fg">def</span> __init__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> n_dim<span class="ansi-blue-fg">,</span> scaling<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> n_points<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> n_partitions<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 94</span><span class="ansi-red-fg">         </span>super<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>__init__<span class="ansi-blue-fg">(</span>n_dim<span class="ansi-blue-fg">,</span> scaling<span class="ansi-blue-fg">=</span>scaling<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     95</span> 
+<span class="ansi-green-intense-fg ansi-bold">     96</span>         <span class="ansi-green-fg">if</span> n_points <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">TypeError</span>: __init__() got an unexpected keyword argument &#39;seed&#39;</pre>
 </div>
 </div>
 

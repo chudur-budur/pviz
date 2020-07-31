@@ -90,7 +90,9 @@ def knees(Mu):
     # We are considering 2*sigma are the "best" 
     # trade-off points, i.e. knee points.
     dev = (Mu_ - mu) / sigma
-    # K = np.where(dev >= 2)[0]
+    
+    # Ik = np.where(dev >= 2)[0]
+    
     d = mu + 2 * sigma
     Ik = np.where(Mu_ >= d)[0]
 
@@ -152,6 +154,8 @@ def tradeoff(F, epsilon=0.125, k=None, penalize_extremes=False):
     
     # Threshold on neighborhood size: 2m + 2
     s = 2 * m + 2
+    # s = 2 * m + 1
+    # s = 2 * m
     
     tree = cKDTree(F_)
     
