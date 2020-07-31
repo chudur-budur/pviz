@@ -1,10 +1,6 @@
 name: visualization
-channels:
-  - conda-forge
 dependencies:
   - python=3.7.5
   - pip
   - pip:
-    - numpy
-    - scipy
-    - matplotlib
+    - -r file:requirements.txt
