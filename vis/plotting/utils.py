@@ -58,9 +58,8 @@ def resize_by_tradeoff(Mu, k=None, minsize=2.0, maxsize=10.0, kminsize=3.0, kmax
     kmaxsize : float, optional
         The maximum allowable size of the points indexed by `k`, before 
         the exponential scaling. Default 5.0 when optional.
-
-    https://stackoverflow.com/questions/14827650/pyplot-scatter-plot-marker-size
     """
+    
     S = np.power(tr.normalize(Mu, lb=np.array([minsize]), ub=np.array([maxsize])), 2)
     if k is not None:
         S[k] = np.power(tr.normalize(Mu[k], lb=np.array([kminsize]), ub=np.array([kmaxsize])), 3)
