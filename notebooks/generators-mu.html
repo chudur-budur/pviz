@@ -13133,7 +13133,8 @@ div#notebook {
 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">vis.utils</span> <span class="kn">import</span> <span class="n">dm</span>
-<span class="kn">from</span> <span class="nn">vis.utils</span> <span class="kn">import</span> <span class="n">transform</span> <span class="k">as</span> <span class="n">tr</span>
+<span class="kn">from</span> <span class="nn">vis.plotting.utils</span> <span class="kn">import</span> <span class="n">resize_by_tradeoff</span><span class="p">,</span> <span class="n">default_color</span><span class="p">,</span> \
+                                <span class="n">color_by_cv</span><span class="p">,</span> <span class="n">enhance_color</span>
 
 <span class="n">pfs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dtlz2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;3d&#39;</span><span class="p">,</span> <span class="s1">&#39;4d&#39;</span><span class="p">,</span> <span class="s1">&#39;8d&#39;</span><span class="p">],</span> \
        <span class="s1">&#39;dtlz2-nbi&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;3d&#39;</span><span class="p">,</span> <span class="s1">&#39;4d&#39;</span><span class="p">,</span> <span class="s1">&#39;8d&#39;</span><span class="p">],</span> \
@@ -13180,21 +13181,21 @@ div#notebook {
             <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">muidxpathf</span><span class="p">,</span> <span class="n">Ik</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
             
             <span class="c1"># default color array</span>
-            <span class="n">C</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">default_color</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">default_color</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
             
             <span class="c1"># change the size w.r.t. Mu, the values are </span>
             <span class="c1"># too big for smaller size plots, so we make </span>
             <span class="c1"># them half.</span>
-            <span class="n">S</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">resize_by_tradeoff</span><span class="p">(</span><span class="n">Mu</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ik</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">resize_by_tradeoff</span><span class="p">(</span><span class="n">Mu</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">Ik</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
                         
             <span class="c1"># load CV if exists, use it for coloring</span>
             <span class="n">cvpathf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;datacv.csv&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cvpathf</span><span class="p">):</span>
                 <span class="n">CV</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">cvpathf</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-                <span class="n">C</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">color_by_cv</span><span class="p">(</span><span class="n">CV</span><span class="p">)</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="n">color_by_cv</span><span class="p">(</span><span class="n">CV</span><span class="p">)</span>
             
             <span class="c1"># enhance the knees with red</span>
-            <span class="n">C</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">enhance_color</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">Ik</span><span class="p">)</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">enhance_color</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">Ik</span><span class="p">)</span>
             
             <span class="c1"># plot</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
