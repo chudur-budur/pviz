@@ -22,7 +22,8 @@ from matplotlib.patches import Circle
 from vis.utils import transform as tr
 
 
-__all__ = ["color_by_cv", "color_by_dist", "enhance_color", "resize_by_tradeoff", \
+__all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
+            "color_by_dist", "enhance_color", \
             "set_polar_anchors", "set_polar_anchor_labels"]
 
 

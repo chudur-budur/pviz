@@ -22,6 +22,8 @@
 import numpy as np
 from scipy.spatial import ConvexHull
 
+__all__ = ["depth_contours"]
+
 def collapse(F, d=0):
     r""" Function to collapse a dimension of the data points `F`.
 
@@ -67,7 +69,7 @@ def project(F):
     P = (F - uTuTFT) + (u / np.sqrt(m))
     return P
 
-def depth_contours(F, project_collapse=True):
+def depth_contours(F, project_collapse=True, verbose=False):
     r"""Function to find all the depth-contours of the data point in `F`.
 
     This function applies convex-hull (i.e. qhull, `scipy.spatial.ConvexHull`)
@@ -80,12 +82,15 @@ def depth_contours(F, project_collapse=True):
     F : ndarray
         A sample of `n` data points in `m` dimension, i.e. `|F| = n x m`.
     project_collapse : bool, optional
-        A switch to activate/deactivate projection and collapse of the last dimension
-        (i.e. column) of the projected data points of `F`. If `project_collapse = False`, 
-        there might be just one layer if the points are on a full convex surface. Also it 
-        will be extremely slow if there are many high-dimensional points (m > 4). Therefore, 
-        not recommended for a large number of high-dimensional data. Default `True` when 
-        optional.
+        In this shape finding algorithm, if `m > 3`, we first project the data points
+        onto a unit simplex, then we collapse one dimension. Thus a 3D points become
+        a 2D plane. If we set it to `False`, then this transformation will not occur.
+        However, in that case, there might be just one layer if the points are on a
+        full convex surface. Also the processing will be extremely slow if there are
+        many high-dimensional (`m > 4`) data points. Therefore, setting it to `False`
+        is not recommended. Default `True` when optional.
+    verbose : bool, optional
+        Verbose level. Default `False` when optional.
 
     Returns
     -------
@@ -94,22 +99,23 @@ def depth_contours(F, project_collapse=True):
     """
     n,m = F.shape
     if project_collapse:
-        if m >= 3:
-            F_ = project(F)
-            P = collapse(F, d=m-1)
-        else:
-            P = project(F)
+        if verbose:
+            print("Projecting on a simplex and collapsing.")
+        P = project(F)
+        if P.shape[1] >= 2:
+            P = collapse(P, d=m-1)
     else:
         P = np.array(F, copy=True)
 
-    I = np.arange(0, n, 1).astype(int)
-    Id = np.arange(0, n).astype(int)
+    Id = np.arange(0, n, 1).astype(int)
     # print("Id.shape:", Id.shape)
     G = P[Id]
 
     L = []
     i = 0
     while Id.shape[0] >= (2 * m + 1):
+        if verbose:
+            print("Computing depth contour {:d} ...".format(i))
         H = ConvexHull(G, qhull_options="Qa QJ Q12")
         Ih = H.vertices
         # print("i:", i, "Ih:", Ih, "Ih.shape:", Ih.shape)

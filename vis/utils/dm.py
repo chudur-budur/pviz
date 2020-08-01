@@ -19,7 +19,7 @@ import numpy as np
 from scipy.spatial import cKDTree
 from vis.utils import transform as tr
 
-__all__ = ["nadir", "ideal", "knees", "tradeoff", "epsilons"]
+__all__ = ["epsilons", "nadir", "ideal", "knees", "tradeoff"]
 
 # A set of good epsilon values to be used while computing 
 # the tradeoff neighborhoods with respect to the dimension 

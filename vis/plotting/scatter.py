@@ -20,7 +20,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.colors as mc
 
 
-__all__ = ["plot", "camera_angles"]
+__all__ = ["camera_angles", "plot"]
 
 
 # Some good camera angles for scatter plots.
