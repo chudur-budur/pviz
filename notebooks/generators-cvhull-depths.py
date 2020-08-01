@@ -3,9 +3,6 @@
     Just a copy of `generators-cvhull-depths.ipynb` as a python script.
 """
 
-%reload_ext autoreload
-%autoreload 2
-
 import sys
 import os
 
