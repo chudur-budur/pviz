@@ -228,8 +228,8 @@ def set_polar_anchors(ax, A, z=None):
         ax.scatter(A[-1,0], A[-1,1], zs=z, c=tgc, marker='o', s=20.0, alpha=1.0)
 
 
-def set_polar_anchor_labels(ax, A, z=None, label_prefix=r"$f_{:d}$", label_fontsize='large', 
-                        label_fontname=None, label_fontstyle=None):
+def set_polar_anchor_labels(ax, A, z=None, draw_circle=False, label_prefix=r"$f_{:d}$", \
+                            label_fontsize='large', label_fontname=None, label_fontstyle=None):
     r"""Function to put anchor labels for radviz and other related plots.
 
     Function to draw anchor point labels for radivz and other related plots
@@ -244,6 +244,9 @@ def set_polar_anchor_labels(ax, A, z=None, label_prefix=r"$f_{:d}$", label_fonts
     z : float, optional
         The z-coordinate values of the corresponding acnhor in 3D.
         Default 'None' when optional.
+    draw_circle : bool, optional
+        Draws a circum-cricle around the anchor points. 
+        Default `False` when optional.
     label_prefix : str, optional
         The axis-label-prefix to be used, default `r"$f_{:d}$"` when optional.
     label_fontsize : str or int, optional
@@ -271,19 +274,19 @@ def set_polar_anchor_labels(ax, A, z=None, label_prefix=r"$f_{:d}$", label_fonts
                         fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
         else:
             if xy[0] < 0.0 and xy[1] < 0.0:
-                ax.text(xy[0] - 0.025, xy[1] - 0.025, z=z, s=name, ha='right', va='top', \
+                ax.text(xy[0] - 0.025, xy[1] - 0.025, z=z, s=name, ha='right', va='bottom', \
                         fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
             elif xy[0] < 0.0 and xy[1] >= 0.0: 
                 ax.text(xy[0] - 0.025, xy[1] + 0.025, z=z, s=name, ha='right', va='bottom', \
                         fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
             elif xy[0] >= 0.0 and xy[1] < 0.0:
-                ax.text(xy[0] + 0.025, xy[1] - 0.025, z=z, s=name, ha='left', va='top', \
+                ax.text(xy[0] + 0.025, xy[1] - 0.025, z=z, s=name, ha='left', va='bottom', \
                         fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
             elif xy[0] >= 0.0 and xy[1] >= 0.0:
                 ax.text(xy[0] + 0.025, xy[1] + 0.025, z=z, s=name, ha='left', va='bottom', \
                         fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
-
-    p = Circle((0, 0), 1, fill=False, linewidth=0.8, color=tgc)
-    ax.add_patch(p)
-    if z is not None:
-        art3d.pathpatch_2d_to_3d(p, z=z)
+    if draw_circle:
+        p = Circle((0, 0), 1, fill=False, linewidth=0.8, color=tgc)
+        ax.add_patch(p)
+        if z is not None:
+            art3d.pathpatch_2d_to_3d(p, z=z)

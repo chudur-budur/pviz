@@ -34,6 +34,47 @@ from vis.utils import io
 __all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "plot"]
 
 
+# Some good camera angles for paletteviz plots.
+camera_angles_star = {
+    'dtlz2': {'3d': (-20,25), '4d':(-50,20), '8d': (-50,25)}, \
+    'dtlz2-nbi': {'3d': (-60,30), '4d':(-65,20), '8d': (-60,30)}, \
+    'debmdk': {'3d': (15,25), '4d': (35,15), '8d': (130,25)}, \
+    'debmdk-nbi': {'3d': (135,25), '4d': (-60,20), '8d': (-50,20)}, \
+    'debmdk-all': {'3d': (25,25), '4d': (80,20), '8d': (60,20)}, \
+    'debmdk-all-nbi': {'3d': (135,25), '4d': (80,20), '8d': (-60,15)}, \
+    'dtlz8': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
+    'dtlz8-nbi': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
+    'c2dtlz2': {'3d': (-20,45), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
+    'c2dtlz2-nbi': {'3d': (20,45), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
+    'cdebmdk': {'3d': (-165,25), '4d': (35,20), '8d': (-60,20)}, \
+    'cdebmdk-nbi': {'3d': (90,20), '4d': (35,30), '8d': (-60,20)}, \
+    'c0dtlz2': {'3d': (95,20), '4d': (20,20), '8d': (160,35)}, \
+    'c0dtlz2-nbi': {'3d': (125,20), '4d': (165,20), '8d': (160,35)}, \
+    'crash-nbi': {'3d': (-25,30)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
+    'gaa': {'10d': (0,25)}, \
+    'gaa-nbi': {'10d': (0,25)}
+}
+
+camera_angles_radviz = {
+    'dtlz2': {'3d': (-50,30), '4d':(-55,25), '8d': (-50,15)}, \
+    'dtlz2-nbi': {'3d': (-50,30), '4d':(-65,20), '8d': (-60,30)}, \
+    'debmdk': {'3d': (-50,30), '4d': (-60,25), '8d': (-40,15)}, \
+    'debmdk-nbi': {'3d': (-60,30), '4d': (-60,20), '8d': (-55,-20)}, \
+    'debmdk-all': {'3d': (55,30), '4d': (-60,25), '8d': (-115,15)}, \
+    'debmdk-all-nbi': {'3d': (60,30), '4d': (-60,25), '8d': (-145,20)}, \
+    'dtlz8': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (5,35)}, \
+    'dtlz8-nbi': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
+    'c2dtlz2': {'3d': (-60,35), '4d': (125,20), '5d': (35,25), '8d': (-20,20)}, \
+    'c2dtlz2-nbi': {'3d': (80,20), '4d': (160,20), '5d': (35,25), '8d': (-20,20)}, \
+    'cdebmdk': {'3d': (-165,25), '4d': (35,20), '8d': (-60,20)}, \
+    'cdebmdk-nbi': {'3d': (90,20), '4d': (35,30), '8d': (-60,20)}, \
+    'c0dtlz2': {'3d': (180,25), '4d': (20,20), '8d': (-115,35)}, \
+    'c0dtlz2-nbi': {'3d': (165,20), '4d': (20,20), '8d': (160,35)}, \
+    'crash-nbi': {'3d': (45,20)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
+    'gaa': {'10d': (0,25)}, \
+    'gaa-nbi': {'10d': (0,25)}
+}
+
 def make_partitions(P, K, B, L, n_partitions):
     r""" 
     """
@@ -64,6 +105,18 @@ def make_partitions(P, K, B, L, n_partitions):
             Id = L[i].astype(int)
             P_[Id,0:m] = P[Id,:]
             P_[Id,m] = np.ones(Id.shape[0]) * z
+    else:
+        # if the last layer has very small number of points, smaller than
+        # 1/4-th of the number of points in the previous layer, merge them 
+        # with the previous layer. Therefore, the final number of layers 
+        # will be n_partitions-1.
+        if Z.shape[0] > 1:
+            Iz = np.where(P_[:,-1] == Z[-1])[0]
+            Iz_1 = np.where(P_[:,-1] == Z[-2])[0]
+            if Iz.shape[0] < Iz_1.shape[0] / 4:
+                P_[Iz,-1] = Z[-2]
+                Z = Z[:-1]
+
     # update P
     P = P_
     # add z-bounds to B
@@ -245,6 +298,8 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
 
     Other Parameters
     ----------------
+    euler : tuple (i.e. a pair) of int, optional
+        The azmiuth and elevation angle. Default `(-60,30)` when optional.
     label_prefix : str, optional
         See `set_anchor_labels()` function for details.
     label_fontsize : str or int, optional
@@ -264,9 +319,11 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
         A tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes` 
         (or `mpl_toolkits.mplot3d.axes.Axes`) objects.
     """
+    # azimuth is -60 and elevation is 30 by default
+    euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
     # by default label_prefix is $f_n$
     label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
-                            else r"$f_{:d}$"
+                            else r"$f_{{{:d}}}$"
     # default label font size is 'large'
     label_fontsize = kwargs['label_fontsize'] if (kwargs is not None and 'label_fontsize' in kwargs) \
                             else 'large'
@@ -300,6 +357,7 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
             fig.suptitle(title)
         ax = Axes3D(fig)
         ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c)
+        ax.view_init(euler[1], euler[0])
         
         if draw_axes:
             # ax.set_xticklabels([])
@@ -310,9 +368,16 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
         if draw_anchors:
             for z in Z:
                 set_polar_anchors(ax, K, z=z)
-                set_polar_anchor_labels(ax, K, z=z, label_prefix=label_prefix, \
+                if mode == 'radviz':
+                    set_polar_anchor_labels(ax, K, z=z, label_prefix=label_prefix, \
                                     label_fontsize=label_fontsize, label_fontname=label_fontname, \
                                     label_fontstyle=label_fontstyle)
+                elif mode == 'star':
+                    set_polar_anchor_labels(ax, K, z=z, draw_circle=True, label_prefix=label_prefix, \
+                                    label_fontsize=label_fontsize, label_fontname=label_fontname, \
+                                    label_fontstyle=label_fontstyle)
+                else:
+                    raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
         # ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
         # ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
         # ax.set_zlim(lb[2] - 0.1 if lb[2] < -1 else -1.1, ub[2] + 0.1 if ub[2] > 1 else 1.1)

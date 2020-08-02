@@ -89,7 +89,7 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     # all other parameters
     # by default label_prefix is $f_n$
     label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
-                            else r"$f_{:d}$"
+                            else r"$f_{{{:d}}}$"
     # default label font size is 'large'
     label_fontsize = kwargs['label_fontsize'] if (kwargs is not None and 'label_fontsize' in kwargs) \
                             else 'large'

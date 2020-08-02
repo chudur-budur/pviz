@@ -145,7 +145,7 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
     """
     # by default label_prefix is $f_n$
     label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
-                            else r"$f_{:d}$"
+                            else r"$f_{{{:d}}}$"
     # default label font size is 'large'
     label_fontsize = kwargs['label_fontsize'] if (kwargs is not None and 'label_fontsize' in kwargs) \
                             else 'large'
@@ -173,8 +173,9 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             ax.set_axis_off()
         if draw_anchors:
             set_polar_anchors(ax, K)
-            set_polar_anchor_labels(ax, K, label_prefix=label_prefix, label_fontsize=label_fontsize, \
-                    label_fontname=label_fontname, label_fontstyle=label_fontstyle)
+            set_polar_anchor_labels(ax, K, draw_circle=True, \
+                        label_prefix=label_prefix, label_fontsize=label_fontsize, \
+                        label_fontname=label_fontname, label_fontstyle=label_fontstyle)
         ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
         ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
         ax.set_aspect('equal')
