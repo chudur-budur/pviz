@@ -19,8 +19,8 @@ import numpy as np
 import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.patches import Circle
+from mpl_toolkits.mplot3d import art3d
 from vis.utils import transform as tr
-
 
 __all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
             "color_by_dist", "enhance_color", \
@@ -184,7 +184,7 @@ def enhance_color(C, k, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
     return C_
 
 
-def set_polar_anchors(ax, A):
+def set_polar_anchors(ax, A, z=None):
     r"""Function to draw anchor points for radviz (and other related plots).
 
     This function draws anchor points for radviz and other related plots
@@ -196,22 +196,39 @@ def set_polar_anchors(ax, A):
         This object must be passed.
     A : ndarray 
         `m x 2` size of sin and cos values for the anchor coordinates.
+    z : float, optional
+        The z-coordinate values of the corresponding acnhor in 3D.
+        Default 'None' when optional.
     """
     tgc = mc.TABLEAU_COLORS['tab:gray']
     for i in range(0, A.shape[0]-1):
-        # draw one polygon line
-        ax.plot([A[i,0], A[i + 1,0]], [A[i,1], A[i + 1,1]], c=tgc, alpha=1.0, \
+        if z is None:
+            # draw one polygon line
+            ax.plot([A[i,0], A[i + 1,0]], [A[i,1], A[i + 1,1]], c=tgc, alpha=1.0, \
+                        linewidth=1.0, linestyle='dashdot')
+            # draw a pair of polygon points
+            ax.scatter(A[i,0], A[i,1], c=tgc, marker='o', s=20.0, alpha=1.0)
+        else:
+            # draw one polygon line
+            ax.plot([A[i,0], A[i + 1,0]], [A[i,1], A[i + 1,1]], zs=z, c=tgc, alpha=1.0, \
+                        linewidth=1.0, linestyle='dashdot')
+            # draw a pair of polygon points
+            ax.scatter(A[i,0], A[i,1], zs=z, c=tgc, marker='o', s=20.0, alpha=1.0)
+    if z is None:
+        # last polygon line
+        ax.plot([A[-1,0], A[0,0]], [A[-1,1], A[0,1]], c=tgc, alpha=1.0, \
                     linewidth=1.0, linestyle='dashdot')
-        # draw a pair of polygon points
-        ax.scatter(A[i,0], A[i,1], c=tgc, marker='o', s=20.0, alpha=1.0)
-    # last polygon line
-    ax.plot([A[-1,0], A[0,0]], [A[-1,1], A[0,1]], c=tgc, alpha=1.0, \
-                linewidth=1.0, linestyle='dashdot')
-    # last pair of polygon points
-    ax.scatter(A[-1,0], A[-1,1], c=tgc, marker='o', s=20.0, alpha=1.0)
+        # last pair of polygon points
+        ax.scatter(A[-1,0], A[-1,1], c=tgc, marker='o', s=20.0, alpha=1.0)
+    else:
+        # last polygon line
+        ax.plot([A[-1,0], A[0,0]], [A[-1,1], A[0,1]], zs=z, c=tgc, alpha=1.0, \
+                    linewidth=1.0, linestyle='dashdot')
+        # last pair of polygon points
+        ax.scatter(A[-1,0], A[-1,1], zs=z, c=tgc, marker='o', s=20.0, alpha=1.0)
 
 
-def set_polar_anchor_labels(ax, A, label_prefix=r"$f_{:d}$", label_fontsize='large', 
+def set_polar_anchor_labels(ax, A, z=None, label_prefix=r"$f_{:d}$", label_fontsize='large', 
                         label_fontname=None, label_fontstyle=None):
     r"""Function to put anchor labels for radviz and other related plots.
 
@@ -224,6 +241,9 @@ def set_polar_anchor_labels(ax, A, label_prefix=r"$f_{:d}$", label_fontsize='lar
         This object must be passed.
     A : ndarray 
         `m x 2` size of sin and cos values for the anchor coordinates.
+    z : float, optional
+        The z-coordinate values of the corresponding acnhor in 3D.
+        Default 'None' when optional.
     label_prefix : str, optional
         The axis-label-prefix to be used, default `r"$f_{:d}$"` when optional.
     label_fontsize : str or int, optional
@@ -236,17 +256,34 @@ def set_polar_anchor_labels(ax, A, label_prefix=r"$f_{:d}$", label_fontsize='lar
     tgc = mc.TABLEAU_COLORS['tab:gray']
     # now put all the corner labels, like f1, f2, f3, ... etc.
     for xy, name in zip(A, [label_prefix.format(i+1) for i in range(A.shape[0])]):
-        if xy[0] < 0.0 and xy[1] < 0.0:
-            ax.text(xy[0] - 0.025, xy[1] - 0.025, s=name, ha='right', va='top', \
-                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
-        elif xy[0] < 0.0 and xy[1] >= 0.0: 
-            ax.text(xy[0] - 0.025, xy[1] + 0.025, s=name, ha='right', va='bottom', \
-                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
-        elif xy[0] >= 0.0 and xy[1] < 0.0:
-            ax.text(xy[0] + 0.025, xy[1] - 0.025, s=name, ha='left', va='top', \
-                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
-        elif xy[0] >= 0.0 and xy[1] >= 0.0:
-            ax.text(xy[0] + 0.025, xy[1] + 0.025, s=name, ha='left', va='bottom', \
-                    fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+        if z is None:
+            if xy[0] < 0.0 and xy[1] < 0.0:
+                ax.text(xy[0] - 0.025, xy[1] - 0.025, s=name, ha='right', va='top', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+            elif xy[0] < 0.0 and xy[1] >= 0.0: 
+                ax.text(xy[0] - 0.025, xy[1] + 0.025, s=name, ha='right', va='bottom', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+            elif xy[0] >= 0.0 and xy[1] < 0.0:
+                ax.text(xy[0] + 0.025, xy[1] - 0.025, s=name, ha='left', va='top', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+            elif xy[0] >= 0.0 and xy[1] >= 0.0:
+                ax.text(xy[0] + 0.025, xy[1] + 0.025, s=name, ha='left', va='bottom', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+        else:
+            if xy[0] < 0.0 and xy[1] < 0.0:
+                ax.text(xy[0] - 0.025, xy[1] - 0.025, z=z, s=name, ha='right', va='top', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+            elif xy[0] < 0.0 and xy[1] >= 0.0: 
+                ax.text(xy[0] - 0.025, xy[1] + 0.025, z=z, s=name, ha='right', va='bottom', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+            elif xy[0] >= 0.0 and xy[1] < 0.0:
+                ax.text(xy[0] + 0.025, xy[1] - 0.025, z=z, s=name, ha='left', va='top', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+            elif xy[0] >= 0.0 and xy[1] >= 0.0:
+                ax.text(xy[0] + 0.025, xy[1] + 0.025, z=z, s=name, ha='left', va='bottom', \
+                        fontname=label_fontname, fontsize=label_fontsize, fontstyle=label_fontstyle)
+
     p = Circle((0, 0), 1, fill=False, linewidth=0.8, color=tgc)
     ax.add_patch(p)
+    if z is not None:
+        art3d.pathpatch_2d_to_3d(p, z=z)

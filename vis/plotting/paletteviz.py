@@ -31,13 +31,48 @@ from vis.tda import simple_shape
 from vis.utils import io
 
 
-__all__ = ["get_palette_star_coordinates", "plot"]
+__all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "plot"]
 
 
-def get_palette_star_coordinates(X, depth_contour_path=None, \
-                                    n_partitions=float('inf'), \
-                                    inverted=True, normalized=True, \
-                                    kwargs=None):
+def make_partitions(P, K, B, L, n_partitions):
+    r""" 
+    """
+    n,m,p = P.shape[0], P.shape[1], L.shape[0]
+    n_partitions = p if n_partitions >= p else n_partitions
+    # q = number of layers in each partition
+    # r = number of layers left after dividing them into n_partition layers
+    # dz = the gap in z-axis between each pair of consedutive layers
+    q, r, dz = p // n_partitions, p % n_partitions, 1 / n_partitions
+    P_ = np.zeros((n, 3))
+    z, zmin, zmax, Z = 1.0, float('inf'), float('-inf'), np.zeros(n_partitions)
+    for j,i in enumerate(range(0, p-r, q)):
+        L_ = L[i:i+q]
+        for l in L_:
+            Id = l.astype(int)
+            P_[Id,0:m] = P[Id,:]
+            P_[Id,m] = np.ones(Id.shape[0]) * z
+        if z >= zmax:
+            zmax = z
+        if z <= zmin:
+            zmin = z
+        Z[j] = z
+        z = z - dz
+    # if there is any remaining layer, merge them with the last one
+    if r > 0:
+        z = z + dz
+        for i in range(L.shape[0]-1,(L.shape[0]-r)-1,-1):
+            Id = L[i].astype(int)
+            P_[Id,0:m] = P[Id,:]
+            P_[Id,m] = np.ones(Id.shape[0]) * z
+    # update P
+    P = P_
+    # add z-bounds to B
+    B[0] = np.append(B[0], zmin)
+    B[1] = np.append(B[1], zmax)
+    return (P,K,B,Z)
+
+
+def get_palette_star_coordinates(X, depth_contour_path=None, n_partitions=float('inf'), kwargs=None):
     r"""Generate Star-coordinates from data points `X`.
 
     Maps all the data points in `X` (i.e. `|X| = n x m`) onto 
@@ -56,13 +91,13 @@ def get_palette_star_coordinates(X, depth_contour_path=None, \
         Also if `n_partitions` is bigger than the total number depth contours, 
         the total number of layers in the PaletteViz will be equal to the total
         number of depth contours.
+
+    Other Parameters
+    ----------------
     inverted : bool, optional
         See `vis.plotting.star` for more details.
     normalized : bool, optional
         See `vis.plotting.star` for details.
-
-    Other Parameters
-    ----------------
     project_collapse : bool, optional
         See `vis.tda.simple_shape` module for more details.
     verbose : bool, optional
@@ -70,16 +105,20 @@ def get_palette_star_coordinates(X, depth_contour_path=None, \
 
     Returns
     -------
-    (P,K,B) : tuple of ndarray
+    (P,K,B,Z) : tuple of ndarray
         `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
         `K` is the position of the anchor points (i.e. `|K| = m x 2`),
-        and `B` is the lower bound and upper bound of `P`. `K` and `B`
-        will be used to draw anchor points and the polygon.
+        and `B` is the lower bound and upper bound of `P`. `Z` is an array
+        of z-coordinate values of all the anchor-sets (i.e. `|Z| = n_partitions x 1`). 
+        `K` and `Z` values will be used to draw anchor points and the polygon. 
 
     """
 
-    project_collapse = kwargs['project_collapse'] if 'project_collapse' in kwargs else True
-    verbose = kwargs['verbose'] if 'verbose' in kwargs else False
+    inverted = kwargs['inverted'] if (kwargs is not None and 'inverted' in kwargs) else True
+    normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
+    project_collapse = kwargs['project_collapse'] if (kwargs is not None and 'project_collapse' in kwargs) \
+            else True
+    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     L = None
     if depth_contour_path is None:
@@ -95,36 +134,82 @@ def get_palette_star_coordinates(X, depth_contour_path=None, \
 
     if L is not None:
         (P,K,B) = get_star_coordinates(X, inverted=inverted, normalized=normalized)
-        n,m,p = P.shape[0], P.shape[1], L.shape[0]
-        n_partitions = p if n_partitions >= p else n_partitions
-        # q = number of layers in each partition
-        # r = number of layers left after dividing them into n_partition layers
-        # dz = the gap in z-axis between each pair of consedutive layers
-        q, r, dz = p // n_partitions, p % n_partitions, 1 / n_partitions
-        P_ = np.zeros((n, 3))
-        z = 1.0
-        for i in range(0, p-r, q):
-            L_ = L[i:i+q]
-            for l in L_:
-                Id = l.astype(int)
-                P_[Id,0:m] = P[Id,:]
-                P_[Id,m] = np.ones(Id.shape[0]) * z
-            z = z - dz
-        # if there is any remaining layer, merge them with the last one
-        if r > 0:
-            z = z + dz
-            for i in range(L.shape[0]-1,(L.shape[0]-r)-1,-1):
-                Id = L[i].astype(int)
-                P_[Id,0:m] = P[Id,:]
-                P_[Id,m] = np.ones(Id.shape[0]) * z
-        return (P_, K, B)
+        (P,K,B,Z) = make_partitions(P,K,B,L,n_partitions)
+        return (P, K, B, Z)
+    else:
+        raise ValueError("No depth contours found.")
+
+
+def get_palette_radviz_coordinates(X, depth_contour_path=None, n_partitions=float('inf'), kwargs=None):
+    r"""Generate Radviz coordinates from data points `X`.
+
+    Maps all the data points in `X` (i.e. `|X| = n x m`) onto 
+    Radviz coordinate [1]_ positions. 
+
+    Parameters
+    ----------
+    X : ndarray 
+        `n` number of `m` dimensiomal points as input.
+    depth_contour_path : str or pathlib.Path object, optional
+        The path to the depth contour indices. Default 'None' when optional.
+    n_partitions : int, optional
+        The total number of layers in the final PaletteViz plot. We recommend 4.
+        Default `float('inf')` when optional. When default, the total number of 
+        layers in the PaletteViz will be the same as the number of depth contours. 
+        Also if `n_partitions` is bigger than the total number depth contours, 
+        the total number of layers in the PaletteViz will be equal to the total
+        number of depth contours.
+
+    Other Parameters
+    ----------------
+    spread_factor : str {'auto'} or float, optional
+        See `vis.plotting.radviz` for more details.
+    normalized : bool, optional
+        See `vis.plotting.radviz` for details.
+    project_collapse : bool, optional
+        See `vis.tda.simple_shape` module for more details.
+    verbose : bool, optional
+        Verbose level. Default `False` when optional.
+
+    Returns
+    -------
+    (P,K,B,Z) : tuple of ndarray
+        `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
+        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
+        and `B` is the lower bound and upper bound of `P`. `Z` is an array
+        of z-coordinate values of all the anchor-sets (i.e. `|Z| = n_partitions x 1`). 
+        `K` and `Z` values will be used to draw anchor points and the polygon. 
+
+    """
+
+    spread_factor = kwargs['spread_factor'] if (kwargs is not None and 'spread_factor' in kwargs) else 'auto'
+    normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
+    project_collapse = kwargs['project_collapse'] if (kwargs is not None and 'project_collapse' in kwargs) \
+                            else True
+    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
+
+    L = None
+    if depth_contour_path is None:
+        # compute layers
+        if verbose:
+            print("Computing depth contours since no file provided.")
+        L = simple_shape.depth_contours(X, project_collapse=project_collapse, verbose=verbose) 
+    elif depth_contour_path is not None and os.path.exists(depth_contour_path):
+        # load depth contours
+        if verbose:
+            print("Loading depth contours from {0:s}.".format(depth_contour_path))
+        L = io.loadtxt(depth_contour_path, dtype=int, delimiter=',') 
+
+    if L is not None:
+        (P,K,B) = get_radviz_coordinates(X, spread_factor=spread_factor, normalized=normalized)
+        (P,K,B,Z) = make_partitions(P,K,B,L,n_partitions)
+        return (P, K, B, Z)
     else:
         raise ValueError("No depth contours found.")
 
 
 def plot(A, plt, depth_contour_path=None, mode='star', \
             n_partitions=float('inf'), s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
-            inverted=True, normalized=True, \
             draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
 
@@ -153,11 +238,6 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
         optional.
-    inverted : bool, optional
-        See `get_star_coordinates()` function for details.
-    normalized : bool, optional
-        If needed, the data points in `A` can be normalized within `[0.0, 1.0]`. 
-        Default `True` when optional.
     draw_axes: bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
     draw_anchors: bool, optional
@@ -175,6 +255,8 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
         See `set_anchor_labels()` function for details.
     title : str, optional
         The plot title. Default `None` when optional.
+    verbose : bool, optional
+        The verbosity. Default 'False' when optional.
 
     Returns
     -------
@@ -196,29 +278,44 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
                             else 'normal'
     # default plot title is empty
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+    # verbosity
+    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     if plt is not None:
-        P, K, [lb, ub] = get_palette_star_coordinates(A, depth_contour_path=depth_contour_path, \
-                                                        n_partitions=n_partitions, \
-                                                        inverted=inverted, normalized=normalized, \
-                                                        kwargs=kwargs)
+        if mode == 'star':
+            if verbose:
+                print("Plotting palette-star-viz.")
+            P, K, _, Z = get_palette_star_coordinates(A, depth_contour_path=depth_contour_path, \
+                                                        n_partitions=n_partitions, kwargs=kwargs)
+        elif mode == 'radviz':
+            if verbose:
+                print("Plotting palette-radviz.")
+            P, K, _, Z = get_palette_radviz_coordinates(A, depth_contour_path=depth_contour_path, \
+                                                        n_partitions=n_partitions, kwargs=kwargs)
+        else:
+            raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
+
         fig = plt.figure()
         if title is not None:
             fig.suptitle(title)
         ax = Axes3D(fig)
         ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c)
         
-        # if draw_axes:
-        #     # ax.set_xticklabels([])
-        #     # ax.set_yticklabels([])
-        #     ax.set_axis_on()
-        # else:
-        #     ax.set_axis_off()
-        # if draw_anchors:
-        #     set_polar_anchors(ax, K)
-        #     set_polar_anchor_labels(ax, K, label_prefix, label_fontsize, label_fontname, label_fontstyle)
+        if draw_axes:
+            # ax.set_xticklabels([])
+            # ax.set_yticklabels([])
+            ax.set_axis_on()
+        else:
+            ax.set_axis_off()
+        if draw_anchors:
+            for z in Z:
+                set_polar_anchors(ax, K, z=z)
+                set_polar_anchor_labels(ax, K, z=z, label_prefix=label_prefix, \
+                                    label_fontsize=label_fontsize, label_fontname=label_fontname, \
+                                    label_fontstyle=label_fontstyle)
         # ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
         # ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
+        # ax.set_zlim(lb[2] - 0.1 if lb[2] < -1 else -1.1, ub[2] + 0.1 if ub[2] > 1 else 1.1)
         # ax.set_aspect('equal')
         return (fig, ax)
     else:

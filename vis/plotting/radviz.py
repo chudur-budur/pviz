@@ -42,7 +42,7 @@ def get_radviz_coordinates(X, spread_factor='auto', normalized=True):
     ----------
     X : ndarray 
         `n` number of `m` dimensional points as input.
-    spread_factor: str {'auto'} or float, optional
+    spread_factor : str {'auto'} or float, optional
         The `spread_factor` might be needed if the data points are not sparse enough
         in the original space. Setting this bigger than 1.0 will help the data points
         to "spread-out" even more, while maintaining the placement of the points inside
@@ -123,11 +123,11 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         If needed, the data points in `A` can be normalized within `[0.0, 1.0]`. 
         This helps to "spread-out" the data more on the radviz space. Default 
         `True` when optional.
-    draw_axes: bool, optional
+    draw_axes : bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
-    draw_anchors: bool, optional
+    draw_anchors : bool, optional
         If `False`, the radviz plot will hide anchors. Default `True` when optional.
-    spread_factor: str {'auto'} or float, optional
+    spread_factor : str {'auto'} or float, optional
         See `get_radviz_coordinates()` function for details.
 
     Other Parameters
@@ -186,7 +186,8 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             ax.set_axis_off()
         if draw_anchors:
             set_polar_anchors(ax, K)
-            set_polar_anchor_labels(ax, K, label_prefix, label_fontsize, label_fontname, label_fontstyle)
+            set_polar_anchor_labels(ax, K, label_prefix=label_prefix, label_fontsize=label_fontsize, \
+                    label_fontname=label_fontname, label_fontstyle=label_fontstyle)
         ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.01 if ub[0] > 1 else 1.1)
         ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.01 if ub[1] > 1 else 1.1)
         ax.set_aspect('equal')
