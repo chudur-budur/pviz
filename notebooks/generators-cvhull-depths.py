@@ -35,7 +35,7 @@ pfs = {'dtlz2': ['3d', '4d', '8d'], \
        'gaa': ['10d'], \
        'gaa-nbi': ['10d']}
 
-for pf in list(pfs.keys()):
+for pf in list(pfs.keys())[-2:]:
     for dim in pfs[pf]:
         fullpathf = "../data/{0:s}/{1:s}/dataf.csv".format(pf, dim)
         if os.path.exists(fullpathf):
