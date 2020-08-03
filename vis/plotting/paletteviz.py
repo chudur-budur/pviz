@@ -76,7 +76,46 @@ camera_angles_radviz = {
 }
 
 def make_partitions(P, K, B, L, n_partitions):
-    r""" 
+    r"""Merge depth contours to make total of n_partitions number of layers.
+
+    This function will be used by `get_palette_star_coordinates()` and 
+    `get_palette_radviz_coordinates()` functions. Here we try to merge 
+    the individual depth contours so that the final number of layers are 
+    at most `n_partitions`. Let's say there are total 20 depth contours, 
+    and if the user wants to visualise at most 4 layers, then we merge 
+    every 5 depth contours from the start to make the final number of 
+    layers to be 4. If `n_partitions` is bigger than the number of depth 
+    contours, the total number of final layers will be the same as the 
+    total number of depth contours.
+
+    Parameters
+    ----------
+    P : ndarray 
+        `n` number of 2D points found from radviz or star-coordinates.
+    K : array_like, 2D
+        The coordinate of the 2D anchor points found from radviz or star-coordinates.
+    B : array_like, 2D
+        The bounds of the anchor positions found from radviz or star-coordinates.
+    L : ndarray, jagged
+        The indices of each depth contours. The top row has the lowest
+        depth and the bottom row has the highest depth. Each column is
+        the index of the points in the original space.
+    n_partitions : int
+        The total number of layers in the final PaletteViz plot. We recommend 4.
+        Default `float('inf')` when optional. When default, the total number of 
+        layers in the PaletteViz will be the same as the number of depth contours. 
+        Also if `n_partitions` is bigger than the total number depth contours, 
+        the total number of layers in the PaletteViz will be equal to the total
+        number of depth contours.
+
+    Returns
+    -------
+    (P,K,B,Z) : tuple of ndarray
+        `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
+        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
+        and `B` is the lower bound and upper bound of `P`. `Z` is an array
+        of z-coordinate values of all the anchor-sets (i.e. `|Z| = n_partitions x 1`). 
+        `K` and `Z` values will be used to draw anchor points and the polygon. 
     """
     n,m,p = P.shape[0], P.shape[1], L.shape[0]
     n_partitions = p if n_partitions >= p else n_partitions
@@ -85,47 +124,41 @@ def make_partitions(P, K, B, L, n_partitions):
     # dz = the gap in z-axis between each pair of consedutive layers
     q, r, dz = p // n_partitions, p % n_partitions, 1 / n_partitions
     P_ = np.zeros((n, 3))
-    z, zmin, zmax, Z = 1.0, float('inf'), float('-inf'), np.zeros(n_partitions)
+    z, Z = 1.0, np.zeros(n_partitions)
     for j,i in enumerate(range(0, p-r, q)):
         L_ = L[i:i+q]
         for l in L_:
             Id = l.astype(int)
             P_[Id,0:m] = P[Id,:]
             P_[Id,m] = np.ones(Id.shape[0]) * z
-        if z >= zmax:
-            zmax = z
-        if z <= zmin:
-            zmin = z
         Z[j] = z
         z = z - dz
     # if there is any remaining layer, merge them with the last one
     if r > 0:
-        z = z + dz
         for i in range(L.shape[0]-1,(L.shape[0]-r)-1,-1):
             Id = L[i].astype(int)
             P_[Id,0:m] = P[Id,:]
-            P_[Id,m] = np.ones(Id.shape[0]) * z
+            P_[Id,m] = np.ones(Id.shape[0]) * Z[-1]
     else:
         # if the last layer has very small number of points, smaller than
-        # 1/4-th of the number of points in the previous layer, merge them 
+        # 1/10-th of the number of points in the previous layer, merge them 
         # with the previous layer. Therefore, the final number of layers 
         # will be n_partitions-1.
         if Z.shape[0] > 1:
             Iz = np.where(P_[:,-1] == Z[-1])[0]
             Iz_1 = np.where(P_[:,-1] == Z[-2])[0]
-            if Iz.shape[0] < Iz_1.shape[0] / 4:
+            if Iz.shape[0] < Iz_1.shape[0] / 10:
                 P_[Iz,-1] = Z[-2]
                 Z = Z[:-1]
-
     # update P
     P = P_
     # add z-bounds to B
-    B[0] = np.append(B[0], zmin)
-    B[1] = np.append(B[1], zmax)
+    B[0] = np.append(B[0], np.min(Z))
+    B[1] = np.append(B[1], np.max(Z))
     return (P,K,B,Z)
 
 
-def get_palette_star_coordinates(X, depth_contour_path=None, n_partitions=float('inf'), kwargs=None):
+def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf'), kwargs=None):
     r"""Generate Star-coordinates from data points `X`.
 
     Maps all the data points in `X` (i.e. `|X| = n x m`) onto 
@@ -135,8 +168,9 @@ def get_palette_star_coordinates(X, depth_contour_path=None, n_partitions=float(
     ----------
     X : ndarray 
         `n` number of `m` dimensiomal points as input.
-    depth_contour_path : str or pathlib.Path object, optional
-        The path to the depth contour indices. Default 'None' when optional.
+    depth_contours : ndarray or str path, optional
+        An `ndarray` containing the depth contours or a path to the file 
+        containing depth contour indices. Default 'None' when optional.
     n_partitions : int, optional
         The total number of layers in the final PaletteViz plot. We recommend 4.
         Default `float('inf')` when optional. When default, the total number of 
@@ -174,16 +208,22 @@ def get_palette_star_coordinates(X, depth_contour_path=None, n_partitions=float(
     verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     L = None
-    if depth_contour_path is None:
+    if depth_contours is None:
         # compute layers
         if verbose:
             print("Computing depth contours since no file provided.")
         L = simple_shape.depth_contours(X, project_collapse=project_collapse, verbose=verbose) 
-    elif depth_contour_path is not None and os.path.exists(depth_contour_path):
-        # load depth contours
-        if verbose:
-            print("Loading depth contours from {0:s}.".format(depth_contour_path))
-        L = io.loadtxt(depth_contour_path, dtype=int, delimiter=',') 
+    else: 
+        if isinstance(depth_contours, str):
+            # load depth contours
+            if verbose:
+                print("Loading depth contours from {0:s}.".format(depth_contours))
+            L = io.loadtxt(depth_contours, dtype=int, delimiter=',') 
+        elif isinstance(depth_contours, np.ndarray):
+            # use depth contours
+            if verbose:
+                print("Using depth contours ndarray.")
+            L = depth_contours
 
     if L is not None:
         (P,K,B) = get_star_coordinates(X, inverted=inverted, normalized=normalized)
@@ -193,7 +233,7 @@ def get_palette_star_coordinates(X, depth_contour_path=None, n_partitions=float(
         raise ValueError("No depth contours found.")
 
 
-def get_palette_radviz_coordinates(X, depth_contour_path=None, n_partitions=float('inf'), kwargs=None):
+def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('inf'), kwargs=None):
     r"""Generate Radviz coordinates from data points `X`.
 
     Maps all the data points in `X` (i.e. `|X| = n x m`) onto 
@@ -203,8 +243,9 @@ def get_palette_radviz_coordinates(X, depth_contour_path=None, n_partitions=floa
     ----------
     X : ndarray 
         `n` number of `m` dimensiomal points as input.
-    depth_contour_path : str or pathlib.Path object, optional
-        The path to the depth contour indices. Default 'None' when optional.
+    depth_contours : ndarray or str path, optional
+        An `ndarray` containing the depth contours or a path to the file 
+        containing depth contour indices. Default 'None' when optional.
     n_partitions : int, optional
         The total number of layers in the final PaletteViz plot. We recommend 4.
         Default `float('inf')` when optional. When default, the total number of 
@@ -242,16 +283,22 @@ def get_palette_radviz_coordinates(X, depth_contour_path=None, n_partitions=floa
     verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     L = None
-    if depth_contour_path is None:
+    if depth_contours is None:
         # compute layers
         if verbose:
             print("Computing depth contours since no file provided.")
         L = simple_shape.depth_contours(X, project_collapse=project_collapse, verbose=verbose) 
-    elif depth_contour_path is not None and os.path.exists(depth_contour_path):
-        # load depth contours
-        if verbose:
-            print("Loading depth contours from {0:s}.".format(depth_contour_path))
-        L = io.loadtxt(depth_contour_path, dtype=int, delimiter=',') 
+    else: 
+        if isinstance(depth_contours, str):
+            # load depth contours
+            if verbose:
+                print("Loading depth contours from {0:s}.".format(depth_contours))
+            L = io.loadtxt(depth_contours, dtype=int, delimiter=',') 
+        elif isinstance(depth_contours, np.ndarray):
+            # use depth contours
+            if verbose:
+                print("Using depth contours ndarray.")
+            L = depth_contours
 
     if L is not None:
         (P,K,B) = get_radviz_coordinates(X, spread_factor=spread_factor, normalized=normalized)
@@ -261,7 +308,7 @@ def get_palette_radviz_coordinates(X, depth_contour_path=None, n_partitions=floa
         raise ValueError("No depth contours found.")
 
 
-def plot(A, plt, depth_contour_path=None, mode='star', \
+def plot(A, plt, depth_contours=None, mode='star', \
             n_partitions=float('inf'), s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
@@ -276,7 +323,7 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
         `n` number of `m` dim. points to be plotted.
     plt : A `matplotlib.pyplot` object
         It needs to be passed.
-    depth_contour_path : str or pathlib.Path object, optional
+    depth_contours : ndarray or str path, optional
         See `get_palette_star_coordinates()` or `get_palette_radviz_coordinates()` 
         functions for detail. Default 'None' when optional.
     mode : str {'star', 'radviz'}, optional
@@ -342,12 +389,12 @@ def plot(A, plt, depth_contour_path=None, mode='star', \
         if mode == 'star':
             if verbose:
                 print("Plotting palette-star-viz.")
-            P, K, _, Z = get_palette_star_coordinates(A, depth_contour_path=depth_contour_path, \
+            P, K, _, Z = get_palette_star_coordinates(A, depth_contours=depth_contours, \
                                                         n_partitions=n_partitions, kwargs=kwargs)
         elif mode == 'radviz':
             if verbose:
                 print("Plotting palette-radviz.")
-            P, K, _, Z = get_palette_radviz_coordinates(A, depth_contour_path=depth_contour_path, \
+            P, K, _, Z = get_palette_radviz_coordinates(A, depth_contours=depth_contours, \
                                                         n_partitions=n_partitions, kwargs=kwargs)
         else:
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
