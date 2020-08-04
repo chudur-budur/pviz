@@ -122,9 +122,13 @@ def depth_contours(F, project_collapse=True, verbose=False):
         # print("i:", i, "Id[Ih]:", Id[Ih], "Id[Ih].shape:", Id[Ih].shape)
         L.append(Id[Ih])
         Id = np.delete(Id, Ih)
-        # print("i:", i, "Id.shape:", Id.shape, "\n")
-        G = P[Id]
-        i = i + 1
-    L.append(Id)
+        if Id.shape[0] > 0:
+            # print("i:", i, "Id.shape:", Id.shape, "\n")
+            G = P[Id]
+            i = i + 1
+        else:
+            break
+    if Id.shape[0] > 0:
+        L.append(Id)
 
     return np.array(L, dtype=object)

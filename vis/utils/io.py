@@ -69,13 +69,16 @@ def loadtxt(fname, dtype=float, delimiter=None):
     """
      
     if os.path.exists(fname):
-        fp = open(fname, 'r')
-        X = []
-        for l in fp:
-            a = [cast(v.strip(), dtype) for v in l.strip().split(delimiter)]
-            X.append(np.array(a))
-        fp.close()
-        return np.array(X, dtype=object)
+        try:
+            fp = open(fname, 'r')
+            X = []
+            for l in fp:
+                a = [cast(v.strip(), dtype) for v in l.strip().split(delimiter)]
+                X.append(np.array(a))
+            fp.close()
+            return np.array(X, dtype=object)
+        except IOError:
+            print("Coudn't open file {:s}".format(fname))
     else:
         raise OSError("File {0:s} not found.".format(fname))
 
@@ -99,11 +102,11 @@ def savetxt(fname, X, fmt='{:.18e}', delimiter=' ', newline='\n'):
     newline : str, optional
         String or character separating lines. Default `\n` when optional.
     """
-    if os.path.exists(fname):
+    try:
         fp = open(fname, 'w+')
         for i in range(X.shape[0]-1):
             fp.write(delimiter.join([fmt.format(v) for v in X[i]]) + newline)
         fp.write(delimiter.join([fmt.format(v) for v in X[X.shape[0]-1]]))
         fp.close()
-    else:
-        raise OSError("File {0:s} not found.".format(fname))
+    except IOError:
+        print("Coudn't open file {:s}".format(fname))
