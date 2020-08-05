@@ -16,8 +16,9 @@
 """
 
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
 import matplotlib.colors as mc
+from mpl_toolkits.mplot3d import Axes3D
 
 
 __all__ = ["camera_angles", "plot"]
@@ -45,7 +46,7 @@ camera_angles = {
 }
 
 
-def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
+def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     r"""A scatter plot function.
 
     This uses `matplotlib.axes.Axes.scatter` function to do a scatter plot.
@@ -54,8 +55,8 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     ----------
     A : ndarray 
         `n` number of `m` dim. points to be plotted.
-    plt : A `matplotlib.pyplot` object
-        It needs to be passed.
+    ax : An `mpl_toolkits.mplot3d.axes.Axes3D` or an `matplotlib.axes.Axes` object, optional
+        Default `None` when optional.
     s : int or 1-D array_like, optional
         Point size, or an array of point sizes. Default 1 when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
@@ -71,21 +72,21 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
         The list of columns of `A` to be plotted. Default `(0, 1, 2)` when optional.
     euler : tuple (i.e. a pair) of int, optional
         The azmiuth and elevation angle. Default `(-60,30)` when optional.
-    xbound : tuple (i.e. a pair) of int, optional 
-        The bounds on the X-axis. Default `None` when optional.
-    ybound : tuple (i.e. a pair) of int, optional 
-        The bounds on the Y-axis. Default `None` when optional.
-    zbound : tuple (i.e. a pair) of int, optional 
-        The bounds on the Z-axis. Default `None` when optional.
+    xlim : tuple (i.e. a pair) of int, optional 
+        The limits on the X-axis. Default `None` when optional.
+    ylim : tuple (i.e. a pair) of int, optional 
+        The limits on the Y-axis. Default `None` when optional.
+    zlim : tuple (i.e. a pair) of int, optional 
+        The limits on the Z-axis. Default `None` when optional.
     title : str, optional
         The plot title. Default `None` when optional.
 
     Returns
     -------
-    (fig, ax) : tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes`
-        A tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes` 
-        (or `mpl_toolkits.mplot3d.axes.Axes`) objects.
+    ax : An `mpl_toolkits.mplot3d.axes.Axes3D` or `matplotlib.axes.Axes` object
+        An `mpl_toolkits.mplot3d.axes.Axes3D` or an `matplotlib.axes.Axes` object.
     """
+
     # all other parameters
     # by default label_prefix is $f_n$
     label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
@@ -98,36 +99,45 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     # azimuth is -60 and elevation is 30 by default
     euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
     # by default, take the entire range
-    xbound = kwargs['xbound'] if (kwargs is not None and 'xbound' in kwargs) else None
-    ybound = kwargs['ybound'] if (kwargs is not None and 'ybound' in kwargs) else None
-    zbound = kwargs['zbound'] if (kwargs is not None and 'zbound' in kwargs) else None
+    xlim = kwargs['xlim'] if (kwargs is not None and 'xlim' in kwargs) else None
+    ylim = kwargs['ylim'] if (kwargs is not None and 'ylim' in kwargs) else None
+    zlim = kwargs['zlim'] if (kwargs is not None and 'zlim' in kwargs) else None
     # by default, no title
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
 
-    if plt is not None:
-        fig = plt.figure()
-        if title is not None:
-            fig.suptitle(title)
+    # decide on what kind of axes to use
+    if ax is None:
+        ax = Axes3D(plt.figure()) if A.shape[1] > 2 else plt.figure().gca()
+
+    if ax is not None:
         if A.shape[1] < 3:
-            ax = fig.gca()
             ax.scatter(A[:,axes[0]], A[:,axes[1]], s = s, c = c)
-            ax.set_xbound(ax.get_xbound() if xbound is None else xbound)
-            ax.set_ybound(ax.get_ybound() if ybound is None else ybound)
-            ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
-            ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
+            ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
+            ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
+            if len(axes) > 0:
+                ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
+            if len(axes) > 1:
+                ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
+            if title is not None:
+                ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
         else:
-            ax = Axes3D(fig)
             ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c) 
-            ax.set_xbound(ax.get_xbound() if xbound is None else xbound)
-            ax.set_ybound(ax.get_ybound() if ybound is None else ybound)
-            ax.set_zbound(ax.get_zbound() if zbound is None else zbound)
-            ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
-            ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
-            ax.set_zlabel(label_prefix.format(axes[2] + 1), fontsize=label_fontsize)
+            ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
+            ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
+            ax.set_zlim(ax.get_zlim() if zlim is None else zlim)
+            if len(axes) > 0:
+                ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
+            if len(axes) > 1:
+                ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
+            if len(axes) > 2:
+                ax.set_zlabel(label_prefix.format(axes[2] + 1), fontsize=label_fontsize)
             ax.xaxis.set_rotate_label(False)
             ax.yaxis.set_rotate_label(False)
             ax.zaxis.set_rotate_label(False)
             ax.view_init(euler[1], euler[0])
-        return (fig, ax)
+            if title is not None:
+                ax.set_title(title, pad=0.1)
+        return ax
     else:
-        raise TypeError("A valid `matplotlib.pyplot` object must be provided.")
+        raise TypeError("A valid `mpl_toolkits.mplot3d.axes.Axes3D`/`matplotlib.axes.Axes` " 
+                + "object is not found.")

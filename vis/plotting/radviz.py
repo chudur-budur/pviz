@@ -24,7 +24,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mc
-from mpl_toolkits.mplot3d import Axes3D
 from vis.utils import transform as tr
 from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels 
 
@@ -114,7 +113,7 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
     ----------
     A : ndarray 
         `n` number of `m` dim. points to be plotted.
-    ax : A `matplotlib.axes.Axes` object, optional
+    ax : An `matplotlib.axes.Axes` object, optional
         Default `None` when optional.
     s : int or 1-D array_like, optional
         Point size, or an array of point sizes. Default 1 when optional.
@@ -191,7 +190,8 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.01 if ub[0] > 1 else 1.1)
         ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.01 if ub[1] > 1 else 1.1)
         ax.set_aspect('equal')
-        ax.set_title(title, y=ax.get_ylim()[1]-0.05)
+        if title is not None:
+            ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
         return ax
     else:
-        raise TypeError("Either a valid `matplotlib.axes.Axes` object is not found.")
+        raise TypeError("A valid `matplotlib.axes.Axes` object is not found.")

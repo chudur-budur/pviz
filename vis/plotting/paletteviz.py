@@ -22,6 +22,7 @@
 """
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib.colors as mc
 from mpl_toolkits.mplot3d import Axes3D
 from vis.plotting.radviz import get_radviz_coordinates
@@ -308,7 +309,7 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
         raise ValueError("No depth contours found.")
 
 
-def plot(A, plt, depth_contours=None, mode='star', \
+def plot(A, ax=None, depth_contours=None, mode='star', \
             n_partitions=float('inf'), s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
@@ -321,8 +322,8 @@ def plot(A, plt, depth_contours=None, mode='star', \
     ----------
     A : ndarray 
         `n` number of `m` dim. points to be plotted.
-    plt : A `matplotlib.pyplot` object
-        It needs to be passed.
+    ax : An `mpl_toolkits.mplot3d.axes.Axes3D` object, optional
+        Default `None` when optional.
     depth_contours : ndarray or str path, optional
         See `get_palette_star_coordinates()` or `get_palette_radviz_coordinates()` 
         functions for detail. Default 'None' when optional.
@@ -362,10 +363,13 @@ def plot(A, plt, depth_contours=None, mode='star', \
 
     Returns
     -------
-    (fig, ax) : tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes`
-        A tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes` 
-        (or `mpl_toolkits.mplot3d.axes.Axes`) objects.
+    ax : `mpl_toolkits.mplot3d.axes.Axes3D` object
+        An `mpl_toolkits.mplot3d.axes.Axes3D` object.
     """
+    # decide on what kind of axes to use
+    if ax is None:
+        ax = Axes3D(plt.figure())
+
     # azimuth is -60 and elevation is 30 by default
     euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
     # by default label_prefix is $f_n$
@@ -385,7 +389,7 @@ def plot(A, plt, depth_contours=None, mode='star', \
     # verbosity
     verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
-    if plt is not None:
+    if ax is not None:
         if mode == 'star':
             if verbose:
                 print("Plotting palette-star-viz.")
@@ -399,16 +403,10 @@ def plot(A, plt, depth_contours=None, mode='star', \
         else:
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
-        fig = plt.figure()
-        if title is not None:
-            fig.suptitle(title)
-        ax = Axes3D(fig)
         ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c)
         ax.view_init(euler[1], euler[0])
         
         if draw_axes:
-            # ax.set_xticklabels([])
-            # ax.set_yticklabels([])
             ax.set_axis_on()
         else:
             ax.set_axis_off()
@@ -429,6 +427,8 @@ def plot(A, plt, depth_contours=None, mode='star', \
         # ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
         # ax.set_zlim(lb[2] - 0.1 if lb[2] < -1 else -1.1, ub[2] + 0.1 if ub[2] > 1 else 1.1)
         # ax.set_aspect('equal')
-        return (fig, ax)
+        if title is not None:
+            ax.set_title(title, pad=0.0)
+        return ax
     else:
-        raise TypeError("A valid `matplotlib.pyplot` object must be provided.")
+        raise TypeError("A valid `mpl_toolkits.mplot3d.axes.Axes3D` object is not found.")

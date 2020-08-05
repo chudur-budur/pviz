@@ -22,6 +22,7 @@
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib.colors as mc
 from vis.utils import transform as tr
 from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels
@@ -89,7 +90,7 @@ def get_star_coordinates(X, inverted=True, normalized=True):
     return (P, K, B)
 
 
-def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
+def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
             inverted=True, normalized=True, \
             draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized star-coordinate plot.
@@ -100,8 +101,8 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
     ----------
     A : ndarray 
         `n` number of `m` dim. points to be plotted.
-    plt : A `matplotlib.pyplot` object
-        It needs to be passed.
+    ax : An `matplotlib.axes.Axes` object, optional
+        Default `None` when optional.
     s : int or 1-D array_like, optional
         Point size, or an array of point sizes. Default 1 when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
@@ -132,9 +133,8 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
 
     Returns
     -------
-    (fig, ax) : tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes`
-        A tuple of `matplotlib.pyplot.figure` and `matplotlib.axes.Axes` 
-        (or `mpl_toolkits.mplot3d.axes.Axes`) objects.
+    ax : `matplotlib.axes.Axes` object
+        A `matplotlib.axes.Axes` object.
 
     References
     ----------
@@ -143,6 +143,10 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         SIGKDD International Conference on Knowledge Discovery and Data Mining 
         (KDD '01). ACM, New York, NY, USA, 107--116.
     """
+    # decide on what kind of axes to use
+    if ax is None:
+        ax = fig.gca(plt.figure())
+
     # by default label_prefix is $f_n$
     label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
                             else r"$f_{{{:d}}}$"
@@ -158,16 +162,10 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
     # default plot title is empty
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
 
-    if plt is not None:
+    if ax is not None:
         P, K, [lb, ub] = get_star_coordinates(A, inverted=inverted, normalized=normalized)
-        fig = plt.figure()
-        if title is not None:
-            fig.suptitle(title)
-        ax = fig.gca()
         ax.scatter(P[:,0], P[:,1], s=s, c=c)
         if draw_axes:
-            # ax.set_xticklabels([])
-            # ax.set_yticklabels([])
             ax.set_axis_on()
         else:
             ax.set_axis_off()
@@ -179,6 +177,8 @@ def plot(A, plt, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
         ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
         ax.set_aspect('equal')
-        return (fig, ax)
+        if title is not None:
+            ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
+        return ax
     else:
-        raise TypeError("A valid `matplotlib.pyplot` object must be provided.")
+        raise TypeError("A valid `matplotlib.axes.Axes` object is not found.")
