@@ -19,6 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mc
 from mpl_toolkits.mplot3d import Axes3D
+from vis.plotting.utils import pop
 
 
 __all__ = ["camera_angles", "plot"]
@@ -80,6 +81,8 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
         The limits on the Z-axis. Default `None` when optional.
     title : str, optional
         The plot title. Default `None` when optional.
+    **kwargs : dict
+        All other keyword args for matplotlib's `scatter()` function.
 
     Returns
     -------
@@ -104,6 +107,16 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     zlim = kwargs['zlim'] if (kwargs is not None and 'zlim' in kwargs) else None
     # by default, no title
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+            
+    # remove once they are read
+    kwargs = pop(kwargs, 'label_prefix')
+    kwargs = pop(kwargs, 'label_fontsize')
+    kwargs = pop(kwargs, 'axes')
+    kwargs = pop(kwargs, 'euler')
+    kwargs = pop(kwargs, 'xlim')
+    kwargs = pop(kwargs, 'ylim')
+    kwargs = pop(kwargs, 'zlim')
+    kwargs = pop(kwargs, 'title')
 
     # decide on what kind of axes to use
     if ax is None:
@@ -111,7 +124,7 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
 
     if ax is not None:
         if A.shape[1] < 3:
-            ax.scatter(A[:,axes[0]], A[:,axes[1]], s = s, c = c)
+            ax.scatter(A[:,axes[0]], A[:,axes[1]], s=s, c=c, **kwargs)
             ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
             ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
             if len(axes) > 0:
@@ -121,7 +134,7 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
             if title is not None:
                 ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
         else:
-            ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c) 
+            ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c, **kwargs) 
             ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
             ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
             ax.set_zlim(ax.get_zlim() if zlim is None else zlim)

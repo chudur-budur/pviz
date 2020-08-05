@@ -24,8 +24,16 @@ from vis.utils import transform as tr
 
 __all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
             "color_by_dist", "enhance_color", \
-            "set_polar_anchors", "set_polar_anchor_labels"]
+            "set_polar_anchors", "set_polar_anchor_labels", "pop"]
 
+
+def pop(d, k):
+    r"""A safe popping from a dict.
+    """
+    r = dict(d)
+    if k in d:
+        del r[k]
+    return r
 
 def resize_by_tradeoff(Mu, k=None, minsize=2.0, maxsize=10.0, kminsize=3.0, kmaxsize=5.0):
     r"""Resize the points w.r.t. tradeoff values.
@@ -184,7 +192,7 @@ def enhance_color(C, k, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
     return C_
 
 
-def set_polar_anchors(ax, A, z=None):
+def set_polar_anchors(ax, A, z=None, anchor_linewidth=1.0):
     r"""Function to draw anchor points for radviz (and other related plots).
 
     This function draws anchor points for radviz and other related plots
@@ -199,31 +207,33 @@ def set_polar_anchors(ax, A, z=None):
     z : float, optional
         The z-coordinate values of the corresponding acnhor in 3D.
         Default 'None' when optional.
+    anchor_linewidth : float, optional
+        The width for anchor lines. Default 1.0 when optional.
     """
     tgc = mc.TABLEAU_COLORS['tab:gray']
     for i in range(0, A.shape[0]-1):
         if z is None:
             # draw one polygon line
             ax.plot([A[i,0], A[i + 1,0]], [A[i,1], A[i + 1,1]], c=tgc, alpha=1.0, \
-                        linewidth=1.0, linestyle='dashdot')
+                        linewidth=anchor_linewidth, linestyle='dashdot')
             # draw a pair of polygon points
             ax.scatter(A[i,0], A[i,1], c=tgc, marker='o', s=20.0, alpha=1.0)
         else:
             # draw one polygon line
             ax.plot([A[i,0], A[i + 1,0]], [A[i,1], A[i + 1,1]], zs=z, c=tgc, alpha=1.0, \
-                        linewidth=1.0, linestyle='dashdot')
+                        linewidth=anchor_linewidth, linestyle='dashdot')
             # draw a pair of polygon points
             ax.scatter(A[i,0], A[i,1], zs=z, c=tgc, marker='o', s=20.0, alpha=1.0)
     if z is None:
         # last polygon line
         ax.plot([A[-1,0], A[0,0]], [A[-1,1], A[0,1]], c=tgc, alpha=1.0, \
-                    linewidth=1.0, linestyle='dashdot')
+                    linewidth=anchor_linewidth, linestyle='dashdot')
         # last pair of polygon points
         ax.scatter(A[-1,0], A[-1,1], c=tgc, marker='o', s=20.0, alpha=1.0)
     else:
         # last polygon line
         ax.plot([A[-1,0], A[0,0]], [A[-1,1], A[0,1]], zs=z, c=tgc, alpha=1.0, \
-                    linewidth=1.0, linestyle='dashdot')
+                    linewidth=anchor_linewidth, linestyle='dashdot')
         # last pair of polygon points
         ax.scatter(A[-1,0], A[-1,1], zs=z, c=tgc, marker='o', s=20.0, alpha=1.0)
 

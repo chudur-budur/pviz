@@ -27,7 +27,7 @@ import matplotlib.colors as mc
 from mpl_toolkits.mplot3d import Axes3D
 from vis.plotting.radviz import get_radviz_coordinates
 from vis.plotting.star import get_star_coordinates
-from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels
+from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop
 from vis.tda import simple_shape
 from vis.utils import io
 
@@ -159,7 +159,9 @@ def make_partitions(P, K, B, L, n_partitions):
     return (P,K,B,Z)
 
 
-def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf'), kwargs=None):
+def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf'), \
+                                    inverted=True, normalized=True, project_collapse=True, \
+                                    verbose=False):
     r"""Generate Star-coordinates from data points `X`.
 
     Maps all the data points in `X` (i.e. `|X| = n x m`) onto 
@@ -179,9 +181,6 @@ def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf
         Also if `n_partitions` is bigger than the total number depth contours, 
         the total number of layers in the PaletteViz will be equal to the total
         number of depth contours.
-
-    Other Parameters
-    ----------------
     inverted : bool, optional
         See `vis.plotting.star` for more details.
     normalized : bool, optional
@@ -201,12 +200,6 @@ def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf
         `K` and `Z` values will be used to draw anchor points and the polygon. 
 
     """
-
-    inverted = kwargs['inverted'] if (kwargs is not None and 'inverted' in kwargs) else True
-    normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
-    project_collapse = kwargs['project_collapse'] if (kwargs is not None and 'project_collapse' in kwargs) \
-            else True
-    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     L = None
     if depth_contours is None:
@@ -234,7 +227,9 @@ def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf
         raise ValueError("No depth contours found.")
 
 
-def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('inf'), kwargs=None):
+def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('inf'), \
+                                    spread_factor='auto', normalized=True, project_collapse=True, \
+                                    verbose=False):
     r"""Generate Radviz coordinates from data points `X`.
 
     Maps all the data points in `X` (i.e. `|X| = n x m`) onto 
@@ -254,9 +249,6 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
         Also if `n_partitions` is bigger than the total number depth contours, 
         the total number of layers in the PaletteViz will be equal to the total
         number of depth contours.
-
-    Other Parameters
-    ----------------
     spread_factor : str {'auto'} or float, optional
         See `vis.plotting.radviz` for more details.
     normalized : bool, optional
@@ -276,12 +268,6 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
         `K` and `Z` values will be used to draw anchor points and the polygon. 
 
     """
-
-    spread_factor = kwargs['spread_factor'] if (kwargs is not None and 'spread_factor' in kwargs) else 'auto'
-    normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
-    project_collapse = kwargs['project_collapse'] if (kwargs is not None and 'project_collapse' in kwargs) \
-                            else True
-    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     L = None
     if depth_contours is None:
@@ -348,6 +334,10 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     ----------------
     euler : tuple (i.e. a pair) of int, optional
         The azmiuth and elevation angle. Default `(-60,30)` when optional.
+    title : str, optional
+        The plot title. Default `None` when optional.
+    anchor_linewidth : float, optional
+        See `set_polar_anchor()` function for details.
     label_prefix : str, optional
         See `set_anchor_labels()` function for details.
     label_fontsize : str or int, optional
@@ -356,10 +346,18 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         See `set_anchor_labels()` function for details.
     label_fontstyle : str, optional
         See `set_anchor_labels()` function for details.
-    title : str, optional
-        The plot title. Default `None` when optional.
+    spread_factor : str {'auto'} or float, optional
+        See `vis.plotting.radviz` for more details.
+    inverted : bool, optional
+        See `vis.plotting.star` for more details.
+    normalized : bool, optional
+        See `vis.plotting.star` for details.
+    project_collapse : bool, optional
+        See `vis.tda.simple_shape` module for more details.
     verbose : bool, optional
         The verbosity. Default 'False' when optional.
+    **kwargs : dict
+        All other keyword args for matplotlib `scatter()` function.
 
     Returns
     -------
@@ -372,6 +370,11 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
 
     # azimuth is -60 and elevation is 30 by default
     euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
+    # default plot title is empty
+    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+    # default anchorline width is 1.0
+    anchor_linewidth = kwargs['anchor_linewidth'] if (kwargs is not None and 'anchor_linewidth' in kwargs) \
+                            else 1.0
     # by default label_prefix is $f_n$
     label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
                             else r"$f_{{{:d}}}$"
@@ -384,26 +387,57 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     # default label font style is 'normal'
     label_fontstyle = kwargs['label_fontstyle'] if (kwargs is not None and 'label_fontstyle' in kwargs) \
                             else 'normal'
-    # default plot title is empty
-    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+    # spread factor for radviz
+    spread_factor = kwargs['spread_factor'] if (kwargs is not None and 'spread_factor' in kwargs) \
+                            else 'auto'
+    inverted = kwargs['inverted'] if (kwargs is not None and 'inverted' in kwargs) else True
+    # normalize points befor star-coordinate or radviz computation
+    normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
+    # check if projection and collapse will be done before shape computation
+    project_collapse = kwargs['project_collapse'] if (kwargs is not None and 'project_collapse' in kwargs) \
+                            else True
     # verbosity
     verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
+    # for star-coordinate plot
+
+
+    # remove once they are read
+    kwargs = pop(kwargs, 'euler')
+    kwargs = pop(kwargs, 'title')
+    kwargs = pop(kwargs, 'anchor_linewidth')
+    kwargs = pop(kwargs, 'label_prefix')
+    kwargs = pop(kwargs, 'label_fontsize')
+    kwargs = pop(kwargs, 'label_fontname')
+    kwargs = pop(kwargs, 'label_fontstyle')
+    kwargs = pop(kwargs, 'spread_factor')
+    kwargs = pop(kwargs, 'inverted')
+    kwargs = pop(kwargs, 'normalized')
+    kwargs = pop(kwargs, 'project_collapse')
+    kwargs = pop(kwargs, 'verbose')
 
     if ax is not None:
         if mode == 'star':
             if verbose:
                 print("Plotting palette-star-viz.")
             P, K, _, Z = get_palette_star_coordinates(A, depth_contours=depth_contours, \
-                                                        n_partitions=n_partitions, kwargs=kwargs)
+                                                        n_partitions=n_partitions, \
+                                                        inverted=inverted, \
+                                                        normalized=normalized, \
+                                                        project_collapse=project_collapse, \
+                                                        verbose=verbose)
         elif mode == 'radviz':
             if verbose:
                 print("Plotting palette-radviz.")
             P, K, _, Z = get_palette_radviz_coordinates(A, depth_contours=depth_contours, \
-                                                        n_partitions=n_partitions, kwargs=kwargs)
+                                                        n_partitions=n_partitions, \
+                                                        spread_factor=spread_factor, \
+                                                        normalized=normalized, \
+                                                        project_collapse=project_collapse, \
+                                                        verbose=verbose)
         else:
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
-        ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c)
+        ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, **kwargs)
         ax.view_init(euler[1], euler[0])
         
         if draw_axes:
@@ -412,7 +446,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
             ax.set_axis_off()
         if draw_anchors:
             for z in Z:
-                set_polar_anchors(ax, K, z=z)
+                set_polar_anchors(ax, K, z=z, anchor_linewidth=anchor_linewidth)
                 if mode == 'radviz':
                     set_polar_anchor_labels(ax, K, z=z, label_prefix=label_prefix, \
                                     label_fontsize=label_fontsize, label_fontname=label_fontname, \

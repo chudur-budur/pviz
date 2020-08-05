@@ -25,7 +25,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mc
 from vis.utils import transform as tr
-from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels 
+from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop 
 
 
 __all__ = ["get_radviz_coordinates", "plot"]
@@ -143,6 +143,8 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         See `set_anchor_labels()` function for details.
     title : str, optional
         The plot title. Default `None` when optional.
+    **kwargs : dict
+        All other keyword args for matplotlib's `scatter()` function.
 
     Returns
     -------
@@ -175,10 +177,17 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
                             else 'normal'
     # default plot title is empty
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+        
+    # remove once they are read
+    kwargs = pop(kwargs, 'label_prefix')
+    kwargs = pop(kwargs, 'label_fontsize')
+    kwargs = pop(kwargs, 'label_fontname')
+    kwargs = pop(kwargs, 'label_fontstyle')
+    kwargs = pop(kwargs, 'title')
 
     if ax is not None:
         P, K, [lb, ub] = get_radviz_coordinates(A, spread_factor=spread_factor, normalized=normalized)
-        ax.scatter(P[:,0], P[:,1], s=s, c=c)
+        ax.scatter(P[:,0], P[:,1], s=s, c=c, **kwargs)
         if draw_axes:
             ax.set_axis_on()
         else:
