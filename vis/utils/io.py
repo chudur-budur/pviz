@@ -17,7 +17,17 @@ import os
 import ast
 import numpy as np
 
-__all__ = ["loadtxt", "savetxt"]
+__all__ = ["loadtxt", "savetxt", "is_number"]
+
+def is_number(s):
+    r""" Returns True is string is a number. 
+    
+    This tend to be generally faster. See here --
+    https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float 
+    
+    """
+    return s.replace('.','',1).isdigit()
+
 
 def cast(x, dtype):
     r"""Typecasting a scalar value `x`.
