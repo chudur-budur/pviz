@@ -148,7 +148,7 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         ax = plt.figure().gca()        
 
     if normalized:
-        F = tr.normalize(A, lb=np.zeros(F.shape[1]), ub=np.ones(F.shape[1]))
+        F = tr.normalize(A, lb=np.zeros(A.shape[1]), ub=np.ones(A.shape[1]))
     else:
         F = np.array(A, copy=True)
 
@@ -244,7 +244,10 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
             cmap = None if c is None else ListedColormap(c[::-1])
         else:
             cmap = None if c is None else ListedColormap(c)
-        ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                       orientation='vertical', label=cbar_label, pad=0.015)
-    
+        if cbar_label is not None:
+            ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
+                        orientation='vertical', label=cbar_label, pad=0.015)
+        else:
+            ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
+                        orientation='vertical', pad=0.015) 
     return ax
