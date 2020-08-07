@@ -156,10 +156,12 @@ def color_by_dist(X, P, alpha=0.5, factor=1.75):
     -------
     C : ndarray
         An array of RGBA color values.
+    D : array_like
+        An array of distance values.
     """
     D = tr.normalize(np.linalg.norm(P - X, axis=1), lb=0.1, ub=1.0)
     C = np.array([mc.to_rgba(cm.winter_r(v * 1.75), alpha) for v in D])
-    return C
+    return C, D
 
 
 def enhance_color(C, k, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):

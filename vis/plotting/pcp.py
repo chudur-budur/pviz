@@ -1,7 +1,8 @@
 """pcp.py -- A customized and more flexible Parallel-coordinate plotting module. 
 
-    This module provides a customized and more flexible function for Radviz [1]_ plotting.
-    This module also provides different relevant fucntions, parameters and tools.
+    This module provides a customized and more flexible function for Parallel-coordinate 
+    Plot (PCP) [1]_ visualization. This module also provides different relevant fucntions, 
+    parameters and tools.
 
     Copyright (C) 2016
     Computational Optimization and Innovation (COIN) Laboratory
@@ -12,10 +13,9 @@
     
     References
     ----------
-    .. [1] P. Hoffman, G. Grinstein and D. Pinkney, Dimensional anchors: A graphic primitive 
-    for multidimensional multivariate information visualizations", Proc. 1999 Workshop on 
-    New Paradigms in Information Visualization and Manipulation in Conjunction with the 
-    Eighth ACM Int. Conf. Information and Knowledge Management (NPIVM ’99), pp. 9-16, 1999.
+    .. [1] A. Inselberg and T. Avidan, "Classification and visualization for high-dimensional 
+        data", Proc. 6th ACM SIGKDD Int. Conf. Knowledge Discovery and Data Mining (KDD ‘00), 
+        pp. 370-374, 2000.
 
 .. moduleauthor:: AKM Khaled Talukder <talukde1@msu.edu>
 
@@ -31,33 +31,126 @@ from vis.utils import transform as tr
 __all__ = ["plot"]
 
 def is_xticklabels_off(ax):
+    r"""Checks if axes has already xtick labels
+
+    Checks if an `matplotlib.axes.Axes` object has already
+    xtick labels. 
+
+    Parameters
+    ----------
+    ax : matplotlib axes object
+        An `matplotlib.axes.Axes` object.
+    
+    Returns
+    -------
+    True/False : bool
+    """
+
     xtl = ax.get_xticklabels()
     for s in xtl:
         if str(s) != "Text(0, 0, \'\')":
             return False
     return True
 
-def plot(F, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1, \
+def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, \
         column_indices=None, xtick_labels=None, line_labels=None, draw_vertical_lines=True, \
-        draw_grid=False, sort_columns=False, title=None, show_colorbar=False, **kwargs):
+        draw_grid=False, show_colorbar=False, **kwargs):
+    r"""A customized and more enhanced Parallel-coordinate plot.
+
+    This Parallel-coordinate plot (PCP) [1]_ is customized for the experiments. 
+    A lot of settings are customizable and configurable. Also it gives more 
+    flexibility to the user compared to similar functions implemented in other 
+    libraries like Pandas and seaborn. 
+    
+    Parameters
+    ----------
+    A : ndarray 
+        `n` number of `m` dim. points to be plotted.
+    ax : An `mpl_toolkits.mplot3d.axes.Axes3D` object, optional
+        Default `None` when optional.
+    normalized : bool, optional
+        Decide whether the points will be normalized before plotting.
+        Default `False` when optional.
+    c : A `matplotlib.colors` object, str or an array RGBA color values.
+        Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
+        optional.
+    lw : float, optional
+        The line-width of each line in PCP. Default 1.0 when optional.
+    column_indices : array_like or list of int, optional
+        The indices of the columns of `A` to be plotted. Default `None` when optional.
+    xtick_labels : str, array_like or list of str, optional
+        A string or an array/list of strings for xtick labels, for each column.
+        Default `None` when optional. In that case, the labels will be `f_0`, `f_1` etc.
+    line_labels : str, array_like or list of str, optional
+        A string or an array/list of strings for labeling each line. Which basically
+        means the class label of each row. Default `None` when optional. This will be
+        used to set the legend in the figure. If `None` there will be no legend.
+    draw_vertical_lines : bool, optional
+        Decide whether we are going to put vertical y-axis lines in the plot for each
+        column/feature. Default `True` when optional.
+    draw_grid : bool, optional
+        Decide whether we are going to put x-axis grid-lines in the plot. Default
+        `False` when optional.
+    show_colorbar : bool, optional
+        Decide whether we are showing any colorbar. The plot supports only vertical
+        colorbars at the outside of the right side of the y-axis. Default `False`
+        when optional.
+
+    Other Parameters
+    ----------------
+    title : str, optional
+        The title of the figure. Default `None` when optional.
+    cbar_grad : array_like of float, optional
+        The gradient of the colorbar. A 1-D array of floats.
+        Default `None` when optional.
+    cbar_label : str, optional
+        The label of the colorbar. Default `None` when optional.
+    cbar_flip : bool, optional
+        Decide whether we are flipping the colorbar. Sometimes
+        it can be useful depending on how we are going to 
+        visualize the data. Default `False` when optional.
+    axvline_width : float, optional
+        The width of the vertical lines. Default 1.0 when optional.
+    axvline_color : A `matplotlib.colors` object, str or an array RGBA color values.
+        The color of the vertical lines. Default `black` when optional.
+    **kwargs : dict
+        All other keyword args for matplotlib `plot()` function.
+
+    Returns
+    -------
+    ax : `mpl_toolkits.mplot3d.axes.Axes3D` object
+        An `mpl_toolkits.mplot3d.axes.Axes3D` object.
+
+    References
+    ----------
+    .. [1] A. Inselberg and T. Avidan, "Classification and visualization for high-dimensional 
+        data", Proc. 6th ACM SIGKDD Int. Conf. Knowledge Discovery and Data Mining (KDD ‘00), 
+        pp. 370-374, 2000.
+    """
     
     # collect extra kwargs
-    axvline_width = kwargs['axvline_width'] if (kwargs is not None and 'axvline_width' in kwargs) else 1
-    axvline_color = kwargs['axvline_color'] if (kwargs is not None and 'axvline_color' in kwargs) else 'black'
+    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None    
     cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
     cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
+    cbar_flip = kwargs['cbar_flip'] if (kwargs is not None and 'cbar_flip' in kwargs) else False
+    axvline_width = kwargs['axvline_width'] if (kwargs is not None and 'axvline_width' in kwargs) else 1.0
+    axvline_color = kwargs['axvline_color'] if (kwargs is not None and 'axvline_color' in kwargs) else 'black'
     
     # remove once they are read
-    kwargs = pop(kwargs, 'axvline_width')
-    kwargs = pop(kwargs, 'axvline_color')
+    kwargs = pop(kwargs, 'title')
     kwargs = pop(kwargs, 'cbar_grad')
     kwargs = pop(kwargs, 'cbar_label')
+    kwargs = pop(kwargs, 'cbar_flip')
+    kwargs = pop(kwargs, 'axvline_width')
+    kwargs = pop(kwargs, 'axvline_color')
     
     if ax is None:
         ax = plt.figure().gca()        
 
     if normalized:
-        F = tr.normalize(F, lb=np.zeros(F.shape[1]), ub=np.ones(F.shape[1]))
+        F = tr.normalize(A, lb=np.zeros(F.shape[1]), ub=np.ones(F.shape[1]))
+    else:
+        F = np.array(A, copy=True)
 
     # build color list for each data point
     if (not isinstance(c, list)) and (not isinstance(c, np.ndarray)):
@@ -95,10 +188,7 @@ def plot(F, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1, \
     # draw the actual plot
     used_legends = set()
     for i in range(F.shape[0]):
-        # y = df.iloc[i].values
         y = F[i,x]
-        # kls = class_col.iat[i]
-        # label = pprint_thing(kls)
         if line_labels is not None:
             label = line_labels[i]
             if label not in used_legends:
@@ -114,6 +204,8 @@ def plot(F, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1, \
         for i in x:
             ax.axvline(i, linewidth=axvline_width, color=axvline_color)
 
+    ax.tick_params(axis='x', labelsize=16)
+    ax.tick_params(axis='y', labelsize=12)
     # decide on xtick_labels
     if xtick_labels is not None:
         if is_xticklabels_off(ax):
@@ -148,7 +240,11 @@ def plot(F, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1, \
             vmin = np.min(cbar_grad)
             vmax = np.max(cbar_grad)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
-        cmap = None if c is None else ListedColormap(c)
+        if cbar_flip:
+            cmap = None if c is None else ListedColormap(c[::-1])
+        else:
+            cmap = None if c is None else ListedColormap(c)
         ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                        orientation='vertical', label=cbar_label, pad=0.015)
+    
     return ax

@@ -13165,7 +13165,7 @@ Eser Kandogan. 2001. Visualizing Multi-dimensional Clusters, Trends, and Outlier
     <span class="c1"># decide colors</span>
     <span class="c1"># C = default_color(F.shape[0], alpha=0.5)</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="n">color_by_dist</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">color_by_dist</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
     
     <span class="c1"># if CV is available, use CV to color</span>
     <span class="k">if</span> <span class="n">CV</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
