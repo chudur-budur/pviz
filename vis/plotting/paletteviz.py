@@ -38,7 +38,7 @@ __all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "pl
 # Some good camera angles for paletteviz plots.
 camera_angles_star = {
     'dtlz2': {'3d': (-20,25), '4d':(-50,20), '8d': (-50,25)}, \
-    'dtlz2-nbi': {'3d': (-60,30), '4d':(-65,20), '8d': (-60,30)}, \
+    'dtlz2-nbi': {'3d': (-60,30), '4d':(-65,20), '5d': (-60,30), '8d': (-60,30)}, \
     'debmdk': {'3d': (15,25), '4d': (35,15), '8d': (130,25)}, \
     'debmdk-nbi': {'3d': (135,25), '4d': (-60,20), '8d': (-50,20)}, \
     'debmdk-all': {'3d': (25,25), '4d': (80,20), '8d': (60,20)}, \
@@ -58,7 +58,7 @@ camera_angles_star = {
 
 camera_angles_radviz = {
     'dtlz2': {'3d': (-50,30), '4d':(-55,25), '8d': (-50,15)}, \
-    'dtlz2-nbi': {'3d': (-50,30), '4d':(-65,20), '8d': (-60,30)}, \
+    'dtlz2-nbi': {'3d': (-50,30), '4d':(-65,20), '5d': (-60,30), '8d': (-60,30)}, \
     'debmdk': {'3d': (-50,30), '4d': (-60,25), '8d': (-40,15)}, \
     'debmdk-nbi': {'3d': (-60,30), '4d': (-60,20), '8d': (-55,-20)}, \
     'debmdk-all': {'3d': (55,30), '4d': (-60,25), '8d': (-115,15)}, \
@@ -111,12 +111,16 @@ def make_partitions(P, K, B, L, n_partitions):
 
     Returns
     -------
-    (P,K,B,Z) : tuple of ndarray
-        `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
-        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
-        and `B` is the lower bound and upper bound of `P`. `Z` is an array
-        of z-coordinate values of all the anchor-sets (i.e. `|Z| = n_partitions x 1`). 
-        `K` and `Z` values will be used to draw anchor points and the polygon. 
+    P : ndarray of float
+        An ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`).
+    K : ndarray of float
+        The positions of the anchor points (i.e. `|K| = m x 2`),
+    B : ndarray of float
+        The lower bound and upper bound of `P`. 
+    Z : ndarray of float 
+        An ndarray of z-coordinate values of all the anchor-sets 
+        (i.e. `|Z| = n_partitions x 1`). `K` and `Z` values will be used to draw 
+        anchor points and the polygon. 
     """
     n,m,p = P.shape[0], P.shape[1], L.shape[0]
     n_partitions = p if n_partitions >= p else n_partitions
@@ -192,13 +196,16 @@ def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf
 
     Returns
     -------
-    (P,K,B,Z) : tuple of ndarray
-        `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
-        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
-        and `B` is the lower bound and upper bound of `P`. `Z` is an array
-        of z-coordinate values of all the anchor-sets (i.e. `|Z| = n_partitions x 1`). 
-        `K` and `Z` values will be used to draw anchor points and the polygon. 
-
+    P : ndarray of float
+        An ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`).
+    K : ndarray of float
+        The positions of the anchor points (i.e. `|K| = m x 2`),
+    B : ndarray of float
+        The lower bound and upper bound of `P`. 
+    Z : ndarray of float 
+        An ndarray of z-coordinate values of all the anchor-sets 
+        (i.e. `|Z| = n_partitions x 1`). `K` and `Z` values will be used to draw 
+        anchor points and the polygon.
     """
 
     L = None
@@ -260,13 +267,16 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
 
     Returns
     -------
-    (P,K,B,Z) : tuple of ndarray
-        `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
-        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
-        and `B` is the lower bound and upper bound of `P`. `Z` is an array
-        of z-coordinate values of all the anchor-sets (i.e. `|Z| = n_partitions x 1`). 
-        `K` and `Z` values will be used to draw anchor points and the polygon. 
-
+    P : ndarray of float
+        An ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`).
+    K : ndarray of float
+        The positions of the anchor points (i.e. `|K| = m x 2`),
+    B : ndarray of float
+        The lower bound and upper bound of `P`. 
+    Z : ndarray of float 
+        An ndarray of z-coordinate values of all the anchor-sets 
+        (i.e. `|Z| = n_partitions x 1`). `K` and `Z` values will be used to draw 
+        anchor points and the polygon.
     """
 
     L = None
@@ -363,6 +373,8 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     -------
     ax : `mpl_toolkits.mplot3d.axes.Axes3D` object
         An `mpl_toolkits.mplot3d.axes.Axes3D` object.
+    P : ndarray of float
+        `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
     """
     # decide on what kind of axes to use
     if ax is None:
@@ -463,6 +475,6 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         # ax.set_aspect('equal')
         if title is not None:
             ax.set_title(title, pad=0.0)
-        return ax
+        return (ax, P)
     else:
         raise TypeError("A valid `mpl_toolkits.mplot3d.axes.Axes3D` object is not found.")

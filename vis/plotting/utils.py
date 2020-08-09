@@ -20,11 +20,14 @@ import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.patches import Circle
 from mpl_toolkits.mplot3d import art3d
+from matplotlib.patches import FancyArrowPatch
+from mpl_toolkits.mplot3d import proj3d
 from vis.utils import transform as tr
 
 __all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
             "color_by_dist", "enhance_color", \
-            "set_polar_anchors", "set_polar_anchor_labels", "pop"]
+            "set_polar_anchors", "set_polar_anchor_labels", \
+            "pop", "Arrow3D"]
 
 
 def pop(d, k):
@@ -34,6 +37,31 @@ def pop(d, k):
     if k in d:
         del r[k]
     return r
+
+# we might need to draw arrows.
+class Arrow3D(FancyArrowPatch):
+    r"""A 3D arrow class.
+
+    This class is derived from `matplotlib.patches.FancyArrowPath`.
+    
+    Usage: A 3D arrow from `(x1,y1,z1)` to `(x2,y2,z2)` will look like this.
+
+    ```
+    a = Arrow3D([x1, x2], [y1, y2], [z1, z2], mutation_scale = 10, lw = 1.0, \
+                arrowstyle = "-|>", color = 'black')
+    ax.add_artist(a)
+    ```
+    """
+    def __init__(self, xs, ys, zs, *args, **kwargs):
+        FancyArrowPatch.__init__(self, (0,0), (0,0), *args, **kwargs)
+        self._verts3d = xs, ys, zs
+
+    def draw(self, renderer):
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        self.set_positions((xs[0],ys[0]),(xs[1],ys[1]))
+        FancyArrowPatch.draw(self, renderer)
+
 
 def resize_by_tradeoff(Mu, k=None, minsize=2.0, maxsize=10.0, kminsize=3.0, kmaxsize=5.0):
     r"""Resize the points w.r.t. tradeoff values.
@@ -75,7 +103,7 @@ def resize_by_tradeoff(Mu, k=None, minsize=2.0, maxsize=10.0, kminsize=3.0, kmax
     return S
 
 
-def default_color(n, alpha=1.0):
+def default_color(n, c=mc.TABLEAU_COLORS['tab:blue'], alpha=1.0):
     r"""Get an array of RGBA color values for default coloring.
 
     In any case, if we need to revert the point colorings to the 
@@ -86,6 +114,9 @@ def default_color(n, alpha=1.0):
     ----------
     n : int
         The length of the output array containing RGBA color values.
+    c : A `matplotlib.colors` object, str or an array RGBA color values.
+        Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
+        optional.
     alpha : float, optional
         Alpha transparency value. Default 0.5 when optional.
         
@@ -94,7 +125,7 @@ def default_color(n, alpha=1.0):
     C : ndarray
         An array of RGBA color values.
     """
-    C = np.array([mc.to_rgba(mc.TABLEAU_COLORS['tab:blue'], alpha) for _ in range(n)])
+    C = np.array([mc.to_rgba(c, alpha) for _ in range(n)])
     return C
 
 

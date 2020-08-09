@@ -55,11 +55,12 @@ def get_radviz_coordinates(X, spread_factor='auto', normalized=True):
 
     Returns
     -------
-    (P,K,B) : tuple of ndarray
-        `P` is an ndarray of radviz coordinates (i.e. `|P| = n x 2`), 
-        `K` is the position of the anchor points (i.e. `|K| = m x 2`),
-        and `B` is the lower bound and upper bound of `P`. `K` and `B`
-        will be used to draw anchor points and the polygon.
+    P : ndarray of float
+        An ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`).
+    K : ndarray of float
+        The positions of the anchor points (i.e. `|K| = m x 2`),
+    B : ndarray of float
+        The lower bound and upper bound of `P`. 
 
     References
     ----------
@@ -150,6 +151,9 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
     -------
     ax : `matplotlib.axes.Axes` object
         A `matplotlib.axes.Axes` object.
+    P : ndarray
+        `P` is an ndarray of radviz coordinates (i.e. `|P| = n x 2`), 
+
     
     References
     ----------
@@ -201,6 +205,6 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         ax.set_aspect('equal')
         if title is not None:
             ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
-        return ax
+        return (ax, P)
     else:
         raise TypeError("A valid `matplotlib.axes.Axes` object is not found.")
