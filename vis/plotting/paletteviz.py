@@ -23,7 +23,9 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import matplotlib.colors as mc
+from matplotlib.colors import ListedColormap
 from mpl_toolkits.mplot3d import Axes3D
 from vis.plotting.radviz import get_radviz_coordinates
 from vis.plotting.star import get_star_coordinates
@@ -48,7 +50,7 @@ camera_angles_star = {
     'c2dtlz2': {'3d': (-20,45), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
     'c2dtlz2-nbi': {'3d': (20,45), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
     'cdebmdk': {'3d': (-165,25), '4d': (35,20), '8d': (-60,20)}, \
-    'cdebmdk-nbi': {'3d': (90,20), '4d': (35,30), '8d': (-60,20)}, \
+    'cdebmdk-nbi': {'3d': (-175,20), '4d': (35,30), '8d': (-60,20)}, \
     'c0dtlz2': {'3d': (95,20), '4d': (20,20), '8d': (160,35)}, \
     'c0dtlz2-nbi': {'3d': (125,20), '4d': (165,20), '8d': (160,35)}, \
     'crash-nbi': {'3d': (-25,30)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
@@ -61,17 +63,17 @@ camera_angles_radviz = {
     'dtlz2-nbi': {'3d': (-50,30), '4d':(-65,20), '5d': (-60,30), '8d': (-60,30)}, \
     'debmdk': {'3d': (-50,30), '4d': (-60,25), '8d': (-40,15)}, \
     'debmdk-nbi': {'3d': (-60,30), '4d': (-60,20), '8d': (-55,-20)}, \
-    'debmdk-all': {'3d': (55,30), '4d': (-60,25), '8d': (-115,15)}, \
-    'debmdk-all-nbi': {'3d': (60,30), '4d': (-60,25), '8d': (-145,20)}, \
+    'debmdk-all': {'3d': (100,20), '4d': (-60,25), '8d': (-115,15)}, \
+    'debmdk-all-nbi': {'3d': (10,20), '4d': (-60,25), '8d': (-145,20)}, \
     'dtlz8': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (5,35)}, \
     'dtlz8-nbi': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
     'c2dtlz2': {'3d': (-60,35), '4d': (125,20), '5d': (35,25), '8d': (-20,20)}, \
-    'c2dtlz2-nbi': {'3d': (80,20), '4d': (160,20), '5d': (35,25), '8d': (-20,20)}, \
+    'c2dtlz2-nbi': {'3d': (85,25), '4d': (160,20), '5d': (35,25), '8d': (-20,20)}, \
     'cdebmdk': {'3d': (-165,25), '4d': (35,20), '8d': (-60,20)}, \
     'cdebmdk-nbi': {'3d': (90,20), '4d': (35,30), '8d': (-60,20)}, \
     'c0dtlz2': {'3d': (180,25), '4d': (20,20), '8d': (-115,35)}, \
-    'c0dtlz2-nbi': {'3d': (165,20), '4d': (20,20), '8d': (160,35)}, \
-    'crash-nbi': {'3d': (45,20)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
+    'c0dtlz2-nbi': {'3d': (175,25), '4d': (20,20), '8d': (160,35)}, \
+    'crash-nbi': {'3d': (100,20)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
     'gaa': {'10d': (0,25)}, \
     'gaa-nbi': {'10d': (0,25)}
 }
@@ -306,8 +308,9 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
 
 
 def plot(A, ax=None, depth_contours=None, mode='star', \
-            n_partitions=float('inf'), s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
-            draw_axes=False, draw_anchors=True, **kwargs):
+            n_partitions=float('inf'), Ik=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
+            point_labels=None, draw_axes=False, draw_anchors=True, draw_colorbar=False, \
+            **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
 
     This PaletteViz plot is customized for the experiments. It allows both
@@ -330,15 +333,28 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     n_partitions : int, optional
         See `get_palette_star_coordinates()` or `get_palette_radviz_coordinates()`
         functions for details. Default `float('inf')` when optional.
+    Ik : array_like of int, optional
+        The indices of knee points or any other points of interest. Default
+        `None` when optional. If `Ik` is provided, the data points will be
+        divided into two groups, one indexed by `Ik` and others not. Then the
+        points indexed by `Ik` will be plotted at the end.
     s : int or 1-D array_like, optional
         Point size, or an array of point sizes. Default 1 when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
         optional.
+    point_labels : str, array_like or list of str, optional
+        A string or an array/list of strings for labeling each point. Which basically
+        means the class label of each row. Default `None` when optional. This will be
+        used to set the legend in the figure. If `None` there will be no legend.
     draw_axes: bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
     draw_anchors: bool, optional
         If `False`, the radviz plot will hide anchors. Default `True` when optional.
+    draw_colorbar : bool, optional
+        Decide whether we are showing any colorbar. The plot supports only vertical
+        colorbars at the outside of the right side of the y-axis. Default `False`
+        when optional. Also, points indexed by Ik will not be used for colorbar.
 
     Other Parameters
     ----------------
@@ -366,6 +382,11 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         See `vis.tda.simple_shape` module for more details.
     verbose : bool, optional
         The verbosity. Default 'False' when optional.
+    cbar_grad : array_like of float, optional
+        The gradient of the colorbar. A 1-D array of floats.
+        Default `None` when optional.
+    cbar_label : str, optional
+        The label of the colorbar. Default `None` when optional.
     **kwargs : dict
         All other keyword args for matplotlib `scatter()` function.
 
@@ -410,8 +431,9 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
                             else True
     # verbosity
     verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
-    # for star-coordinate plot
-
+    # These are colorbar related
+    cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
+    cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
 
     # remove once they are read
     kwargs = pop(kwargs, 'euler')
@@ -426,6 +448,13 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     kwargs = pop(kwargs, 'normalized')
     kwargs = pop(kwargs, 'project_collapse')
     kwargs = pop(kwargs, 'verbose')
+    kwargs = pop(kwargs, 'cbar_grad')
+    kwargs = pop(kwargs, 'cbar_label')
+
+    # get a list of point labels, i.e. class labels
+    if isinstance(point_labels, str):
+        pl = point_labels
+        point_labels = np.array([pl for _ in range(F.shape[0])])
 
     if ax is not None:
         if mode == 'star':
@@ -449,7 +478,24 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         else:
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
-        ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, **kwargs)
+        Ip = None
+        if Ik is not None:
+            I = np.zeros(P.shape[0]).astype(bool)
+            I[Ik] = True
+            Ik,Ip = I, ~I
+            lp = np.unique(point_labels[Ip])
+            lk = np.unique(point_labels[Ik])
+            ax.scatter(P[Ip,0], P[Ip,1], P[Ip,2], s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
+            ax.scatter(P[Ik,0], P[Ik,1], P[Ik,2], s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
+        else:
+            if point_labels is not None:
+                l = np.unique(point_labels)
+                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, label=l, **kwargs)
+            else:
+                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, **kwargs)
+
+        
+        # set camera angle
         ax.view_init(euler[1], euler[0])
         
         if draw_axes:
@@ -469,12 +515,35 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
                                     label_fontstyle=label_fontstyle)
                 else:
                     raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
-        # ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.1 if ub[0] > 1 else 1.1)
-        # ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.1 if ub[1] > 1 else 1.1)
-        # ax.set_zlim(lb[2] - 0.1 if lb[2] < -1 else -1.1, ub[2] + 0.1 if ub[2] > 1 else 1.1)
-        # ax.set_aspect('equal')
+        # colorbar?
+        if draw_colorbar:
+            norm = None
+            if cbar_grad is not None:
+                if Ip is not None:
+                    cbar_grad = cbar_grad[Ip]
+                    c = c[Ip]
+                Id = np.column_stack((cbar_grad,c)).astype(object)
+                Id = Id[np.argsort(Id[:, 0])] 
+                c = Id[:,1:].astype(float)
+                cbar_grad = Id[:,0].astype(float)
+                vmin = np.min(cbar_grad)
+                vmax = np.max(cbar_grad)
+                norm = mc.Normalize(vmin=vmin, vmax=vmax)
+                cmap = None if c is None else ListedColormap(c)
+            if cbar_label is not None:
+                ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
+                            orientation='vertical', label=cbar_label, pad=-0.15, shrink=0.5)
+            else:
+                ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
+                            orientation='vertical', pad=-0.15, shrink=0.5) 
+        # title?
         if title is not None:
             ax.set_title(title, pad=0.0)
+
+        # where to put the legend
+        if point_labels is not None:
+            ax.legend(loc="lower center", ncol=2)
+        
         return (ax, P)
     else:
         raise TypeError("A valid `mpl_toolkits.mplot3d.axes.Axes3D` object is not found.")

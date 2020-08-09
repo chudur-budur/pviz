@@ -54,7 +54,7 @@ def is_xticklabels_off(ax):
 
 def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, \
         column_indices=None, xtick_labels=None, line_labels=None, draw_vertical_lines=True, \
-        draw_grid=False, show_colorbar=False, **kwargs):
+        draw_grid=False, draw_colorbar=False, **kwargs):
     r"""A customized and more enhanced Parallel-coordinate plot.
 
     This Parallel-coordinate plot (PCP) [1]_ is customized for the experiments. 
@@ -91,7 +91,7 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     draw_grid : bool, optional
         Decide whether we are going to put x-axis grid-lines in the plot. Default
         `False` when optional.
-    show_colorbar : bool, optional
+    draw_colorbar : bool, optional
         Decide whether we are showing any colorbar. The plot supports only vertical
         colorbars at the outside of the right side of the y-axis. Default `False`
         when optional.
@@ -105,10 +105,6 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         Default `None` when optional.
     cbar_label : str, optional
         The label of the colorbar. Default `None` when optional.
-    cbar_flip : bool, optional
-        Decide whether we are flipping the colorbar. Sometimes
-        it can be useful depending on how we are going to 
-        visualize the data. Default `False` when optional.
     axvline_width : float, optional
         The width of the vertical lines. Default 1.0 when optional.
     axvline_color : A `matplotlib.colors` object, str or an array RGBA color values.
@@ -132,7 +128,6 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None    
     cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
     cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
-    cbar_flip = kwargs['cbar_flip'] if (kwargs is not None and 'cbar_flip' in kwargs) else False
     axvline_width = kwargs['axvline_width'] if (kwargs is not None and 'axvline_width' in kwargs) else 1.0
     axvline_color = kwargs['axvline_color'] if (kwargs is not None and 'axvline_color' in kwargs) else 'black'
     
@@ -140,7 +135,6 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     kwargs = pop(kwargs, 'title')
     kwargs = pop(kwargs, 'cbar_grad')
     kwargs = pop(kwargs, 'cbar_label')
-    kwargs = pop(kwargs, 'cbar_flip')
     kwargs = pop(kwargs, 'axvline_width')
     kwargs = pop(kwargs, 'axvline_color')
     
@@ -234,15 +228,16 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         ax.set_title(title)
 
     # colorbar?
-    if show_colorbar:
+    if draw_colorbar:
         norm = None
         if cbar_grad is not None:
+            Id = np.column_stack((cbar_grad,c)).astype(object)
+            Id = Id[np.argsort(Id[:, 0])] 
+            c = Id[:,1:].astype(float)
+            cbar_grad = Id[:,0].astype(float)
             vmin = np.min(cbar_grad)
             vmax = np.max(cbar_grad)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
-        if cbar_flip:
-            cmap = None if c is None else ListedColormap(c[::-1])
-        else:
             cmap = None if c is None else ListedColormap(c)
         if cbar_label is not None:
             ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
