@@ -308,9 +308,8 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
 
 
 def plot(A, ax=None, depth_contours=None, mode='star', \
-            n_partitions=float('inf'), Ik=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
-            point_labels=None, draw_axes=False, draw_anchors=True, draw_colorbar=False, \
-            **kwargs):
+            n_partitions=float('inf'), s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
+            draw_axes=False, draw_anchors=True, draw_colorbar=False, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
 
     This PaletteViz plot is customized for the experiments. It allows both
@@ -333,20 +332,11 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     n_partitions : int, optional
         See `get_palette_star_coordinates()` or `get_palette_radviz_coordinates()`
         functions for details. Default `float('inf')` when optional.
-    Ik : array_like of int, optional
-        The indices of knee points or any other points of interest. Default
-        `None` when optional. If `Ik` is provided, the data points will be
-        divided into two groups, one indexed by `Ik` and others not. Then the
-        points indexed by `Ik` will be plotted at the end.
     s : int or 1-D array_like, optional
         Point size, or an array of point sizes. Default 1 when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
         optional.
-    point_labels : str, array_like or list of str, optional
-        A string or an array/list of strings for labeling each point. Which basically
-        means the class label of each row. Default `None` when optional. This will be
-        used to set the legend in the figure. If `None` there will be no legend.
     draw_axes: bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
     draw_anchors: bool, optional
@@ -380,13 +370,22 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         See `vis.plotting.star` for details.
     project_collapse : bool, optional
         See `vis.tda.simple_shape` module for more details.
-    verbose : bool, optional
-        The verbosity. Default 'False' when optional.
+    Ik : array_like of int, optional
+        The indices of knee points or any other points of interest. Default
+        `None` when optional. If `Ik` is provided, the data points will be
+        divided into two groups, one indexed by `Ik` and others not. Then the
+        points indexed by `Ik` will be plotted at the end.
+    point_labels : str, array_like or list of str, optional
+        A string or an array/list of strings for labeling each point. Which basically
+        means the class label of each row. Default `None` when optional. This will be
+        used to set the legend in the figure. If `None` there will be no legend.
     cbar_grad : array_like of float, optional
         The gradient of the colorbar. A 1-D array of floats.
         Default `None` when optional.
     cbar_label : str, optional
         The label of the colorbar. Default `None` when optional.
+    verbose : bool, optional
+        The verbosity. Default 'False' when optional.
     **kwargs : dict
         All other keyword args for matplotlib `scatter()` function.
 
@@ -401,39 +400,29 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     if ax is None:
         ax = Axes3D(plt.figure())
 
-    # azimuth is -60 and elevation is 30 by default
     euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
-    # default plot title is empty
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
-    # default anchorline width is 1.0
-    anchor_linewidth = kwargs['anchor_linewidth'] if (kwargs is not None and 'anchor_linewidth' in kwargs) \
-                            else 1.0
-    # by default label_prefix is $f_n$
-    label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
-                            else r"$f_{{{:d}}}$"
-    # default label font size is 'large'
-    label_fontsize = kwargs['label_fontsize'] if (kwargs is not None and 'label_fontsize' in kwargs) \
-                            else 'large'
-    # default label font is None
-    label_fontname = kwargs['label_fontname'] if (kwargs is not None and 'label_fontname' in kwargs) \
-                            else None
-    # default label font style is 'normal'
-    label_fontstyle = kwargs['label_fontstyle'] if (kwargs is not None and 'label_fontstyle' in kwargs) \
-                            else 'normal'
-    # spread factor for radviz
-    spread_factor = kwargs['spread_factor'] if (kwargs is not None and 'spread_factor' in kwargs) \
-                            else 'auto'
+    anchor_linewidth = kwargs['anchor_linewidth'] \
+            if (kwargs is not None and 'anchor_linewidth' in kwargs) else 1.0
+    label_prefix = kwargs['label_prefix'] \
+            if (kwargs is not None and 'label_prefix' in kwargs) else r"$f_{{{:d}}}$"
+    label_fontsize = kwargs['label_fontsize'] \
+            if (kwargs is not None and 'label_fontsize' in kwargs) else 'large'
+    label_fontname = kwargs['label_fontname'] \
+            if (kwargs is not None and 'label_fontname' in kwargs) else None
+    label_fontstyle = kwargs['label_fontstyle'] \
+            if (kwargs is not None and 'label_fontstyle' in kwargs) else 'normal'
+    spread_factor = kwargs['spread_factor'] \
+            if (kwargs is not None and 'spread_factor' in kwargs) else 'auto'
     inverted = kwargs['inverted'] if (kwargs is not None and 'inverted' in kwargs) else True
-    # normalize points befor star-coordinate or radviz computation
     normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
-    # check if projection and collapse will be done before shape computation
-    project_collapse = kwargs['project_collapse'] if (kwargs is not None and 'project_collapse' in kwargs) \
-                            else True
-    # verbosity
-    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
-    # These are colorbar related
+    project_collapse = kwargs['project_collapse'] \
+            if (kwargs is not None and 'project_collapse' in kwargs) else True
+    Ik = kwargs['Ik'] if (kwargs is not None and 'Ik' in kwargs) else None
+    point_labels = kwargs['point_labels'] if (kwargs is not None and 'point_labels' in kwargs) else None
     cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
     cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
+    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     # remove once they are read
     kwargs = pop(kwargs, 'euler')
@@ -447,15 +436,25 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     kwargs = pop(kwargs, 'inverted')
     kwargs = pop(kwargs, 'normalized')
     kwargs = pop(kwargs, 'project_collapse')
-    kwargs = pop(kwargs, 'verbose')
+    kwargs = pop(kwargs, 'Ik')
+    kwargs = pop(kwargs, 'point_labels')
     kwargs = pop(kwargs, 'cbar_grad')
     kwargs = pop(kwargs, 'cbar_label')
+    kwargs = pop(kwargs, 'verbose')
+        
+    # if Ik is provided, partition the data into two groups
+    Ip = None
+    if Ik is not None:
+        I = np.zeros(A.shape[0]).astype(bool)
+        I[Ik] = True
+        Ik,Ip = I, ~I
 
     # get a list of point labels, i.e. class labels
-    if isinstance(point_labels, str):
+    if point_labels is not None and isinstance(point_labels, str):
         pl = point_labels
-        point_labels = np.array([pl for _ in range(F.shape[0])])
+        point_labels = np.array([pl for _ in range(A.shape[0])])
 
+    # paletteviz coordinates
     if ax is not None:
         if mode == 'star':
             if verbose:
@@ -478,30 +477,33 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         else:
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
-        Ip = None
-        if Ik is not None:
-            I = np.zeros(P.shape[0]).astype(bool)
-            I[Ik] = True
-            Ik,Ip = I, ~I
-            lp = np.unique(point_labels[Ip])
-            lk = np.unique(point_labels[Ik])
-            ax.scatter(P[Ip,0], P[Ip,1], P[Ip,2], s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
-            ax.scatter(P[Ik,0], P[Ik,1], P[Ik,2], s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
+        # do the plot
+        if point_labels is not None:
+            if Ik is not None:
+                lp = np.unique(point_labels[Ip])
+                lk = np.unique(point_labels[Ik])
+                ax.scatter(P[Ip,0], P[Ip,1], P[Ip,2], s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
+                ax.scatter(P[Ik,0], P[Ik,1], P[Ik,2], s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
+            else:
+                lp = np.unique(point_labels)
+                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, label=lp[0], **kwargs)
         else:
-            if point_labels is not None:
-                l = np.unique(point_labels)
-                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, label=l, **kwargs)
+            if Ik is not None:
+                ax.scatter(P[Ip,0], P[Ip,1], P[Ip,2], s=s[Ip], c=c[Ip], **kwargs)
+                ax.scatter(P[Ik,0], P[Ik,1], P[Ik,2], s=s[Ik], c=c[Ik], **kwargs)
             else:
                 ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, **kwargs)
-
         
         # set camera angle
         ax.view_init(euler[1], euler[0])
-        
+
+        # draw axes?
         if draw_axes:
             ax.set_axis_on()
         else:
             ax.set_axis_off()
+
+        # draw anchors?
         if draw_anchors:
             for z in Z:
                 set_polar_anchors(ax, K, z=z, anchor_linewidth=anchor_linewidth)
@@ -515,21 +517,19 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
                                     label_fontstyle=label_fontstyle)
                 else:
                     raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
+
         # colorbar?
         if draw_colorbar:
-            norm = None
+            vmin,vmax = 0.0, 1.0
             if cbar_grad is not None:
-                if Ip is not None:
-                    cbar_grad = cbar_grad[Ip]
-                    c = c[Ip]
+                if Ik is not None:
+                    c, cbar_grad = c[Ip], cbar_grad[Ip]
                 Id = np.column_stack((cbar_grad,c)).astype(object)
                 Id = Id[np.argsort(Id[:, 0])] 
-                c = Id[:,1:].astype(float)
-                cbar_grad = Id[:,0].astype(float)
-                vmin = np.min(cbar_grad)
-                vmax = np.max(cbar_grad)
-                norm = mc.Normalize(vmin=vmin, vmax=vmax)
-                cmap = None if c is None else ListedColormap(c)
+                c, cbar_grad = Id[:,1:].astype(float), Id[:,0].astype(float)
+                vmin, vmax = np.min(cbar_grad), np.max(cbar_grad)
+            norm = mc.Normalize(vmin=vmin, vmax=vmax)
+            cmap = ListedColormap(c)
             if cbar_label is not None:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                             orientation='vertical', label=cbar_label, pad=-0.15, shrink=0.5)

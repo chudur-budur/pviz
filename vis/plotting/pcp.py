@@ -53,7 +53,7 @@ def is_xticklabels_off(ax):
     return True
 
 def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, \
-        column_indices=None, xtick_labels=None, line_labels=None, draw_vertical_lines=True, \
+        xtick_labels=None, line_labels=None, draw_vertical_lines=True, \
         draw_grid=False, draw_colorbar=False, **kwargs):
     r"""A customized and more enhanced Parallel-coordinate plot.
 
@@ -76,8 +76,6 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         optional.
     lw : float, optional
         The line-width of each line in PCP. Default 1.0 when optional.
-    column_indices : array_like or list of int, optional
-        The indices of the columns of `A` to be plotted. Default `None` when optional.
     xtick_labels : str, array_like or list of str, optional
         A string or an array/list of strings for xtick labels, for each column.
         Default `None` when optional. In that case, the labels will be `f_0`, `f_1` etc.
@@ -100,6 +98,8 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     ----------------
     title : str, optional
         The title of the figure. Default `None` when optional.
+    column_indices : array_like or list of int, optional
+        The indices of the columns of `A` to be plotted. Default `None` when optional.
     cbar_grad : array_like of float, optional
         The gradient of the colorbar. A 1-D array of floats.
         Default `None` when optional.
@@ -126,6 +126,8 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     
     # collect extra kwargs
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None    
+    column_indices = kwargs['column_indices'] \
+            if (kwargs is not None and 'column_indices' in kwargs) else None    
     cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
     cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
     axvline_width = kwargs['axvline_width'] if (kwargs is not None and 'axvline_width' in kwargs) else 1.0
@@ -133,6 +135,7 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     
     # remove once they are read
     kwargs = pop(kwargs, 'title')
+    kwargs = pop(kwargs, 'column_indices')
     kwargs = pop(kwargs, 'cbar_grad')
     kwargs = pop(kwargs, 'cbar_label')
     kwargs = pop(kwargs, 'axvline_width')
@@ -175,7 +178,7 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         xtick_labels = ["$f_{:d}$".format(i) for i in range(F.shape[1])]
         
     # get a list of line labels, i.e. class labels
-    if isinstance(line_labels, str):
+    if line_labels is not None and isinstance(line_labels, str):
         ll = line_labels
         line_labels = np.array([ll for _ in range(F.shape[0])])
         
@@ -229,16 +232,14 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
 
     # colorbar?
     if draw_colorbar:
-        norm = None
+        vmin, vmax = 0.0, 1.0
         if cbar_grad is not None:
             Id = np.column_stack((cbar_grad,c)).astype(object)
             Id = Id[np.argsort(Id[:, 0])] 
-            c = Id[:,1:].astype(float)
-            cbar_grad = Id[:,0].astype(float)
-            vmin = np.min(cbar_grad)
-            vmax = np.max(cbar_grad)
-            norm = mc.Normalize(vmin=vmin, vmax=vmax)
-            cmap = None if c is None else ListedColormap(c)
+            c, cbar_grad = Id[:,1:].astype(float), Id[:,0].astype(float)
+            vmin, vmax = np.min(cbar_grad), np.max(cbar_grad)
+        norm = mc.Normalize(vmin=vmin, vmax=vmax)
+        cmap = ListedColormap(c)
         if cbar_label is not None:
             ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                         orientation='vertical', label=cbar_label, pad=0.015)

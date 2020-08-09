@@ -77,7 +77,7 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
         SIAM Journal on Optimization, vol. 8, (3), pp. 631-27, 1998.
     """
 
-    mkeys = {'lhc', 'lhcl2', 'dd'}
+    mkeys = {'lhc', 'lhcl2', 'dd', 'rz'}
     if mode not in mkeys:
         raise KeyError("'mode' has to be any of {:s}.".format(str(mkeys)))
     if m < 2:
@@ -177,6 +177,19 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
         denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
         Inz = np.nonzero(denom)
         X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
+
+    elif mode == 'rz':
+        F = smp.risez(n = n, m = m)
+        X = np.zeros((F.shape[0], m-1))
+        for i in range(m-2):
+            denom = np.linalg.norm(F[:,i:m], 2, axis=1)
+            Inz = np.nonzero(denom)
+            X[Inz,i] = np.arccos(F[Inz,i] / denom[Inz]) / (np.pi / 2)
+        
+        denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
+        Inz = np.nonzero(denom)
+        X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
+
     
     # We flip it since all MOPs are flipped and we
     # are using the definitions used in wikipedia.

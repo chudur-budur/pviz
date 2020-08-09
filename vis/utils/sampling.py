@@ -18,8 +18,10 @@ import random
 import warnings
 import numpy as np
 from scipy.special import comb
+from pymoo.factory import get_reference_directions
+from pymoo.util.ref_dirs.energy import RieszEnergyReferenceDirectionFactory
 
-__all__ = ["grid", "lhs", "lhcl2", "das_dennis"]
+__all__ = ["grid", "lhs", "lhcl2", "das_dennis", "risez"]
 
 def grid(n=100, m=2):
     r""" A simple meshgrid generator for 'm'-dimensional coordinate.
@@ -52,6 +54,7 @@ def grid(n=100, m=2):
         warnings.warn("Genenrated {:d} points instead.".format(F.shape[0]))
     return F
 
+
 def lhc(n=10, m=2):
     r""" Latin Hyper-cube Sampling (LHS) of `n` points in `m` dimension.
 
@@ -77,6 +80,7 @@ def lhc(n=10, m=2):
         F[:,i] = (N * d) + (((N + 1.0) * d) - (N * d)) * np.random.random(n)
         np.random.shuffle(F[:,i])
     return F
+
 
 def lhcl2(n=10, m=2, delta=0.0001):
     r""" Latin Hyper-cube Sampling of `n` points in `m` dimension with L2-norm constraint.
@@ -116,6 +120,7 @@ def lhcl2(n=10, m=2, delta=0.0001):
     # print('skip_count =', skip_count)
     return F
 
+
 def _das_dennis_inner(ref_dirs, ref_dir, p, beta, depth):
     r""" The inner function for '_das_dennis()'.
 
@@ -128,6 +133,7 @@ def _das_dennis_inner(ref_dirs, ref_dir, p, beta, depth):
         for i in range(beta + 1):
             ref_dir[depth] = 1.0 * i / (1.0 * p)
             _das_dennis_inner(ref_dirs, np.copy(ref_dir), p, beta - i, depth + 1)
+
 
 def _das_dennis(p, m):
     r"""Finding weights for the subproblem decomposition in NBI. 
@@ -143,6 +149,7 @@ def _das_dennis(p, m):
         ref_dir = np.full(m, np.nan)
         _das_dennis_inner(ref_dirs, ref_dir, p, p, 0)
         return np.concatenate(ref_dirs, axis = 0)
+
 
 def das_dennis(n=100, m=2, manifold='sphere'):
     r""" Generating equidistant points on an 'm'-simplex (or 'm'-sphere).
@@ -205,3 +212,21 @@ def das_dennis(n=100, m=2, manifold='sphere'):
     else:
         F = R
     return F
+
+
+def risez(n=100, m=2, manifold='sphere'):
+    mkeys = {'sphere', 'simplex'}
+    if manifold not in mkeys:
+        raise KeyError("Invalid 'manifold', use any of {:s}".format(str(mkeys)))
+
+    R = get_reference_directions("energy", m, n, seed=1)
+    if R.shape[0] != n:
+        warnings.warn("Das-Dennis's method couldn't generate {:d} points.".format(n))
+        warnings.warn("Genenrated {:d} points instead.".format(R.shape[0]))
+    
+    if manifold == 'sphere':
+        F = R / np.linalg.norm(R, axis=1)[:,None]
+    else:
+        F = R
+    return F
+
