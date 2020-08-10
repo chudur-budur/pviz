@@ -5,14 +5,7 @@
 
 import sys
 import os
-
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-from mpl_toolkits.mplot3d import Axes3D
-
-plt.rcParams.update({'figure.max_open_warning': 0})
-
 sys.path.append('../')
 from vis.tda import simple_shape
 from vis.utils import io
