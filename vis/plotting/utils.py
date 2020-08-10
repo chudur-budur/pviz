@@ -195,7 +195,7 @@ def color_by_dist(X, P, alpha=0.5, factor=1.75):
     return C, D
 
 
-def enhance_color(C, k, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
+def enhance_color(C, k, alpha=1.0, c=mc.TABLEAU_COLORS['tab:red']):
     r"""Enhance the color of selected data points.
 
     Given an array of RGBA color values `C`, this function will enhance
@@ -221,7 +221,7 @@ def enhance_color(C, k, alpha=1.0, color=mc.TABLEAU_COLORS['tab:red']):
         An array of RGBA color values.
     """
     C_ = np.array(C, copy=True)
-    C_[k] = np.array([mc.to_rgba(color, alpha) for _ in range(C[k].shape[0])])
+    C_[k] = np.array([mc.to_rgba(c, alpha) for _ in range(C[k].shape[0])])
     return C_
 
 

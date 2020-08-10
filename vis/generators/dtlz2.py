@@ -42,13 +42,17 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
         The total number of points. Default 10 when optional.
     m : int, optional
         The dimension of the sphere. Default 2 when optional.
-    mode : str, {'lhc', 'lhcl2', 'dd'}, optional
+    mode : str, {'lhc', 'lhcl2', 'dd', `rz`}, optional
         If `mode = `lhc``, then LHC sampling will be used and points will be generated
         using standard spherical coordinate systems. If `mode = `lhcl2``, then we will
         use a normalized LHC sampling to generate uniformly distributed points on the
         sphere using the method described in [2]_. If 'mode = 'dd', then we will generate
         points using the subproblem decomposition technique used in NBI method 
-        (a.k.a. "Das-Dennis's Approach") discussed in [3]_. Default first when optional.
+        (a.k.a. "Das-Dennis's Approach") discussed in [3]_. If `mode = 'rz'`, then we
+        will use the minimal Riesz energy point configurations for rectifiable `m`-
+        dimensional manifolds method presented in [4]_ and [5]_ to generate equidistant 
+        points on an 'm'-dimensional simplex (or on an 'm'-sphere). Default first 
+        when optional.
 
     Other Parameters
     ----------------
@@ -75,6 +79,12 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     .. [3] I. Das and J. E. Dennis, "Normal-Boundary Intersection: A New Method for 
         Generating the Pareto Surface in Nonlinear Multicriteria Optimization Problems," 
         SIAM Journal on Optimization, vol. 8, (3), pp. 631-27, 1998.
+
+    .. [4] D.P. Hardin and E.B. Saff. Minimal Riesz energy point configurations 
+        for rectifiable d-dimensional manifolds. Advances in Mathematics, 
+        193(1):174 – 204, 2005.
+
+    .. [5] https://pymoo.org/misc/reference_directions.html 
     """
 
     mkeys = {'lhc', 'lhcl2', 'dd', 'rz'}
