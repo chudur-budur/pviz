@@ -21,7 +21,7 @@ import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.colors import ListedColormap
 from mpl_toolkits.mplot3d import Axes3D
-from vis.plotting.utils import pop
+from vis.plotting.utils import pop, group_labels_by_appearance
 
 
 __all__ = ["camera_angles", "plot"]
@@ -29,27 +29,27 @@ __all__ = ["camera_angles", "plot"]
 
 # Some good camera angles for scatter plots.
 camera_angles = {
-    'dtlz2': {'3d': (60,20), '4d':(-60,30), '8d': (22,21)}, \
-    'dtlz2-nbi': {'3d': (60,20), '4d':(-60,30), '5d': (-60,30), '8d': (-60,30)}, \
-    'debmdk': {'3d': (-30,15), '4d': (-20,32), '8d': (-60,30)}, \
-    'debmdk-nbi': {'3d': (-60,30), '4d': (-60,30), '8d': (-60,30)}, \
-    'debmdk-all': {'3d': (-60,30), '4d': (-60,30), '8d': (-60,30)}, \
-    'debmdk-all-nbi': {'3d': (-60,30), '4d': (-60,30), '8d': (-60,30)}, \
-    'dtlz8': {'3d': (-60,30), '4d': (-60,30), '6d': (-60,30), '8d': (-60,30)}, \
-    'dtlz8-nbi': {'3d': (-60,30), '4d': (-60,30), '6d': (-60,30), '8d': (-60,30)}, \
-    'c2dtlz2': {'3d': (45,15), '4d': (-20,40), '5d': (-25,30), '8d': (-25,30)}, \
-    'c2dtlz2-nbi': {'3d': (45,15), '4d': (-20,40), '5d': (-25,30), '8d': (-25,30)}, \
-    'cdebmdk': {'3d': (20,15), '4d': (-60,30), '8d': (-60,30)}, \
-    'cdebmdk-nbi': {'3d': (20,15), '4d': (-60,30), '8d': (-60,30)}, \
-    'c0dtlz2': {'3d': (20,25), '4d': (-60,30), '8d': (-60,30)}, \
-    'c0dtlz2-nbi': {'3d': (20,25), '4d': (-60,30), '8d': (-60,30)}, \
-    'crash-nbi': {'3d': (30,25)}, 'crash-c1-nbi': {'3d': (30,25)}, 'crash-c2-nbi': {'3d': (30,25)}, \
-    'gaa': {'10d': (-60,30)}, \
-    'gaa-nbi': {'10d': (-60,30)}
+    'dtlz2': {'3d': (60,10), '4d':(-50,15), '8d': (15,15)}, \
+    'dtlz2-nbi': {'3d': (60,10), '4d':(110,15), '5d': (110,15), '8d': (110,15)}, \
+    'debmdk': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
+    'debmdk-nbi': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
+    'debmdk-all': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
+    'debmdk-all-nbi': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
+    'dtlz8': {'3d': (110,15), '4d': (-65,15), '6d': (-65,15), '8d': (-65,15)}, \
+    'dtlz8-nbi': {'3d': (110,15), '4d': (-65,15), '6d': (-65,15), '8d': (-65,15)}, \
+    'c2dtlz2': {'3d': (30,10), '4d': (-65,15), '5d': (-65,15), '8d': (110,15)}, \
+    'c2dtlz2-nbi': {'3d': (30,10), '4d': (-65,15), '5d': (-65,15), '8d': (110,15)}, \
+    'cdebmdk': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
+    'cdebmdk-nbi': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
+    'c0dtlz2': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
+    'c0dtlz2-nbi': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
+    'crash-nbi': {'3d': (30,15)}, 'crash-c1-nbi': {'3d': (30,15)}, 'crash-c2-nbi': {'3d': (30,15)}, \
+    'gaa': {'10d': (-60,15)}, \
+    'gaa-nbi': {'10d': (-60,15)}
 }
 
 
-def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, **kwargs):
+def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     r"""A scatter plot function.
 
     This uses `matplotlib.axes.Axes.scatter` function to do a scatter plot.
@@ -59,15 +59,11 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, 
     A : ndarray 
         `n` number of `m` dim. points to be plotted.
     ax : An `mpl_toolkits.mplot3d.axes.Axes3D` or an `matplotlib.axes.Axes` object, optional
-        Default `None` when optional.
+        Axes to be used to plotting. Default `None` when optional.
     s : int or 1-D array_like, optional
         Point size, or an array of point sizes. Default 1 when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when optional.
-    draw_colorbar : bool, optional
-        Decide whether we are showing any colorbar. The plot supports only vertical
-        colorbars at the outside of the right side of the y-axis. Default `False`
-        when optional. Also, points indexed by Ik will not be used for colorbar.
 
     Other Parameters
     ----------------
@@ -77,30 +73,26 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, 
         The plot title. Default `None` when optional.
     axes : tuple of int, optional
         The list of columns of `A` to be plotted. Default `(0, 1, 2)` when optional.
-    xlim : tuple (i.e. a pair) of int, optional 
+    labels : str, array_like or list of str, optional
+        A string or an array/list of strings for labeling each point. Which basically
+        means the class label of each row. Default `None` when optional. This will be
+        used to set the legend in the figure. If `None` there will be no legend.
+    colorbar : (Cbc, Cbg, Cbl) a tuple of two ndarray and a str, optional
+        If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
+        provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 
+        object. The gradient of the colorbar is specified in `Cbg` which is an 1-D 
+        array of float. Cbl is the label of the colorbar, a string. Default `None` 
+        when optional.
+    xlim : tuple (i.e. a pair) of int, optional
         The limits on the X-axis. Default `None` when optional.
     ylim : tuple (i.e. a pair) of int, optional 
         The limits on the Y-axis. Default `None` when optional.
     zlim : tuple (i.e. a pair) of int, optional 
         The limits on the Z-axis. Default `None` when optional.
     label_prefix : str, optional
-        The axis-label-prefix to be used, default `r"$f_{:d}$"` when optional.
+        The axis-label-prefix to be used, default `r"$f_{{{:d}}}$"` when optional.
     label_fontsize : str or int, optional
         The fontsize for the axes labels. Default `'large'` when optional.
-    Ik : array_like of int, optional
-        The indices of knee points or any other points of interest. Default
-        `None` when optional. If `Ik` is provided, the data points will be
-        divided into two groups, one indexed by `Ik` and others not. Then the
-        points indexed by `Ik` will be plotted at the end.
-    point_labels : str, array_like or list of str, optional
-        A string or an array/list of strings for labeling each point. Which basically
-        means the class label of each row. Default `None` when optional. This will be
-        used to set the legend in the figure. If `None` there will be no legend.
-    cbar_grad : array_like of float, optional
-        The gradient of the colorbar. A 1-D array of floats.
-        Default `None` when optional.
-    cbar_label : str, optional
-        The label of the colorbar. Default `None` when optional.
     **kwargs : dict
         All other keyword args for matplotlib's `scatter()` function.
 
@@ -114,6 +106,8 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, 
     euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
     axes = kwargs['axes'] if (kwargs is not None and 'axes' in kwargs) else (0, 1, 2)
+    labels = kwargs['labels'] if (kwargs is not None and 'labels' in kwargs) else None
+    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
     xlim = kwargs['xlim'] if (kwargs is not None and 'xlim' in kwargs) else None
     ylim = kwargs['ylim'] if (kwargs is not None and 'ylim' in kwargs) else None
     zlim = kwargs['zlim'] if (kwargs is not None and 'zlim' in kwargs) else None
@@ -121,36 +115,18 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, 
             if (kwargs is not None and 'label_prefix' in kwargs) else r"$f_{{{:d}}}$"
     label_fontsize = kwargs['label_fontsize'] \
             if (kwargs is not None and 'label_fontsize' in kwargs) else 'large'
-    Ik = kwargs['Ik'] if (kwargs is not None and 'Ik' in kwargs) else None
-    point_labels = kwargs['point_labels'] if (kwargs is not None and 'point_labels' in kwargs) else None
-    cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
-    cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
             
     # remove once they are read
     kwargs = pop(kwargs, 'euler')
     kwargs = pop(kwargs, 'title')
     kwargs = pop(kwargs, 'axes')
+    kwargs = pop(kwargs, 'labels')
+    kwargs = pop(kwargs, 'colorbar')
     kwargs = pop(kwargs, 'xlim')
     kwargs = pop(kwargs, 'ylim')
     kwargs = pop(kwargs, 'zlim')
     kwargs = pop(kwargs, 'label_prefix')
     kwargs = pop(kwargs, 'label_fontsize')
-    kwargs = pop(kwargs, 'Ik')
-    kwargs = pop(kwargs, 'point_labels')
-    kwargs = pop(kwargs, 'cbar_grad')
-    kwargs = pop(kwargs, 'cbar_label')
-
-    # if Ik is provided, partition the data into two groups
-    Ip = None
-    if Ik is not None:
-        I = np.zeros(A.shape[0]).astype(bool)
-        I[Ik] = True
-        Ik,Ip = I, ~I
-
-    # get a list of point labels, i.e. class labels
-    if point_labels is not None and isinstance(point_labels, str):
-        pl = point_labels
-        point_labels = np.array([pl for _ in range(A.shape[0])])
 
     # decide on what kind of axes to use
     if ax is None:
@@ -158,51 +134,31 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, 
 
     if ax is not None:
         # do the plot
-        if point_labels is not None:
-            if Ik is not None:
-                lp = np.unique(point_labels[Ip])
-                lk = np.unique(point_labels[Ik])
-                if A.shape[1] < 3:
-                    ax.scatter(A[Ip,axes[0]], A[Ip,axes[1]], s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
-                    ax.scatter(A[Ik,axes[0]], A[Ik,axes[1]], s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
+        if labels is not None:
+            if isinstance(labels, str):
+                if A.shape[1] > 2:
+                    ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c, label=labels, **kwargs)
                 else:
-                    ax.scatter(A[Ip,axes[0]], A[Ip,axes[1]], A[Ip,axes[2]], \
-                            s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
-                    ax.scatter(A[Ik,axes[0]], A[Ik,axes[1]], A[Ik,axes[2]], \
-                            s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
+                    ax.scatter(A[:,axes[0]], A[:,axes[1]], s=s, c=c, label=labels, **kwargs)
             else:
-                lp = np.unique(point_labels)
-                if A.shape[1] < 3:
-                    ax.scatter(A[:,axes[0]], A[:,axes[1]], s=s, c=c, label=lp[0], **kwargs)
-                else:
-                    ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c, label=lp[0], **kwargs)
+                if isinstance(labels, np.ndarray): 
+                    labels = labels.tolist()
+                label_groups = group_labels_by_appearance(labels)
+                for i,v in enumerate(label_groups):
+                    if A.shape[1] > 2:
+                        ax.scatter(A[v[0],axes[0]], A[v[0],axes[1]], A[v[0],axes[2]], \
+                                s=s[v[0]], c=c[v[0]], label=v[1], zorder=label_groups.shape[0]-i, **kwargs)
+                    else:
+                        ax.scatter(A[v[0],axes[0]], A[v[0],axes[1]], s=s[v[0]], c=c[v[0]], \
+                                label=v[1], zorder=label_groups.shape[0]-i, **kwargs)
         else:
-            if Ik is not None:
-                if A.shape[1] < 3:
-                    ax.scatter(A[Ip,axes[0]], A[Ip,axes[1]], s=s[Ip], c=c[Ip], **kwargs)
-                    ax.scatter(A[Ik,axes[0]], A[Ik,axes[1]], s=s[Ik], c=c[Ik], **kwargs)
-                else:
-                    ax.scatter(A[Ip,axes[0]], A[Ip,axes[1]], A[Ip,axes[2]], \
-                            s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
-                    ax.scatter(A[Ik,axes[0]], A[Ik,axes[1]], A[Ik,axes[2]], \
-                            s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
-            elif A.shape[1] < 3:
-                ax.scatter(A[:,axes[0]], A[:,axes[1]], s=s, c=c, **kwargs)
-            else:
+            if A.shape[1] > 2:
                 ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c, **kwargs)
+            else:
+                ax.scatter(A[:,axes[0]], A[:,axes[1]], s=s, c=c, **kwargs)
 
-        if A.shape[1] < 3:
-            ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
-            ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
-            if len(axes) > 0:
-                ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
-            if len(axes) > 1:
-                ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
-            if title is not None:
-                ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
-        else:
-            ax.scatter(A[:,axes[0]], A[:,axes[1]], A[:,axes[2]], s=s, c=c, **kwargs) 
-            
+        # set limits, put labels, fix labels, view and title
+        if A.shape[1] > 2:
             ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
             ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
             ax.set_zlim(ax.get_zlim() if zlim is None else zlim)
@@ -216,30 +172,42 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], draw_colorbar=False, 
             ax.yaxis.set_rotate_label(False)
             ax.zaxis.set_rotate_label(False)
             ax.view_init(euler[1], euler[0])
-            if title is not None:
-                ax.set_title(title, pad=0.1)
+            ax.set_title(title, pad=0.1)
+        else:
+            ax.set_xlim(ax.get_xlim() if xlim is None else xlim)
+            ax.set_ylim(ax.get_ylim() if ylim is None else ylim)
+            if len(axes) > 0:
+                ax.set_xlabel(label_prefix.format(axes[0] + 1), fontsize=label_fontsize)
+            if len(axes) > 1:
+                ax.set_ylabel(label_prefix.format(axes[1] + 1), fontsize=label_fontsize)
+            ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
+        
         # colorbar?
-        if draw_colorbar:
+        if colorbar is not None \
+                and isinstance(colorbar, tuple) \
+                and len(colorbar) >= 2 \
+                and isinstance(colorbar[0], np.ndarray) \
+                and isinstance(colorbar[1], np.ndarray):
             vmin,vmax = 0.0, 1.0
-            if cbar_grad is not None:
-                if Ik is not None:
-                    c, cbar_grad = c[Ip], cbar_grad[Ip]
-                Id = np.column_stack((cbar_grad,c)).astype(object)
-                Id = Id[np.argsort(Id[:, 0])] 
-                c, cbar_grad = Id[:,1:].astype(float), Id[:,0].astype(float)
-                vmin, vmax = np.min(cbar_grad), np.max(cbar_grad)
+            cbc, cbg = colorbar[0], colorbar[1]
+            cbl = colorbar[2] if len(colorbar) > 2 \
+                    and colorbar[2] is not None else None
+            Id = np.column_stack((cbg,cbc)).astype(object)
+            Id = Id[np.argsort(Id[:, 0])] 
+            c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
+            vmin, vmax = np.min(g), np.max(g)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
             cmap = ListedColormap(c)
-            if cbar_label is not None:
+            if cbl is not None:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', label=cbar_label, pad=0.03, shrink=0.75)
+                        orientation='vertical', label=cbl, pad=0.0, shrink=0.5)
             else:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', pad=0.03, shrink=0.75)
-        
+                            orientation='vertical', pad=0.0, shrink=0.5) 
+
         # where to put the legend
-        if point_labels is not None:
-            ax.legend(loc="upper right", ncol=1)
+        if labels is not None:
+            ax.legend(loc="best", ncol=1)
 
         return ax
     else:

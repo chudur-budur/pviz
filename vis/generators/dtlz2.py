@@ -23,6 +23,7 @@ from vis.utils import sampling as smp
 
 __all__ = ["surface"]
 
+
 def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     r"""Generate `n` number of points on 'DTLZ2' problem (`m`-shpere).
     
@@ -199,6 +200,7 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
         denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
         Inz = np.nonzero(denom)
         X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
+        # X = X[:,::-1]
 
     
     # We flip it since all MOPs are flipped and we

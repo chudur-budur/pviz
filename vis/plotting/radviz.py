@@ -23,9 +23,11 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import matplotlib.colors as mc
+from matplotlib.colors import ListedColormap
 from vis.utils import transform as tr
-from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop 
+from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop, group_labels_by_appearance
 
 
 __all__ = ["get_radviz_coordinates", "plot"]
@@ -103,9 +105,8 @@ def get_radviz_coordinates(X, spread_factor='auto', normalized=True):
     return (P, K, B)
 
 
-def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
-            normalized=True, draw_axes=False, draw_anchors=True, \
-            spread_factor='auto', **kwargs):
+def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], normalized=True, \
+        spread_factor='auto', draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized radviz plot.
 
     This radviz [1]_ plot is customized for the experiments. 
@@ -125,15 +126,27 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         If needed, the data points in `A` can be normalized within `[0.0, 1.0]`. 
         This helps to "spread-out" the data more on the radviz space. Default 
         `True` when optional.
+    spread_factor : str {'auto'} or float, optional
+        See `get_radviz_coordinates()` function for details.
     draw_axes : bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
     draw_anchors : bool, optional
         If `False`, the radviz plot will hide anchors. Default `True` when optional.
-    spread_factor : str {'auto'} or float, optional
-        See `get_radviz_coordinates()` function for details.
 
     Other Parameters
     ----------------
+    title : str, optional
+        The plot title. Default `None` when optional.
+    labels : str, array_like or list of str, optional
+        A string or an array/list of strings for labeling each point. Which basically
+        means the class label of each row. Default `None` when optional. This will be
+        used to set the legend in the figure. If `None` there will be no legend.
+    colorbar : (Cbc, Cbg, Cbl) a tuple of two ndarray and a str, optional
+        If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
+        provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 
+        object. The gradient of the colorbar is specified in `Cbg` which is an 1-D 
+        array of float. Cbl is the label of the colorbar, a string. Default `None` 
+        when optional.
     label_prefix : str, optional
         See `set_anchor_labels()` function for details.
     label_fontsize : str or int, optional
@@ -142,8 +155,6 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         See `set_anchor_labels()` function for details.
     label_fontstyle : str, optional
         See `set_anchor_labels()` function for details.
-    title : str, optional
-        The plot title. Default `None` when optional.
     **kwargs : dict
         All other keyword args for matplotlib's `scatter()` function.
 
@@ -167,35 +178,50 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
     if ax is None:
         ax = fig.gca(plt.figure())
 
-    # by default label_prefix is $f_n$
-    label_prefix = kwargs['label_prefix'] if (kwargs is not None and 'label_prefix' in kwargs) \
-                            else r"$f_{{{:d}}}$"
-    # default label font size is 'large'
-    label_fontsize = kwargs['label_fontsize'] if (kwargs is not None and 'label_fontsize' in kwargs) \
-                            else 'large'
-    # default label font is None
-    label_fontname = kwargs['label_fontname'] if (kwargs is not None and 'label_fontname' in kwargs) \
-                            else None
-    # default label font style is 'normal'
-    label_fontstyle = kwargs['label_fontstyle'] if (kwargs is not None and 'label_fontstyle' in kwargs) \
-                            else 'normal'
-    # default plot title is empty
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
+    labels = kwargs['labels'] if (kwargs is not None and 'labels' in kwargs) else None
+    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
+
+    label_prefix = kwargs['label_prefix'] \
+            if (kwargs is not None and 'label_prefix' in kwargs) else r"$f_{{{:d}}}$"
+    label_fontsize = kwargs['label_fontsize'] \
+            if (kwargs is not None and 'label_fontsize' in kwargs) else 'large'
+    label_fontname = kwargs['label_fontname'] \
+            if (kwargs is not None and 'label_fontname' in kwargs) else None
+    label_fontstyle = kwargs['label_fontstyle'] \
+            if (kwargs is not None and 'label_fontstyle' in kwargs) else 'normal'
         
     # remove once they are read
+    kwargs = pop(kwargs, 'title')
+    kwargs = pop(kwargs, 'labels')
+    kwargs = pop(kwargs, 'colorbar')
     kwargs = pop(kwargs, 'label_prefix')
     kwargs = pop(kwargs, 'label_fontsize')
     kwargs = pop(kwargs, 'label_fontname')
     kwargs = pop(kwargs, 'label_fontstyle')
-    kwargs = pop(kwargs, 'title')
 
     if ax is not None:
         P, K, [lb, ub] = get_radviz_coordinates(A, spread_factor=spread_factor, normalized=normalized)
-        ax.scatter(P[:,0], P[:,1], s=s, c=c, **kwargs)
+        
+        # do the plot
+        if labels is not None:
+            if isinstance(labels, str):
+                ax.scatter(P[:,0], P[:,1], s=s, c=c, label=labels, **kwargs)
+            else:
+                if isinstance(labels, np.ndarray): 
+                    labels = labels.tolist()
+                label_groups = group_labels_by_appearance(labels)
+                for i,v in enumerate(label_groups):
+                    ax.scatter(P[v[0],0], P[v[0],1], s=s[v[0]], c=c[v[0]], label=v[1], \
+                            zorder=label_groups.shape[0]-i, **kwargs)
+        else:
+            ax.scatter(P[:,0], P[:,1], s=s, c=c, **kwargs)
+        
         if draw_axes:
             ax.set_axis_on()
         else:
             ax.set_axis_off()
+        
         if draw_anchors:
             set_polar_anchors(ax, K)
             set_polar_anchor_labels(ax, K, label_prefix=label_prefix, label_fontsize=label_fontsize, \
@@ -203,8 +229,37 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
         ax.set_xlim(lb[0] - 0.1 if lb[0] < -1 else -1.1, ub[0] + 0.01 if ub[0] > 1 else 1.1)
         ax.set_ylim(lb[1] - 0.1 if lb[1] < -1 else -1.1, ub[1] + 0.01 if ub[1] > 1 else 1.1)
         ax.set_aspect('equal')
-        if title is not None:
-            ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
+        
+        # colorbar?
+        if colorbar is not None \
+                and isinstance(colorbar, tuple) \
+                and len(colorbar) >= 2 \
+                and isinstance(colorbar[0], np.ndarray) \
+                and isinstance(colorbar[1], np.ndarray):
+            vmin,vmax = 0.0, 1.0
+            cbc, cbg = colorbar[0], colorbar[1]
+            cbl = colorbar[2] if len(colorbar) > 2 \
+                    and colorbar[2] is not None else None
+            Id = np.column_stack((cbg,cbc)).astype(object)
+            Id = Id[np.argsort(Id[:, 0])] 
+            c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
+            vmin, vmax = np.min(g), np.max(g)
+            norm = mc.Normalize(vmin=vmin, vmax=vmax)
+            cmap = ListedColormap(c)
+            if cbl is not None:
+                ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
+                        orientation='vertical', label=cbl, pad=0.05, shrink=0.5)
+            else:
+                ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
+                            orientation='vertical', pad=0.05, shrink=0.5) 
+
+        # where to put the legend
+        if labels is not None:
+            ax.legend(loc="best", ncol=1)
+        
+        # title?
+        ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
+
         return (ax, P)
     else:
         raise TypeError("A valid `matplotlib.axes.Axes` object is not found.")

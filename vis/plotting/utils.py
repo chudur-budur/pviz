@@ -27,7 +27,44 @@ from vis.utils import transform as tr
 __all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
             "color_by_dist", "enhance_color", \
             "set_polar_anchors", "set_polar_anchor_labels", \
-            "pop", "Arrow3D"]
+            "pop", "Arrow3D", "group_labels_by_appearance"]
+
+
+def group_labels_by_appearance(labels):
+    r""" A function to partition the data according to the labels.
+
+    Let's say we have `n` data points, `F = {p1, p2, p3, ..., pn}`.
+    Also each data point has a label, and there are 2 kind of labels, 
+    i.e. `L = {l1, l2, l1, l1, ..., l2}` where each label `li` corresponds
+    to point `pi`. This function partitions `F` with respect to `L` and
+    returns a list of lists `ul`, where `ul = [[li, [i1, i2, i3, ..., ip]], 
+    [lj, [j1, j2, j3, ..., jq]] ... ]`. This means all the data points 
+    indexed by `ii` have labels `li` and all the data points indexed by 'jj' 
+    have labels `lj` and so on.
+    
+    Parameters
+    ----------
+    labels : list of str
+        A list of strings specifying label for each data point.
+
+    Returns
+    -------
+    ul : ndarray of object
+        A jagged array of arrays. Where each array has two items.
+        The first item is the label and the next item is an array
+        of int for indices of data points with that label.
+    """
+    ld = {}
+    for i,label in enumerate(labels):
+        if label in ld:
+            ld[label].append(i)
+        else:
+            ld[label] = []
+    ul = []
+    for k in ld.keys():
+        ul.append([ld[k], k])
+    sorted(ul, key = lambda v: len(v[0]), reverse=True)
+    return np.array(ul, dtype=object)
 
 
 def pop(d, k):

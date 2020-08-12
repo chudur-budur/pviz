@@ -130,5 +130,7 @@ def depth_contours(F, project_collapse=True, verbose=False):
             break
     if Id.shape[0] > 0:
         L.append(Id)
+    if verbose:
+        print("Done.")
 
     return np.array(L, dtype=object)

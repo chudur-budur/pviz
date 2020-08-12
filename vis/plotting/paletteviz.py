@@ -29,7 +29,7 @@ from matplotlib.colors import ListedColormap
 from mpl_toolkits.mplot3d import Axes3D
 from vis.plotting.radviz import get_radviz_coordinates
 from vis.plotting.star import get_star_coordinates
-from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop
+from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop, group_labels_by_appearance
 from vis.tda import simple_shape
 from vis.utils import io
 
@@ -39,43 +39,43 @@ __all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "pl
 
 # Some good camera angles for paletteviz plots.
 camera_angles_star = {
-    'dtlz2': {'3d': (-20,25), '4d':(-50,20), '8d': (-50,25)}, \
+    'dtlz2': {'3d': (20,30), '4d':(-40,20), '8d': (-25,30)}, \
     'dtlz2-nbi': {'3d': (-60,30), '4d':(-65,20), '5d': (-60,30), '8d': (-60,30)}, \
-    'debmdk': {'3d': (15,25), '4d': (35,15), '8d': (130,25)}, \
-    'debmdk-nbi': {'3d': (135,25), '4d': (-60,20), '8d': (-50,20)}, \
-    'debmdk-all': {'3d': (25,25), '4d': (80,20), '8d': (60,20)}, \
-    'debmdk-all-nbi': {'3d': (135,25), '4d': (80,20), '8d': (-60,15)}, \
-    'dtlz8': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
-    'dtlz8-nbi': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
-    'c2dtlz2': {'3d': (-20,45), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
-    'c2dtlz2-nbi': {'3d': (20,45), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
-    'cdebmdk': {'3d': (-165,25), '4d': (35,20), '8d': (-60,20)}, \
-    'cdebmdk-nbi': {'3d': (-175,20), '4d': (35,30), '8d': (-60,20)}, \
-    'c0dtlz2': {'3d': (95,20), '4d': (20,20), '8d': (160,35)}, \
+    'debmdk': {'3d': (130,20), '4d': (140,20), '8d': (155,20)}, \
+    'debmdk-nbi': {'3d': (100,25), '4d': (0,20), '8d': (-45,20)}, \
+    'debmdk-all': {'3d': (135,20), '4d': (160,20), '8d': (165,25)}, \
+    'debmdk-all-nbi': {'3d': (85,20), '4d': (10,20), '8d': (-35,20)}, \
+    'dtlz8': {'3d': (0,15), '4d': (-5,10), '6d': (-180,20), '8d': (-180,25)}, \
+    'dtlz8-nbi': {'3d': (0,15), '4d': (-5,10), '6d': (-180,20), '8d': (-180,25)}, \
+    'c2dtlz2': {'3d': (-125,20), '4d': (125,20), '5d': (60,30), '8d': (-20,20)}, \
+    'c2dtlz2-nbi': {'3d': (30,30), '4d': (-20,15), '5d': (95,35), '8d': (-20,20)}, \
+    'cdebmdk': {'3d': (-60,35), '4d': (70,30), '8d': (80,30)}, \
+    'cdebmdk-nbi': {'3d': (-70,45), '4d': (60,30), '8d': (80,30)}, \
+    'c0dtlz2': {'3d': (120,30), '4d': (165,30), '8d': (-150,45)}, \
     'c0dtlz2-nbi': {'3d': (125,20), '4d': (165,20), '8d': (160,35)}, \
-    'crash-nbi': {'3d': (-25,30)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
-    'gaa': {'10d': (0,25)}, \
+    'crash-nbi': {'3d': (0,10)}, 'crash-c1-nbi': {'3d': (-25,15)}, 'crash-c2-nbi': {'3d': (-15,15)}, \
+    'gaa': {'10d': (-15,25)}, \
     'gaa-nbi': {'10d': (0,25)}
 }
 
 camera_angles_radviz = {
     'dtlz2': {'3d': (-50,30), '4d':(-55,25), '8d': (-50,15)}, \
     'dtlz2-nbi': {'3d': (-50,30), '4d':(-65,20), '5d': (-60,30), '8d': (-60,30)}, \
-    'debmdk': {'3d': (-50,30), '4d': (-60,25), '8d': (-40,15)}, \
-    'debmdk-nbi': {'3d': (-60,30), '4d': (-60,20), '8d': (-55,-20)}, \
-    'debmdk-all': {'3d': (100,20), '4d': (-60,25), '8d': (-115,15)}, \
-    'debmdk-all-nbi': {'3d': (10,20), '4d': (-60,25), '8d': (-145,20)}, \
-    'dtlz8': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (5,35)}, \
+    'debmdk': {'3d': (-35,25), '4d': (-30,25), '8d': (-40,15)}, \
+    'debmdk-nbi': {'3d': (-65,25), '4d': (-60,20), '8d': (-55,-20)}, \
+    'debmdk-all': {'3d': (100,20), '4d': (-30,20), '8d': (-20,15)}, \
+    'debmdk-all-nbi': {'3d': (-75,25), '4d': (-70,20), '8d': (-145,20)}, \
+    'dtlz8': {'3d': (-60,30), '4d': (-20,20), '6d': (0,35), '8d': (5,35)}, \
     'dtlz8-nbi': {'3d': (-60,30), '4d': (-20,20), '6d': (30,15), '8d': (55,25)}, \
     'c2dtlz2': {'3d': (-60,35), '4d': (125,20), '5d': (35,25), '8d': (-20,20)}, \
     'c2dtlz2-nbi': {'3d': (85,25), '4d': (160,20), '5d': (35,25), '8d': (-20,20)}, \
-    'cdebmdk': {'3d': (-165,25), '4d': (35,20), '8d': (-60,20)}, \
-    'cdebmdk-nbi': {'3d': (90,20), '4d': (35,30), '8d': (-60,20)}, \
+    'cdebmdk': {'3d': (-165,25), '4d': (-10,30), '8d': (-120,25)}, \
+    'cdebmdk-nbi': {'3d': (180,30), '4d': (-115,30), '8d': (-80,25)}, \
     'c0dtlz2': {'3d': (180,25), '4d': (20,20), '8d': (-115,35)}, \
     'c0dtlz2-nbi': {'3d': (175,25), '4d': (20,20), '8d': (160,35)}, \
-    'crash-nbi': {'3d': (100,20)}, 'crash-c1-nbi': {'3d': (-115,15)}, 'crash-c2-nbi': {'3d': (-170,20)}, \
+    'crash-nbi': {'3d': (-175,30)}, 'crash-c1-nbi': {'3d': (100,25)}, 'crash-c2-nbi': {'3d': (-100,25)}, \
     'gaa': {'10d': (0,25)}, \
-    'gaa-nbi': {'10d': (0,25)}
+    'gaa-nbi': {'10d': (20,40)}
 }
 
 def make_partitions(P, K, B, L, n_partitions):
@@ -307,9 +307,8 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
         raise ValueError("No depth contours found.")
 
 
-def plot(A, ax=None, depth_contours=None, mode='star', \
-            n_partitions=float('inf'), s=1, c=mc.TABLEAU_COLORS['tab:blue'], \
-            draw_axes=False, draw_anchors=True, draw_colorbar=False, **kwargs):
+def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf'), \
+        s=1.0, c=mc.TABLEAU_COLORS['tab:blue'], draw_axes=False, draw_anchors=True, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
 
     This PaletteViz plot is customized for the experiments. It allows both
@@ -332,8 +331,8 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
     n_partitions : int, optional
         See `get_palette_star_coordinates()` or `get_palette_radviz_coordinates()`
         functions for details. Default `float('inf')` when optional.
-    s : int or 1-D array_like, optional
-        Point size, or an array of point sizes. Default 1 when optional.
+    s : float or 1-D array_like, optional
+        Point size, or an array of point sizes. Default 1.0 when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
         optional.
@@ -341,10 +340,6 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         If `True`, the radviz plot will show axes. Default `False` when optional.
     draw_anchors: bool, optional
         If `False`, the radviz plot will hide anchors. Default `True` when optional.
-    draw_colorbar : bool, optional
-        Decide whether we are showing any colorbar. The plot supports only vertical
-        colorbars at the outside of the right side of the y-axis. Default `False`
-        when optional. Also, points indexed by Ik will not be used for colorbar.
 
     Other Parameters
     ----------------
@@ -352,16 +347,10 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         The azmiuth and elevation angle. Default `(-60,30)` when optional.
     title : str, optional
         The plot title. Default `None` when optional.
-    anchor_linewidth : float, optional
-        See `set_polar_anchor()` function for details.
-    label_prefix : str, optional
-        See `set_anchor_labels()` function for details.
-    label_fontsize : str or int, optional
-        See `set_anchor_labels()` function for details.
-    label_fontname : str, optional
-        See `set_anchor_labels()` function for details.
-    label_fontstyle : str, optional
-        See `set_anchor_labels()` function for details.
+    labels : str, array_like or list of str, optional
+        A string or an array/list of strings for labeling each point. Which basically
+        means the class label of each row. Default `None` when optional. This will be
+        used to set the legend in the figure. If `None` there will be no legend.
     spread_factor : str {'auto'} or float, optional
         See `vis.plotting.radviz` for more details.
     inverted : bool, optional
@@ -370,20 +359,27 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
         See `vis.plotting.star` for details.
     project_collapse : bool, optional
         See `vis.tda.simple_shape` module for more details.
-    Ik : array_like of int, optional
-        The indices of knee points or any other points of interest. Default
-        `None` when optional. If `Ik` is provided, the data points will be
-        divided into two groups, one indexed by `Ik` and others not. Then the
-        points indexed by `Ik` will be plotted at the end.
-    point_labels : str, array_like or list of str, optional
-        A string or an array/list of strings for labeling each point. Which basically
-        means the class label of each row. Default `None` when optional. This will be
-        used to set the legend in the figure. If `None` there will be no legend.
-    cbar_grad : array_like of float, optional
-        The gradient of the colorbar. A 1-D array of floats.
-        Default `None` when optional.
-    cbar_label : str, optional
-        The label of the colorbar. Default `None` when optional.
+    colorbar : (Cbc, Cbg, Cbl) a tuple of two ndarray and a str, optional
+        If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
+        provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 
+        object. The gradient of the colorbar is specified in `Cbg` which is an 1-D 
+        array of float. Cbl is the label of the colorbar, a string. Default `None` 
+        when optional.
+    lims : 3-tuple of pairs of float
+        The data point limits on three coordinates, each tuple is the limits on the
+        coordinates to be used by `matplotlib.axes.Axes.set_x/y/zlim. If the `lims`
+        is `(xl, yl, zl)`, then `xl`, `yl` and `zl` will be used for x-limit, y-limit
+        and z-limit, respectively. Default `(None, None, None)` when optional.
+    anchor_linewidth : float, optional
+        See `set_polar_anchor()` function for details.
+    anchor_label_prefix : str, optional
+        See `set_anchor_labels()` function for details.
+    anchor_label_fontsize : str or int, optional
+        See `set_anchor_labels()` function for details.
+    anchor_label_fontname : str, optional
+        See `set_anchor_labels()` function for details.
+    anchor_label_fontstyle : str, optional
+        See `set_anchor_labels()` function for details.
     verbose : bool, optional
         The verbosity. Default 'False' when optional.
     **kwargs : dict
@@ -402,58 +398,52 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
 
     euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
     title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
-    anchor_linewidth = kwargs['anchor_linewidth'] \
-            if (kwargs is not None and 'anchor_linewidth' in kwargs) else 1.0
-    label_prefix = kwargs['label_prefix'] \
-            if (kwargs is not None and 'label_prefix' in kwargs) else r"$f_{{{:d}}}$"
-    label_fontsize = kwargs['label_fontsize'] \
-            if (kwargs is not None and 'label_fontsize' in kwargs) else 'large'
-    label_fontname = kwargs['label_fontname'] \
-            if (kwargs is not None and 'label_fontname' in kwargs) else None
-    label_fontstyle = kwargs['label_fontstyle'] \
-            if (kwargs is not None and 'label_fontstyle' in kwargs) else 'normal'
+    labels = kwargs['labels'] if (kwargs is not None and 'labels' in kwargs) else None
+
     spread_factor = kwargs['spread_factor'] \
             if (kwargs is not None and 'spread_factor' in kwargs) else 'auto'
     inverted = kwargs['inverted'] if (kwargs is not None and 'inverted' in kwargs) else True
     normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
     project_collapse = kwargs['project_collapse'] \
             if (kwargs is not None and 'project_collapse' in kwargs) else True
-    Ik = kwargs['Ik'] if (kwargs is not None and 'Ik' in kwargs) else None
-    point_labels = kwargs['point_labels'] if (kwargs is not None and 'point_labels' in kwargs) else None
-    cbar_grad = kwargs['cbar_grad'] if (kwargs is not None and 'cbar_grad' in kwargs) else None
-    cbar_label = kwargs['cbar_label'] if (kwargs is not None and 'cbar_label' in kwargs) else None
+
+    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
+    lims = kwargs['lims'] if (kwargs is not None and 'lims' in kwargs) else (None, None, None)
+
+    anchor_linewidth = kwargs['anchor_linewidth'] \
+            if (kwargs is not None and 'anchor_linewidth' in kwargs) else 1.0
+    anchor_label_prefix = kwargs['anchor_label_prefix'] \
+            if (kwargs is not None and 'anchor_label_prefix' in kwargs) else r"$f_{{{:d}}}$"
+    anchor_label_fontsize = kwargs['anchor_label_fontsize'] \
+            if (kwargs is not None and 'anchor_label_fontsize' in kwargs) else 'large'
+    anchor_label_fontname = kwargs['anchor_label_fontname'] \
+            if (kwargs is not None and 'anchor_label_fontname' in kwargs) else None
+    anchor_label_fontstyle = kwargs['anchor_label_fontstyle'] \
+            if (kwargs is not None and 'anchor_label_fontstyle' in kwargs) else 'normal'
+
     verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
 
     # remove once they are read
     kwargs = pop(kwargs, 'euler')
     kwargs = pop(kwargs, 'title')
-    kwargs = pop(kwargs, 'anchor_linewidth')
-    kwargs = pop(kwargs, 'label_prefix')
-    kwargs = pop(kwargs, 'label_fontsize')
-    kwargs = pop(kwargs, 'label_fontname')
-    kwargs = pop(kwargs, 'label_fontstyle')
+    kwargs = pop(kwargs, 'labels')
     kwargs = pop(kwargs, 'spread_factor')
     kwargs = pop(kwargs, 'inverted')
     kwargs = pop(kwargs, 'normalized')
     kwargs = pop(kwargs, 'project_collapse')
-    kwargs = pop(kwargs, 'Ik')
-    kwargs = pop(kwargs, 'point_labels')
-    kwargs = pop(kwargs, 'cbar_grad')
-    kwargs = pop(kwargs, 'cbar_label')
+    kwargs = pop(kwargs, 'colorbar')
+    kwargs = pop(kwargs, 'lims')
+    kwargs = pop(kwargs, 'anchor_linewidth')
+    kwargs = pop(kwargs, 'anchor_label_prefix')
+    kwargs = pop(kwargs, 'anchor_label_fontsize')
+    kwargs = pop(kwargs, 'anchor_label_fontname')
+    kwargs = pop(kwargs, 'anchor_label_fontstyle')
     kwargs = pop(kwargs, 'verbose')
+
+    # decide on what kind of axes to use
+    if ax is None:
+        ax = Axes3D(plt.figure())
         
-    # if Ik is provided, partition the data into two groups
-    Ip = None
-    if Ik is not None:
-        I = np.zeros(A.shape[0]).astype(bool)
-        I[Ik] = True
-        Ik,Ip = I, ~I
-
-    # get a list of point labels, i.e. class labels
-    if point_labels is not None and isinstance(point_labels, str):
-        pl = point_labels
-        point_labels = np.array([pl for _ in range(A.shape[0])])
-
     # paletteviz coordinates
     if ax is not None:
         if mode == 'star':
@@ -478,21 +468,23 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
         # do the plot
-        if point_labels is not None:
-            if Ik is not None:
-                lp = np.unique(point_labels[Ip])
-                lk = np.unique(point_labels[Ik])
-                ax.scatter(P[Ip,0], P[Ip,1], P[Ip,2], s=s[Ip], c=c[Ip], label=lp[0], **kwargs)
-                ax.scatter(P[Ik,0], P[Ik,1], P[Ik,2], s=s[Ik], c=c[Ik], label=lk[0], **kwargs)
+        if labels is not None:
+            if isinstance(labels, str):
+                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, label=labels, **kwargs)
             else:
-                lp = np.unique(point_labels)
-                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, label=lp[0], **kwargs)
+                if isinstance(labels, np.ndarray): 
+                    labels = labels.tolist()
+                label_groups = group_labels_by_appearance(labels)
+                for i,v in enumerate(label_groups):
+                    ax.scatter(P[v[0],0], P[v[0],1], P[v[0],2], s=s[v[0]], c=c[v[0]], label=v[1], \
+                            zorder=label_groups.shape[0]-i, **kwargs)
         else:
-            if Ik is not None:
-                ax.scatter(P[Ip,0], P[Ip,1], P[Ip,2], s=s[Ip], c=c[Ip], **kwargs)
-                ax.scatter(P[Ik,0], P[Ik,1], P[Ik,2], s=s[Ik], c=c[Ik], **kwargs)
-            else:
-                ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, **kwargs)
+            ax.scatter(P[:,0], P[:,1], P[:,2], s=s, c=c, **kwargs)
+
+        # set lims
+        ax.set_xlim(lims[0])
+        ax.set_ylim(lims[1])
+        ax.set_zlim(lims[2])
         
         # set camera angle
         ax.view_init(euler[1], euler[0])
@@ -508,42 +500,50 @@ def plot(A, ax=None, depth_contours=None, mode='star', \
             for z in Z:
                 set_polar_anchors(ax, K, z=z, anchor_linewidth=anchor_linewidth)
                 if mode == 'radviz':
-                    set_polar_anchor_labels(ax, K, z=z, label_prefix=label_prefix, \
-                                    label_fontsize=label_fontsize, label_fontname=label_fontname, \
-                                    label_fontstyle=label_fontstyle)
+                    set_polar_anchor_labels(ax, K, z=z, \
+                                    label_prefix=anchor_label_prefix, \
+                                    label_fontsize=anchor_label_fontsize, \
+                                    label_fontname=anchor_label_fontname, \
+                                    label_fontstyle=anchor_label_fontstyle)
                 elif mode == 'star':
-                    set_polar_anchor_labels(ax, K, z=z, draw_circle=True, label_prefix=label_prefix, \
-                                    label_fontsize=label_fontsize, label_fontname=label_fontname, \
-                                    label_fontstyle=label_fontstyle)
+                    set_polar_anchor_labels(ax, K, z=z, draw_circle=True, \
+                                    label_prefix=anchor_label_prefix, \
+                                    label_fontsize=anchor_label_fontsize, \
+                                    label_fontname=anchor_label_fontname, \
+                                    label_fontstyle=anchor_label_fontstyle)
                 else:
                     raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
         # colorbar?
-        if draw_colorbar:
+        if colorbar is not None \
+                and isinstance(colorbar, tuple) \
+                and len(colorbar) >= 2 \
+                and isinstance(colorbar[0], np.ndarray) \
+                and isinstance(colorbar[1], np.ndarray):
             vmin,vmax = 0.0, 1.0
-            if cbar_grad is not None:
-                if Ik is not None:
-                    c, cbar_grad = c[Ip], cbar_grad[Ip]
-                Id = np.column_stack((cbar_grad,c)).astype(object)
-                Id = Id[np.argsort(Id[:, 0])] 
-                c, cbar_grad = Id[:,1:].astype(float), Id[:,0].astype(float)
-                vmin, vmax = np.min(cbar_grad), np.max(cbar_grad)
+            cbc, cbg = colorbar[0], colorbar[1]
+            cbl = colorbar[2] if len(colorbar) > 2 \
+                    and colorbar[2] is not None else None
+            Id = np.column_stack((cbg,cbc)).astype(object)
+            Id = Id[np.argsort(Id[:, 0])] 
+            c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
+            vmin, vmax = np.min(g), np.max(g)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
             cmap = ListedColormap(c)
-            if cbar_label is not None:
+            if cbl is not None:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', label=cbar_label, pad=-0.15, shrink=0.5)
+                        orientation='vertical', label=cbl, pad=-0.05, shrink=0.5)
             else:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', pad=-0.15, shrink=0.5) 
-        # title?
-        if title is not None:
-            ax.set_title(title, pad=0.0)
+                            orientation='vertical', pad=-0.05, shrink=0.5) 
 
         # where to put the legend
-        if point_labels is not None:
-            ax.legend(loc="lower center", ncol=2)
+        if labels is not None:
+            ax.legend(loc="best", ncol=2)
         
+        # title?
+        ax.set_title(title, pad=0.0)
+
         return (ax, P)
     else:
         raise TypeError("A valid `mpl_toolkits.mplot3d.axes.Axes3D` object is not found.")
