@@ -29,23 +29,23 @@ __all__ = ["camera_angles", "plot"]
 
 # Some good camera angles for scatter plots.
 camera_angles = {
-    'dtlz2': {'3d': (60,10), '4d':(-50,15), '8d': (15,15)}, \
-    'dtlz2-nbi': {'3d': (60,10), '4d':(110,15), '5d': (110,15), '8d': (110,15)}, \
-    'debmdk': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
-    'debmdk-nbi': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
-    'debmdk-all': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
-    'debmdk-all-nbi': {'3d': (115,5), '4d': (-50,15), '8d': (110,15)}, \
+    'dtlz2': {'3d': (60,10), '4d':(105,15), '8d': (15,15)}, \
+    'dtlz2-nbi': {'3d': (60,10), '4d':(105,15), '5d': (105,15), '8d': (110,15)}, \
+    'debmdk': {'3d': (115,5), '4d': (105,15), '8d': (110,15)}, \
+    'debmdk-nbi': {'3d': (115,5), '4d': (105,15), '8d': (110,15)}, \
+    'debmdk-all': {'3d': (115,5), '4d': (105,15), '8d': (110,15)}, \
+    'debmdk-all-nbi': {'3d': (115,5), '4d': (105,15), '8d': (110,15)}, \
     'dtlz8': {'3d': (110,15), '4d': (-65,15), '6d': (-65,15), '8d': (-65,15)}, \
     'dtlz8-nbi': {'3d': (110,15), '4d': (-65,15), '6d': (-65,15), '8d': (-65,15)}, \
-    'c2dtlz2': {'3d': (30,10), '4d': (-65,15), '5d': (-65,15), '8d': (110,15)}, \
-    'c2dtlz2-nbi': {'3d': (30,10), '4d': (-65,15), '5d': (-65,15), '8d': (110,15)}, \
-    'cdebmdk': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
-    'cdebmdk-nbi': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
-    'c0dtlz2': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
-    'c0dtlz2-nbi': {'3d': (30,10), '4d': (-65,15), '8d': (110,15)}, \
+    'c2dtlz2': {'3d': (30,10), '4d': (-75,15), '5d': (-65,15), '8d': (110,15)}, \
+    'c2dtlz2-nbi': {'3d': (30,10), '4d': (-75,15), '5d': (-65,15), '8d': (110,15)}, \
+    'cdebmdk': {'3d': (30,10), '4d': (-75,15), '8d': (110,15)}, \
+    'cdebmdk-nbi': {'3d': (30,10), '4d': (-75,15), '8d': (110,15)}, \
+    'c0dtlz2': {'3d': (30,10), '4d': (-75,15), '8d': (110,15)}, \
+    'c0dtlz2-nbi': {'3d': (30,10), '4d': (-75,15), '8d': (110,15)}, \
     'crash-nbi': {'3d': (30,15)}, 'crash-c1-nbi': {'3d': (30,15)}, 'crash-c2-nbi': {'3d': (30,15)}, \
-    'gaa': {'10d': (-60,15)}, \
-    'gaa-nbi': {'10d': (-60,15)}
+    'gaa': {'10d': (-65,15)}, \
+    'gaa-nbi': {'10d': (-65,15)}
 }
 
 
@@ -200,10 +200,10 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
             cmap = ListedColormap(c)
             if cbl is not None:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                        orientation='vertical', label=cbl, pad=0.0, shrink=0.5)
+                        orientation='vertical', label=cbl, pad=0.01, shrink=0.5)
             else:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', pad=0.0, shrink=0.5) 
+                            orientation='vertical', pad=0.01, shrink=0.5) 
 
         # where to put the legend
         if labels is not None:
