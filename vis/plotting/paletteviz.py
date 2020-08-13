@@ -370,6 +370,11 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         coordinates to be used by `matplotlib.axes.Axes.set_x/y/zlim. If the `lims`
         is `(xl, yl, zl)`, then `xl`, `yl` and `zl` will be used for x-limit, y-limit
         and z-limit, respectively. Default `(None, None, None)` when optional.
+    hide_layers : tuple of int
+        List of layer indices to hide. Where there are L layers, The top layer is 
+        indexed at 0 which will have z-axis value of 1.0 and the bottom layer is 
+        indexed at L-1 which will have z-axis value of 0.0, when there are L layers. 
+        Default `None` when optional.
     anchor_linewidth : float, optional
         See `set_polar_anchor()` function for details.
     anchor_label_prefix : str, optional
@@ -409,6 +414,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
 
     colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
     lims = kwargs['lims'] if (kwargs is not None and 'lims' in kwargs) else (None, None, None)
+    hide_layers = kwargs['hide_layers'] if (kwargs is not None and 'hide_layers' in kwargs) else None
 
     anchor_linewidth = kwargs['anchor_linewidth'] \
             if (kwargs is not None and 'anchor_linewidth' in kwargs) else 1.0
@@ -433,6 +439,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
     kwargs = pop(kwargs, 'project_collapse')
     kwargs = pop(kwargs, 'colorbar')
     kwargs = pop(kwargs, 'lims')
+    kwargs = pop(kwargs, 'hide_layers')
     kwargs = pop(kwargs, 'anchor_linewidth')
     kwargs = pop(kwargs, 'anchor_label_prefix')
     kwargs = pop(kwargs, 'anchor_label_fontsize')
@@ -443,7 +450,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
     # decide on what kind of axes to use
     if ax is None:
         ax = Axes3D(plt.figure())
-        
+ 
     # paletteviz coordinates
     if ax is not None:
         if mode == 'star':
@@ -466,6 +473,22 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
                                                         verbose=verbose)
         else:
             raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
+
+        # if there is any layer to hide
+        P_ = None # we keep a copy of the original data since they are going to change here.
+        if hide_layers is not None:
+            I = np.ones(P.shape[0]).astype(bool)
+            for l in hide_layers:
+                I[np.argwhere((P[:,-1] > Z[l] - 0.01) & (P[:,-1] < Z[l] + 0.01))] = False
+            P_ = np.array(P, copy=True) # copy
+            P = P[I]
+            if c is not None:
+                c = c[I]
+            if s is not None:
+                s = s[I]
+            if labels is not None:
+                labels = labels[I]
+            Z = Z[np.array(list(set(range(Z.shape[0])) - set(hide_layers)))]
 
         # do the plot
         if labels is not None:
@@ -544,6 +567,9 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         # title?
         ax.set_title(title, pad=0.0)
 
-        return (ax, P)
+        if P_ is not None:
+            return (ax, P_)
+        else:
+            return (ax, P)
     else:
         raise TypeError("A valid `mpl_toolkits.mplot3d.axes.Axes3D` object is not found.")
