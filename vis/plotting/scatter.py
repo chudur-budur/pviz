@@ -103,18 +103,16 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     """
 
     # all other parameters
-    euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
-    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
-    axes = kwargs['axes'] if (kwargs is not None and 'axes' in kwargs) else (0, 1, 2)
-    labels = kwargs['labels'] if (kwargs is not None and 'labels' in kwargs) else None
-    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
-    xlim = kwargs['xlim'] if (kwargs is not None and 'xlim' in kwargs) else None
-    ylim = kwargs['ylim'] if (kwargs is not None and 'ylim' in kwargs) else None
-    zlim = kwargs['zlim'] if (kwargs is not None and 'zlim' in kwargs) else None
-    label_prefix = kwargs['label_prefix'] \
-            if (kwargs is not None and 'label_prefix' in kwargs) else r"$f_{{{:d}}}$"
-    label_fontsize = kwargs['label_fontsize'] \
-            if (kwargs is not None and 'label_fontsize' in kwargs) else 'large'
+    euler = kwargs['euler'] if kwargs and 'euler' in kwargs else (-60, 30)
+    title = kwargs['title'] if kwargs and 'title' in kwargs else None
+    axes = kwargs['axes'] if kwargs and 'axes' in kwargs else (0, 1, 2)
+    labels = kwargs['labels'] if kwargs and 'labels' in kwargs else None
+    colorbar = kwargs['colorbar'] if kwargs and 'colorbar' in kwargs else None
+    xlim = kwargs['xlim'] if kwargs and 'xlim' in kwargs else None
+    ylim = kwargs['ylim'] if kwargs and 'ylim' in kwargs else None
+    zlim = kwargs['zlim'] if kwargs and 'zlim' in kwargs else None
+    label_prefix = kwargs['label_prefix'] if kwargs and 'label_prefix' in kwargs else r"$f_{{{:d}}}$"
+    label_fontsize = kwargs['label_fontsize'] if kwargs and 'label_fontsize' in kwargs else 'large'
             
     # remove once they are read
     kwargs = pop(kwargs, 'euler')
@@ -129,10 +127,10 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
     kwargs = pop(kwargs, 'label_fontsize')
 
     # decide on what kind of axes to use
-    if ax is None:
+    if not ax:
         ax = Axes3D(plt.figure()) if A.shape[1] > 2 else plt.figure().gca()
 
-    if ax is not None:
+    if ax:
         # do the plot
         if labels is not None:
             if isinstance(labels, str):
@@ -183,22 +181,18 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
             ax.set_title(title, y=ax.get_ylim()[-1]-0.05)
         
         # colorbar?
-        if colorbar is not None \
-                and isinstance(colorbar, tuple) \
-                and len(colorbar) >= 2 \
-                and isinstance(colorbar[0], np.ndarray) \
-                and isinstance(colorbar[1], np.ndarray):
+        if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
+                and isinstance(colorbar[0], np.ndarray) and isinstance(colorbar[1], np.ndarray):
             vmin,vmax = 0.0, 1.0
             cbc, cbg = colorbar[0], colorbar[1]
-            cbl = colorbar[2] if len(colorbar) > 2 \
-                    and colorbar[2] is not None else None
+            cbl = colorbar[2] if len(colorbar) > 2 and colorbar[2] else None
             Id = np.column_stack((cbg,cbc)).astype(object)
             Id = Id[np.argsort(Id[:, 0])] 
             c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
             vmin, vmax = np.min(g), np.max(g)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
             cmap = ListedColormap(c)
-            if cbl is not None:
+            if cbl:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                         orientation='vertical', label=cbl, pad=0.01, shrink=0.5)
             else:
@@ -206,7 +200,7 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], **kwargs):
                             orientation='vertical', pad=0.01, shrink=0.5) 
 
         # where to put the legend
-        if labels is not None:
+        if labels:
             ax.legend(loc="best", ncol=1)
 
         return ax

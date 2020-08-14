@@ -398,36 +398,33 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         `P` is an ndarray of PaletteViz coordinates (i.e. `|P| = n x 3`), 
     """
     # decide on what kind of axes to use
-    if ax is None:
+    if not ax:
         ax = Axes3D(plt.figure())
 
-    euler = kwargs['euler'] if (kwargs is not None and 'euler' in kwargs) else (-60, 30)
-    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
-    labels = kwargs['labels'] if (kwargs is not None and 'labels' in kwargs) else None
+    euler = kwargs['euler'] if kwargs and 'euler' in kwargs else (-60, 30)
+    title = kwargs['title'] if kwargs and 'title' in kwargs else None
+    labels = kwargs['labels'] if kwargs and 'labels' in kwargs else None
 
-    spread_factor = kwargs['spread_factor'] \
-            if (kwargs is not None and 'spread_factor' in kwargs) else 'auto'
-    inverted = kwargs['inverted'] if (kwargs is not None and 'inverted' in kwargs) else True
-    normalized = kwargs['normalized'] if (kwargs is not None and 'normalized' in kwargs) else True
-    project_collapse = kwargs['project_collapse'] \
-            if (kwargs is not None and 'project_collapse' in kwargs) else True
+    spread_factor = kwargs['spread_factor'] if kwargs and 'spread_factor' in kwargs else 'auto'
+    inverted = kwargs['inverted'] if kwargs and 'inverted' in kwargs else True
+    normalized = kwargs['normalized'] if kwargs and 'normalized' in kwargs else True
+    project_collapse = kwargs['project_collapse'] if kwargs and 'project_collapse' in kwargs else True
 
-    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
-    lims = kwargs['lims'] if (kwargs is not None and 'lims' in kwargs) else (None, None, None)
-    hide_layers = kwargs['hide_layers'] if (kwargs is not None and 'hide_layers' in kwargs) else None
+    colorbar = kwargs['colorbar'] if kwargs and 'colorbar' in kwargs else None
+    lims = kwargs['lims'] if kwargs and 'lims' in kwargs else (None, None, None)
+    hide_layers = kwargs['hide_layers'] if kwargs and 'hide_layers' in kwargs else None
 
-    anchor_linewidth = kwargs['anchor_linewidth'] \
-            if (kwargs is not None and 'anchor_linewidth' in kwargs) else 1.0
+    anchor_linewidth = kwargs['anchor_linewidth'] if kwargs and 'anchor_linewidth' in kwargs else 1.0
     anchor_label_prefix = kwargs['anchor_label_prefix'] \
-            if (kwargs is not None and 'anchor_label_prefix' in kwargs) else r"$f_{{{:d}}}$"
+            if kwargs and 'anchor_label_prefix' in kwargs else r"$f_{{{:d}}}$"
     anchor_label_fontsize = kwargs['anchor_label_fontsize'] \
-            if (kwargs is not None and 'anchor_label_fontsize' in kwargs) else 'large'
+            if kwargs and 'anchor_label_fontsize' in kwargs else 'large'
     anchor_label_fontname = kwargs['anchor_label_fontname'] \
-            if (kwargs is not None and 'anchor_label_fontname' in kwargs) else None
+            if kwargs and 'anchor_label_fontname' in kwargs else None
     anchor_label_fontstyle = kwargs['anchor_label_fontstyle'] \
-            if (kwargs is not None and 'anchor_label_fontstyle' in kwargs) else 'normal'
+            if kwargs and 'anchor_label_fontstyle' in kwargs else 'normal'
 
-    verbose = kwargs['verbose'] if (kwargs is not None and 'verbose' in kwargs) else False
+    verbose = kwargs['verbose'] if kwargs and 'verbose' in kwargs else False
 
     # remove once they are read
     kwargs = pop(kwargs, 'euler')
@@ -452,7 +449,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         ax = Axes3D(plt.figure())
  
     # paletteviz coordinates
-    if ax is not None:
+    if ax:
         if mode == 'star':
             if verbose:
                 print("Plotting palette-star-viz.")
@@ -482,11 +479,11 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
                 I[np.argwhere((P[:,-1] > Z[l] - 0.01) & (P[:,-1] < Z[l] + 0.01))] = False
             P_ = np.array(P, copy=True) # copy
             P = P[I]
-            if c is not None:
+            if c:
                 c = c[I]
-            if s is not None:
+            if s:
                 s = s[I]
-            if labels is not None:
+            if labels:
                 labels = labels[I]
             Z = Z[np.array(list(set(range(Z.shape[0])) - set(hide_layers)))]
 
@@ -538,22 +535,18 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
                     raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
         # colorbar?
-        if colorbar is not None \
-                and isinstance(colorbar, tuple) \
-                and len(colorbar) >= 2 \
-                and isinstance(colorbar[0], np.ndarray) \
-                and isinstance(colorbar[1], np.ndarray):
+        if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
+                and isinstance(colorbar[0], np.ndarray) and isinstance(colorbar[1], np.ndarray):
             vmin,vmax = 0.0, 1.0
             cbc, cbg = colorbar[0], colorbar[1]
-            cbl = colorbar[2] if len(colorbar) > 2 \
-                    and colorbar[2] is not None else None
+            cbl = colorbar[2] if len(colorbar) > 2 and colorbar[2] else None
             Id = np.column_stack((cbg,cbc)).astype(object)
             Id = Id[np.argsort(Id[:, 0])] 
             c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
             vmin, vmax = np.min(g), np.max(g)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
             cmap = ListedColormap(c)
-            if cbl is not None:
+            if cbl:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                         orientation='vertical', label=cbl, pad=-0.05, shrink=0.5)
             else:
@@ -561,13 +554,13 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
                             orientation='vertical', pad=-0.05, shrink=0.5) 
 
         # where to put the legend
-        if labels is not None:
+        if labels:
             ax.legend(loc="best", ncol=2)
         
         # title?
         ax.set_title(title, pad=0.0)
 
-        if P_ is not None:
+        if P_:
             return (ax, P_)
         else:
             return (ax, P)

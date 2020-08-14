@@ -146,7 +146,7 @@ def tradeoff(F, epsilon=0.125, k=None, penalize_extremes=False):
     """
 
     # use either epsilon or k
-    if k is not None:
+    if k:
         epsilon = None
 
     n,m = F.shape
@@ -162,7 +162,7 @@ def tradeoff(F, epsilon=0.125, k=None, penalize_extremes=False):
     Mu = np.full(n, -np.inf)
     for i in range(n):
         # use epsilon
-        if epsilon is not None:
+        if epsilon:
             S = np.array(tree.query_ball_point(F_[i], r = epsilon))
         # use k
         else:

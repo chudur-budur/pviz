@@ -368,5 +368,5 @@ def set_polar_anchor_labels(ax, A, z=None, draw_circle=False, label_prefix=r"$f_
     if draw_circle:
         p = Circle((0, 0), 1, fill=False, linewidth=0.8, color=tgc)
         ax.add_patch(p)
-        if z is not None:
+        if z:
             art3d.pathpatch_2d_to_3d(p, z=z)

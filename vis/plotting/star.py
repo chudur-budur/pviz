@@ -161,21 +161,17 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], inverted=True, \
     """
 
     # decide on what kind of axes to use
-    if ax is None:
+    if not ax:
         ax = fig.gca(plt.figure())
     
-    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None
-    labels = kwargs['labels'] if (kwargs is not None and 'labels' in kwargs) else None
-    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
+    title = kwargs['title'] if kwargs and 'title' in kwargs else None
+    labels = kwargs['labels'] if kwargs and 'labels' in kwargs else None
+    colorbar = kwargs['colorbar'] if kwargs and 'colorbar' in kwargs else None
 
-    label_prefix = kwargs['label_prefix'] \
-            if (kwargs is not None and 'label_prefix' in kwargs) else r"$f_{{{:d}}}$"
-    label_fontsize = kwargs['label_fontsize'] \
-            if (kwargs is not None and 'label_fontsize' in kwargs) else 'large'
-    label_fontname = kwargs['label_fontname'] \
-            if (kwargs is not None and 'label_fontname' in kwargs) else None
-    label_fontstyle = kwargs['label_fontstyle'] \
-            if (kwargs is not None and 'label_fontstyle' in kwargs) else 'normal'
+    label_prefix = kwargs['label_prefix'] if kwargs and 'label_prefix' in kwargs else r"$f_{{{:d}}}$"
+    label_fontsize = kwargs['label_fontsize'] if kwargs and 'label_fontsize' in kwargs else 'large'
+    label_fontname = kwargs['label_fontname'] if kwargs and 'label_fontname' in kwargs else None
+    label_fontstyle = kwargs['label_fontstyle'] if kwargs and 'label_fontstyle' in kwargs else 'normal'
 
     # remove once they are read
     kwargs = pop(kwargs, 'title')
@@ -186,7 +182,7 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], inverted=True, \
     kwargs = pop(kwargs, 'label_fontname')
     kwargs = pop(kwargs, 'label_fontstyle')
 
-    if ax is not None:
+    if ax:
         P, K, [lb, ub] = get_star_coordinates(A, inverted=inverted, normalized=normalized)
         
         # do the plot
@@ -218,22 +214,18 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], inverted=True, \
         ax.set_aspect('equal')
         
         # colorbar?
-        if colorbar is not None \
-                and isinstance(colorbar, tuple) \
-                and len(colorbar) >= 2 \
-                and isinstance(colorbar[0], np.ndarray) \
-                and isinstance(colorbar[1], np.ndarray):
+        if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
+                and isinstance(colorbar[0], np.ndarray) and isinstance(colorbar[1], np.ndarray):
             vmin,vmax = 0.0, 1.0
             cbc, cbg = colorbar[0], colorbar[1]
-            cbl = colorbar[2] if len(colorbar) > 2 \
-                    and colorbar[2] is not None else None
+            cbl = colorbar[2] if len(colorbar) > 2 and colorbar[2] else None
             Id = np.column_stack((cbg,cbc)).astype(object)
             Id = Id[np.argsort(Id[:, 0])] 
             c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
             vmin, vmax = np.min(g), np.max(g)
             norm = mc.Normalize(vmin=vmin, vmax=vmax)
             cmap = ListedColormap(c)
-            if cbl is not None:
+            if cbl:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                         orientation='vertical', label=cbl, pad=0.05, shrink=0.5)
             else:

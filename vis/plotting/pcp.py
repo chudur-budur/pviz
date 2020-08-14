@@ -121,12 +121,11 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     """
     
     # collect extra kwargs
-    title = kwargs['title'] if (kwargs is not None and 'title' in kwargs) else None    
-    column_indices = kwargs['column_indices'] \
-            if (kwargs is not None and 'column_indices' in kwargs) else None   
-    colorbar = kwargs['colorbar'] if (kwargs is not None and 'colorbar' in kwargs) else None
-    axvline_width = kwargs['axvline_width'] if (kwargs is not None and 'axvline_width' in kwargs) else 1.0
-    axvline_color = kwargs['axvline_color'] if (kwargs is not None and 'axvline_color' in kwargs) else 'black'
+    title = kwargs['title'] if kwargs and 'title' in kwargs else None    
+    column_indices = kwargs['column_indices'] if kwargs and 'column_indices' in kwargs else None   
+    colorbar = kwargs['colorbar'] if kwargs and 'colorbar' in kwargs else None
+    axvline_width = kwargs['axvline_width'] if kwargs and 'axvline_width' in kwargs else 1.0
+    axvline_color = kwargs['axvline_color'] if kwargs and 'axvline_color' in kwargs else 'black'
     
     # remove once they are read
     kwargs = pop(kwargs, 'title')
@@ -135,7 +134,7 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     kwargs = pop(kwargs, 'axvline_width')
     kwargs = pop(kwargs, 'axvline_color')
     
-    if ax is None:
+    if not ax:
         ax = plt.figure().gca()        
 
     if normalized:
@@ -160,7 +159,7 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
             raise ValueError("The length of lw needs to be same as F.shape[0].")
 
     # get a list of column indices
-    if column_indices is not None:
+    if column_indices:
         x = np.array(column_indices)
     else:
         x = np.arange(0,F.shape[1],1).astype(int)
@@ -222,22 +221,18 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         ax.grid()
         
     # colorbar?
-    if colorbar is not None \
-            and isinstance(colorbar, tuple) \
-            and len(colorbar) >= 2 \
-            and isinstance(colorbar[0], np.ndarray) \
-            and isinstance(colorbar[1], np.ndarray):
+    if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
+            and isinstance(colorbar[0], np.ndarray) and isinstance(colorbar[1], np.ndarray):
         vmin,vmax = 0.0, 1.0
         cbc, cbg = colorbar[0], colorbar[1]
-        cbl = colorbar[2] if len(colorbar) > 2 \
-                and colorbar[2] is not None else None
+        cbl = colorbar[2] if len(colorbar) > 2 and colorbar[2] else None
         Id = np.column_stack((cbg,cbc)).astype(object)
         Id = Id[np.argsort(Id[:, 0])] 
         c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
         vmin, vmax = np.min(g), np.max(g)
         norm = mc.Normalize(vmin=vmin, vmax=vmax)
         cmap = ListedColormap(c)
-        if cbl is not None:
+        if cbl:
             ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
                     orientation='vertical', label=cbl, pad=0.01, shrink=0.99)
         else:
