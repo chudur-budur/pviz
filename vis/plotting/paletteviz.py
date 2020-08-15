@@ -479,11 +479,11 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
                 I[np.argwhere((P[:,-1] > Z[l] - 0.01) & (P[:,-1] < Z[l] + 0.01))] = False
             P_ = np.array(P, copy=True) # copy
             P = P[I]
-            if c:
+            if c is not None:
                 c = c[I]
-            if s:
+            if s is not None:
                 s = s[I]
-            if labels:
+            if labels is not None:
                 labels = labels[I]
             Z = Z[np.array(list(set(range(Z.shape[0])) - set(hide_layers)))]
 
@@ -560,7 +560,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         # title?
         ax.set_title(title, pad=0.0)
 
-        if P_:
+        if P_ is not None:
             return (ax, P_)
         else:
             return (ax, P)
