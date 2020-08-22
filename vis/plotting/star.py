@@ -128,12 +128,12 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], inverted=True, \
         A string or an array/list of strings for labeling each point. Which basically
         means the class label of each row. Default `None` when optional. This will be
         used to set the legend in the figure. If `None` there will be no legend.
-    colorbar : (Cbc, Cbg, Cbl) a tuple of two ndarray and a str, optional
+    colorbar : (Cbc, Cbg, Cbl, Cbp) a tuple of (ndarray, ndarray, str, float), optional
         If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
         provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 
         object. The gradient of the colorbar is specified in `Cbg` which is an 1-D 
-        array of float. Cbl is the label of the colorbar, a string. Default `None` 
-        when optional.
+        array of float. Cbl is the label of the colorbar, a string. `Cbp` is the 
+        colorbar padding width in `float`. `colorbar` is default `None` when optional. 
     label_prefix : str, optional
         See `set_anchor_labels()` function for details.
     label_fontsize : str or int, optional
@@ -219,6 +219,7 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], inverted=True, \
             vmin,vmax = 0.0, 1.0
             cbc, cbg = colorbar[0], colorbar[1]
             cbl = colorbar[2] if len(colorbar) > 2 and colorbar[2] else None
+            cbp = colorbar[3] if len(colorbar) > 3 and colorbar[3] else 0.05
             Id = np.column_stack((cbg,cbc)).astype(object)
             Id = Id[np.argsort(Id[:, 0])] 
             c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
@@ -227,10 +228,10 @@ def plot(A, ax=None, s=1, c=mc.TABLEAU_COLORS['tab:blue'], inverted=True, \
             cmap = ListedColormap(c)
             if cbl:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                        orientation='vertical', label=cbl, pad=0.05, shrink=0.5)
+                        orientation='vertical', label=cbl, pad=cbp, shrink=0.5)
             else:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', pad=0.05, shrink=0.5) 
+                            orientation='vertical', pad=cbp, shrink=0.5) 
 
         # where to put the legend
         if labels is not None:

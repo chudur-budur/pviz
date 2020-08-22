@@ -308,7 +308,8 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
 
 
 def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf'), \
-        s=1.0, c=mc.TABLEAU_COLORS['tab:blue'], draw_axes=False, draw_anchors=True, **kwargs):
+        s=1.0, c=mc.TABLEAU_COLORS['tab:blue'], draw_axes=False, \
+        draw_anchors={'labels': [0,1,2,3], 'polygons': [0,1,2,3], 'circles': [0,1,2,3]}, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
 
     This PaletteViz plot is customized for the experiments. It allows both
@@ -336,10 +337,13 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
         optional.
-    draw_axes: bool, optional
+    draw_axes : bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
-    draw_anchors: bool, optional
-        If `False`, the radviz plot will hide anchors. Default `True` when optional.
+    draw_anchors : None or {'labels': list of int, 'polygons': list of int, 'circles': list of int}, optional
+        If `None`, there will be no polygons, circles or the labels. Each `list` of `int` 
+        denotes which layer will have polygon, labels or circles. The `labels`, `polygons` and/or 
+        `circles` will be drawn depending on the `list` of `int` provided. Default `{'labels': [0,1,2,3], `
+        `'polygons': [0,1,2,3], 'circles': [0,1,2,3]}` when optional. 
 
     Other Parameters
     ----------------
@@ -359,12 +363,12 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         See `vis.plotting.star` for details.
     project_collapse : bool, optional
         See `vis.tda.simple_shape` module for more details.
-    colorbar : (Cbc, Cbg, Cbl) a tuple of two ndarray and a str, optional
+    colorbar : (Cbc, Cbg, Cbl, Cbp) a tuple of (ndarray, ndarray, str, float), optional
         If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
         provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 
         object. The gradient of the colorbar is specified in `Cbg` which is an 1-D 
-        array of float. Cbl is the label of the colorbar, a string. Default `None` 
-        when optional.
+        array of float. Cbl is the label of the colorbar, a string. `Cbp` is the 
+        colorbar padding width in `float`. `colorbar` is default `None` when optional. 
     lims : 3-tuple of pairs of float
         The data point limits on three coordinates, each tuple is the limits on the
         coordinates to be used by `matplotlib.axes.Axes.set_x/y/zlim. If the `lims`
@@ -517,22 +521,28 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
 
         # draw anchors?
         if draw_anchors:
-            for z in Z:
-                set_polar_anchors(ax, K, z=z, anchor_linewidth=anchor_linewidth)
-                if mode == 'radviz':
-                    set_polar_anchor_labels(ax, K, z=z, \
-                                    label_prefix=anchor_label_prefix, \
-                                    label_fontsize=anchor_label_fontsize, \
-                                    label_fontname=anchor_label_fontname, \
-                                    label_fontstyle=anchor_label_fontstyle)
-                elif mode == 'star':
-                    set_polar_anchor_labels(ax, K, z=z, draw_circle=True, \
-                                    label_prefix=anchor_label_prefix, \
-                                    label_fontsize=anchor_label_fontsize, \
-                                    label_fontname=anchor_label_fontname, \
-                                    label_fontstyle=anchor_label_fontstyle)
-                else:
-                    raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
+            polygon_layers = draw_anchors['polygons']
+            label_layers = draw_anchors['labels']
+            circle_layers = draw_anchors['circles']
+            for i,z in enumerate(Z):
+                if i in polygon_layers:
+                    set_polar_anchors(ax, K, z=z, anchor_linewidth=anchor_linewidth)
+                if i in label_layers:
+                    if mode == 'radviz':
+                        set_polar_anchor_labels(ax, K, z=z, \
+                                        label_prefix=anchor_label_prefix, \
+                                        label_fontsize=anchor_label_fontsize, \
+                                        label_fontname=anchor_label_fontname, \
+                                        label_fontstyle=anchor_label_fontstyle)
+                    elif mode == 'star':
+                        draw_circle = True if i in circle_layers else False
+                        set_polar_anchor_labels(ax, K, z=z, draw_circle=draw_circle, \
+                                        label_prefix=anchor_label_prefix, \
+                                        label_fontsize=anchor_label_fontsize, \
+                                        label_fontname=anchor_label_fontname, \
+                                        label_fontstyle=anchor_label_fontstyle)
+                    else:
+                        raise ValueError("Unknown mode, it has to be one of {'star', 'radviz'}.")
 
         # colorbar?
         if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
@@ -540,6 +550,7 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
             vmin,vmax = 0.0, 1.0
             cbc, cbg = colorbar[0], colorbar[1]
             cbl = colorbar[2] if len(colorbar) > 2 and colorbar[2] else None
+            cbp = colorbar[3] if len(colorbar) > 3 and colorbar[3] else -0.05
             Id = np.column_stack((cbg,cbc)).astype(object)
             Id = Id[np.argsort(Id[:, 0])] 
             c, g = Id[:,1:].astype(float), Id[:,0].astype(float)
@@ -548,10 +559,10 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
             cmap = ListedColormap(c)
             if cbl:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                        orientation='vertical', label=cbl, pad=-0.05, shrink=0.5)
+                        orientation='vertical', label=cbl, pad=cbp, shrink=0.5)
             else:
                 ax.figure.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), \
-                            orientation='vertical', pad=-0.05, shrink=0.5) 
+                            orientation='vertical', pad=cbp, shrink=0.5) 
 
         # where to put the legend
         if labels:
