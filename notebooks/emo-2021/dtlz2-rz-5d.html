@@ -13188,7 +13188,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pf</span><span class="p">,</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;dtlz2-nbi&#39;</span><span class="p">,</span> <span class="s1">&#39;5d&#39;</span>
 
-<span class="n">fullpathf</span> <span class="o">=</span> <span class="s2">&quot;../../data/</span><span class="si">{0:s}</span><span class="s2">/</span><span class="si">{1:s}</span><span class="s2">/dataf.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pf</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+<span class="n">fullpathf</span> <span class="o">=</span> <span class="s2">&quot;./data/</span><span class="si">{0:s}</span><span class="s2">/</span><span class="si">{1:s}</span><span class="s2">/dataf.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pf</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fullpathf</span><span class="p">):</span>
     <span class="n">path</span><span class="p">,</span> <span class="n">filenamef</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">fullpathf</span><span class="p">)</span>
     <span class="n">dirs</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
@@ -13213,7 +13213,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>../../data/dtlz2-nbi/5d/dataf.csv (999, 5) [&#39;..&#39;, &#39;..&#39;, &#39;data&#39;, &#39;dtlz2-nbi&#39;, &#39;5d&#39;] dtlz2-nbi
+<pre>./data/dtlz2-nbi/5d/dataf.csv (999, 5) [&#39;.&#39;, &#39;data&#39;, &#39;dtlz2-nbi&#39;, &#39;5d&#39;] dtlz2-nbi
 </pre>
 </div>
 </div>
@@ -13330,7 +13330,6 @@ div#notebook {
         
         <span class="c1"># save the fig</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pdffigpath</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="c1"># plt.savefig(svgfigpath, bbox_inches=&#39;tight&#39;, dpi=150, pad_inches=0, format=&#39;svg&#39;)</span>
         
         <span class="c1"># show</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -13352,10 +13351,10 @@ div#notebook {
 
 
 
-<div id="bbc62863-40d7-43b6-b593-c8fa576828f9"></div>
+<div id="6cd90ca5-40e3-4784-94ae-471aac9123ce"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bbc62863-40d7-43b6-b593-c8fa576828f9');
+var element = $('#6cd90ca5-40e3-4784-94ae-471aac9123ce');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -14147,7 +14146,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Plotting palette-star-viz.
-Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
+Loading depth contours from ./data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 </pre>
 </div>
 </div>
@@ -14269,7 +14268,6 @@ Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
         
         <span class="c1"># save the fig</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pdffigpath</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="c1"># plt.savefig(svgfigpath, bbox_inches=&#39;tight&#39;, dpi=150, pad_inches=0, format=&#39;svg&#39;)</span>
         
         <span class="c1"># show</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -14291,10 +14289,10 @@ Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 
 
 
-<div id="0eeaefe5-1612-413f-ab0b-8f5d58f094d5"></div>
+<div id="3c03be05-33f2-4865-930b-180f0d921f45"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0eeaefe5-1612-413f-ab0b-8f5d58f094d5');
+var element = $('#3c03be05-33f2-4865-930b-180f0d921f45');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -15086,7 +15084,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Plotting palette-star-viz.
-Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
+Loading depth contours from ./data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 </pre>
 </div>
 </div>
@@ -15226,10 +15224,10 @@ Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 
 
 
-<div id="4bd49253-87d8-4d76-b2dd-75575ceac932"></div>
+<div id="a329d4ef-676d-42a1-9ffe-e81069e31553"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#4bd49253-87d8-4d76-b2dd-75575ceac932');
+var element = $('#a329d4ef-676d-42a1-9ffe-e81069e31553');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -16021,7 +16019,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Plotting palette-star-viz.
-Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
+Loading depth contours from ./data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 </pre>
 </div>
 </div>
@@ -16155,10 +16153,10 @@ Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 
 
 
-<div id="fcdf062b-8713-4f42-ad76-79cc88933995"></div>
+<div id="fe8a156f-fbae-4aa7-82c9-33728d0232fc"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#fcdf062b-8713-4f42-ad76-79cc88933995');
+var element = $('#fe8a156f-fbae-4aa7-82c9-33728d0232fc');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -16950,7 +16948,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Plotting palette-star-viz.
-Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
+Loading depth contours from ./data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 </pre>
 </div>
 </div>
@@ -17068,10 +17066,10 @@ Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 
 
 
-<div id="71225872-6524-451d-8885-d370c3941022"></div>
+<div id="98530002-8956-4816-86da-346f718fd559"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#71225872-6524-451d-8885-d370c3941022');
+var element = $('#98530002-8956-4816-86da-346f718fd559');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -17863,7 +17861,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Plotting palette-star-viz.
-Loading depth contours from ../../data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
+Loading depth contours from ./data/dtlz2-nbi/5d/depth-cont-cvhull.csv.
 </pre>
 </div>
 </div>
