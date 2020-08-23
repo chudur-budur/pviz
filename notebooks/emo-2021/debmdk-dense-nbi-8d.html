@@ -13184,12 +13184,19 @@ div#notebook {
     <span class="n">dpath</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">destpathf</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dpath</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Genereting PF.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading PF.&quot;</span><span class="p">)</span>
     <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">srcpathf</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">srcpathf</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">frontname</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="n">debmdk_knee_region</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2100</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">lb</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">d</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">F</span><span class="p">,</span><span class="n">K</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading PS.&quot;</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="s1">&#39;datax.csv&#39;</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="s1">&#39;datax.csv&#39;</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">frontname</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Generating PF.&quot;</span><span class="p">)</span>
+    <span class="n">H</span><span class="p">,</span><span class="n">G</span> <span class="o">=</span> <span class="n">debmdk_knee_region</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2100</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">lb</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">d</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">F</span><span class="p">,</span><span class="n">G</span><span class="p">))</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">H</span><span class="p">))</span>
     <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">destpathf</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%1.4e</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dpath</span><span class="p">,</span> <span class="s1">&#39;datax.csv&#39;</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%1.4e</span><span class="s2">&quot;</span><span class="p">)</span>
     
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing Mu.&quot;</span><span class="p">)</span>
     <span class="n">Mu</span><span class="p">,</span><span class="n">Ik</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">tradeoff</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">eps</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> <span class="n">penalize_extremes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -13232,9 +13239,11 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Genereting PF.
+<pre>Loading PF.
 ../../data/debmdk-nbi/8d/dataf.csv (3432, 8) [&#39;..&#39;, &#39;..&#39;, &#39;data&#39;, &#39;debmdk-nbi&#39;, &#39;8d&#39;] debmdk-nbi
-Computing Mu.
+Loading PS.
+../../data/debmdk-nbi/8d/datax.csv (3432, 7) [&#39;..&#39;, &#39;..&#39;, &#39;data&#39;, &#39;debmdk-nbi&#39;, &#39;8d&#39;] debmdk-nbi
+Generating PF.
 </pre>
 </div>
 </div>
@@ -13259,7 +13268,8 @@ Computing Mu.
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Plotting.
+<pre>Computing Mu.
+Plotting.
 </pre>
 </div>
 </div>
@@ -13272,10 +13282,10 @@ Computing Mu.
 
 
 
-<div id="453f8f48-7141-4c98-8f5e-c5d54a937f0c"></div>
+<div id="ba94dc65-d855-442b-b975-6029b5827a83"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#453f8f48-7141-4c98-8f5e-c5d54a937f0c');
+var element = $('#ba94dc65-d855-442b-b975-6029b5827a83');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -14219,10 +14229,10 @@ Done.
 
 
 
-<div id="8ddedda7-08fc-4153-a8fa-8183e8347dfb"></div>
+<div id="2f38aa86-2ad6-40e7-b75c-5a0bca319ca4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8ddedda7-08fc-4153-a8fa-8183e8347dfb');
+var element = $('#2f38aa86-2ad6-40e7-b75c-5a0bca319ca4');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
