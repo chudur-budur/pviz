@@ -201,12 +201,12 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     if xtick_labels is not None:
         if is_xticklabels_off(ax):
             ax.set_xticks(x)
-            ax.set_xticklabels(xtick_labels[x])
+            ax.set_xticklabels(xtick_labels)
             ax.set_xlim(x[0], x[-1])
         else:
             if len(ax.get_xticklabels()) < len(x):
                 ax.set_xticks(x)
-                ax.set_xticklabels(xtick_labels[x])
+                ax.set_xticklabels(xtick_labels)
             xl, xr = ax.get_xlim()
             xl = x[0] if x[0] <= xl else xl
             xr = x[-1] if x[-1] >= xr else xr
