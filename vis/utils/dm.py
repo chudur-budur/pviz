@@ -133,7 +133,8 @@ def tradeoff(F, epsilon=0.125, k=None, penalize_extremes=False):
     -------
     Mu : ndarray
         An array of trade-off values of each corresponding vector in 'F'. 
-        It's an array of floats, i.e. '|Mu| = n x 1'.
+        It's an array of floats, i.e. '|Mu| = n x 1'. `Mu` values are normalized 
+        within [0.0,1.0].
     Ik : ndarray
         The indices of "knee" points in 'F'. Returns 'None' if no such point exists. 
 
