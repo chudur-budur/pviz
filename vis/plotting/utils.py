@@ -228,7 +228,7 @@ def color_by_dist(X, P, alpha=0.5, factor=1.75):
         An array of distance values.
     """
     D = tr.normalize(np.linalg.norm(P - X, axis=1), lb=0.1, ub=1.0)
-    C = np.array([mc.to_rgba(cm.winter_r(v * 1.75), alpha) for v in D])
+    C = np.array([mc.to_rgba(cm.winter_r(v * factor), alpha) for v in D])
     return C, D
 
 
