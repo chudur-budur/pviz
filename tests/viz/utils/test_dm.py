@@ -4,7 +4,6 @@ from numpy import testing as npt
 from viz.utils import dm
 
 class TestDm(unittest.TestCase):
-    np.random.seed(111)
     A = np.diagflat([[1,2,3], [4,5,6]]).astype(int)
     B = np.arange(0,6,1).astype(int)
     x, y = np.mgrid[0:5, 5:10]
