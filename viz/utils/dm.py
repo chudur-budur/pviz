@@ -97,8 +97,8 @@ def knees(Mu):
     Ik = np.where(Mu_ >= d)[0]
 
     if Ik.shape[0] < 1 and dev.max() > 1:
-        Ik = np.argmax(Mu_)
-    
+        Ik = np.array([np.array(np.argmax(Mu_))])
+
     return Ik if Ik.shape[0] > 0 else None
 
 
