@@ -6,5 +6,4 @@ install:
   - pip install numpy scipy
 
 script:
-  - cd tests
-  - python3 tester.py
+  - ./tests/tester.sh
