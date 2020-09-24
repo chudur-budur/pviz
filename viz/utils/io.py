@@ -26,6 +26,8 @@ def is_number(s):
     https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float 
     
     """
+    if s[0] == '-':
+        s = s[1:]
     return s.replace('.','',1).isdigit()
 
 
@@ -37,7 +39,8 @@ def cast(x, dtype):
 
     Parameters
     ----------
-    x : A variable `x`
+    x : str
+        A scalar variable `x`
     dtype : data-type
         A data-type literal, can be `int`, `float`, `str` etc.
 
