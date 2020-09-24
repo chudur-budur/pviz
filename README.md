@@ -1,2 +1,2 @@
-# vizemo
-high dimensional trade-off visualization code
+# viz
+### A Framework for High-dimensional Pareto-optimal Visualization:
