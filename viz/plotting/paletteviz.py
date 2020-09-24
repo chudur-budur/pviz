@@ -27,11 +27,11 @@ import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.colors import ListedColormap
 from mpl_toolkits.mplot3d import Axes3D
-from vis.plotting.radviz import get_radviz_coordinates
-from vis.plotting.star import get_star_coordinates
-from vis.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop, group_labels_by_appearance
-from vis.tda import simple_shape
-from vis.utils import io
+from viz.plotting.radviz import get_radviz_coordinates
+from viz.plotting.star import get_star_coordinates
+from viz.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop, group_labels_by_appearance
+from viz.tda import simple_shape
+from viz.utils import io
 
 
 __all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "plot"]
@@ -188,11 +188,11 @@ def get_palette_star_coordinates(X, depth_contours=None, n_partitions=float('inf
         the total number of layers in the PaletteViz will be equal to the total
         number of depth contours.
     inverted : bool, optional
-        See `vis.plotting.star` for more details.
+        See `viz.plotting.star` for more details.
     normalized : bool, optional
-        See `vis.plotting.star` for details.
+        See `viz.plotting.star` for details.
     project_collapse : bool, optional
-        See `vis.tda.simple_shape` module for more details.
+        See `viz.tda.simple_shape` module for more details.
     verbose : bool, optional
         Verbose level. Default `False` when optional.
 
@@ -259,11 +259,11 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
         the total number of layers in the PaletteViz will be equal to the total
         number of depth contours.
     spread_factor : str {'auto'} or float, optional
-        See `vis.plotting.radviz` for more details.
+        See `viz.plotting.radviz` for more details.
     normalized : bool, optional
-        See `vis.plotting.radviz` for details.
+        See `viz.plotting.radviz` for details.
     project_collapse : bool, optional
-        See `vis.tda.simple_shape` module for more details.
+        See `viz.tda.simple_shape` module for more details.
     verbose : bool, optional
         Verbose level. Default `False` when optional.
 
@@ -356,13 +356,13 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         means the class label of each row. Default `None` when optional. This will be
         used to set the legend in the figure. If `None` there will be no legend.
     spread_factor : str {'auto'} or float, optional
-        See `vis.plotting.radviz` for more details.
+        See `viz.plotting.radviz` for more details.
     inverted : bool, optional
-        See `vis.plotting.star` for more details.
+        See `viz.plotting.star` for more details.
     normalized : bool, optional
-        See `vis.plotting.star` for details.
+        See `viz.plotting.star` for details.
     project_collapse : bool, optional
-        See `vis.tda.simple_shape` module for more details.
+        See `viz.tda.simple_shape` module for more details.
     colorbar : (Cbc, Cbg, Cbl, Cbp) a tuple of (ndarray, ndarray, str, float), optional
         If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
         provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 

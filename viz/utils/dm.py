@@ -17,7 +17,7 @@
 
 import numpy as np
 from scipy.spatial import cKDTree
-from vis.utils import transform as tr
+from viz.utils import transform as tr
 
 __all__ = ["epsilons", "nadir", "ideal", "knees", "tradeoff"]
 

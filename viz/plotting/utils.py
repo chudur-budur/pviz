@@ -22,7 +22,7 @@ from matplotlib.patches import Circle
 from mpl_toolkits.mplot3d import art3d
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
-from vis.utils import transform as tr
+from viz.utils import transform as tr
 
 __all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
             "color_by_dist", "enhance_color", \

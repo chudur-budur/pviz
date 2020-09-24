@@ -21,7 +21,7 @@ import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.colors import ListedColormap
 from mpl_toolkits.mplot3d import Axes3D
-from vis.plotting.utils import pop, group_labels_by_appearance
+from viz.plotting.utils import pop, group_labels_by_appearance
 
 
 __all__ = ["camera_angles", "plot"]

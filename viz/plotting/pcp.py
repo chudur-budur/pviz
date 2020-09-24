@@ -25,8 +25,8 @@ import numpy as np
 import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.colors import ListedColormap
-from vis.plotting.utils import pop 
-from vis.utils import transform as tr
+from viz.plotting.utils import pop 
+from viz.utils import transform as tr
 
 __all__ = ["plot"]
 

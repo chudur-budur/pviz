@@ -19,8 +19,8 @@
 """
 
 import numpy as np
-from vis.utils import sampling as smp
-from vis.utils import transform as tr
+from viz.utils import sampling as smp
+from viz.utils import transform as tr
 
 __all__ = ["surface"]
 
