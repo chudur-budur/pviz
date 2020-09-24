@@ -35,6 +35,9 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     currently done in two ways of random sampling -- Latin Hypercube (LHC) and
     LHC with normalization. Other ways will be added later.
 
+    For non-random and equidistant point samplin,g we use Das-Dennis's method 
+    [3]_ to generate points using NBI technique.
+
     Parameters
     ----------
     r : float, optional
@@ -43,17 +46,13 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
         The total number of points. Default 10 when optional.
     m : int, optional
         The dimension of the sphere. Default 2 when optional.
-    mode : str, {'lhc', 'lhcl2', 'dd', `rz`}, optional
+    mode : str, {'lhc', 'lhcl2', 'dd'}, optional
         If `mode = `lhc``, then LHC sampling will be used and points will be generated
         using standard spherical coordinate systems. If `mode = `lhcl2``, then we will
         use a normalized LHC sampling to generate uniformly distributed points on the
         sphere using the method described in [2]_. If 'mode = 'dd', then we will generate
         points using the subproblem decomposition technique used in NBI method 
-        (a.k.a. "Das-Dennis's Approach") discussed in [3]_. If `mode = 'rz'`, then we
-        will use the minimal Riesz energy point configurations for rectifiable `m`-
-        dimensional manifolds method presented in [4]_ and [5]_ to generate equidistant 
-        points on an 'm'-dimensional simplex (or on an 'm'-sphere). Default first 
-        when optional.
+        (a.k.a. "Das-Dennis's Approach") discussed in [3]_. Default first when optional.
 
     Other Parameters
     ----------------
@@ -80,15 +79,9 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     .. [3] I. Das and J. E. Dennis, "Normal-Boundary Intersection: A New Method for 
         Generating the Pareto Surface in Nonlinear Multicriteria Optimization Problems," 
         SIAM Journal on Optimization, vol. 8, (3), pp. 631-27, 1998.
-
-    .. [4] D.P. Hardin and E.B. Saff. Minimal Riesz energy point configurations 
-        for rectifiable d-dimensional manifolds. Advances in Mathematics, 
-        193(1):174 – 204, 2005.
-
-    .. [5] https://pymoo.org/misc/reference_directions.html 
     """
 
-    mkeys = {'lhc', 'lhcl2', 'dd', 'rz'}
+    mkeys = {'lhc', 'lhcl2', 'dd'}
     if mode not in mkeys:
         raise KeyError("'mode' has to be any of {:s}.".format(str(mkeys)))
     if m < 2:
@@ -188,20 +181,6 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
         denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
         Inz = np.nonzero(denom)
         X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
-
-    elif mode == 'rz':
-        F = smp.risez(n = n, m = m)
-        X = np.zeros((F.shape[0], m-1))
-        for i in range(m-2):
-            denom = np.linalg.norm(F[:,i:m], 2, axis=1)
-            Inz = np.nonzero(denom)
-            X[Inz,i] = np.arccos(F[Inz,i] / denom[Inz]) / (np.pi / 2)
-        
-        denom = np.linalg.norm(F[:,m-2:m], 2, axis=1)
-        Inz = np.nonzero(denom)
-        X[Inz,m-2] = np.arccos(F[Inz,m-2] / denom[Inz]) / (np.pi / 2)
-        # X = X[:,::-1]
-
     
     # We flip it since all MOPs are flipped and we
     # are using the definitions used in wikipedia.

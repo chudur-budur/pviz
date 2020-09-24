@@ -18,8 +18,6 @@ import random
 import warnings
 import numpy as np
 from scipy.special import comb
-from pymoo.factory import get_reference_directions
-from pymoo.util.ref_dirs.energy import RieszEnergyReferenceDirectionFactory
 
 __all__ = ["grid", "lhs", "lhcl2", "das_dennis", "risez"]
 
@@ -212,56 +210,3 @@ def das_dennis(n=100, m=2, manifold='sphere'):
     else:
         F = R
     return F
-
-
-def risez(n=100, m=2, manifold='sphere'):
-    r""" Generating equidistant points on an 'm'-simplex (or 'm'-sphere).
-
-    This function uses the minimal Riesz energy point configurations 
-    for rectifiable `m`-dimensional manifolds method presented in [1]_ 
-    To generate equidistant points on an 'm'-dimensional simplex (or on 
-    an 'm'-sphere).
-
-    In this case we are using the experimental implementation in pymoo [2]_.
-    Therefore, the original credit goes to them.
-    
-    Parameters
-    ----------
-    n : int, optional
-        The number of points. Default is 100 when optional.
-    m : int
-        The number of dimensions. Default is 2 when optional.
-    manifold : str, {'sphere', 'simplex'}, optional
-        If the 'manifold' is 'simplex', the function will generate points 
-        on an 'm'-simplex. If the 'manifold' is 'sphere', they will be on an 
-        'm'-sphere. First when default.
-
-    Returns
-    -------
-    F : ndarray
-        A sample of `((m + p - 1)!)/(p!(m-1)!)` data points in `m` dimension, 
-        i.e. `|F| = ((m + p - 1)!)/(p!(m-1)!) x m`.
-
-    References
-    ----------
-    .. [1] D.P. Hardin and E.B. Saff. Minimal Riesz energy point configurations 
-        for rectifiable d-dimensional manifolds. Advances in Mathematics, 
-        193(1):174 – 204, 2005.
-
-    .. [2] https://pymoo.org/misc/reference_directions.html 
-    """
-    mkeys = {'sphere', 'simplex'}
-    if manifold not in mkeys:
-        raise KeyError("Invalid 'manifold', use any of {:s}".format(str(mkeys)))
-
-    R = get_reference_directions("energy", m, n, seed=1)
-    if R.shape[0] != n:
-        warnings.warn("Risez's method couldn't generate {:d} points.".format(n))
-        warnings.warn("Genenrated {:d} points instead.".format(R.shape[0]))
-    
-    if manifold == 'sphere':
-        F = R / np.linalg.norm(R, axis=1)[:,None]
-    else:
-        F = R
-    return F
-
