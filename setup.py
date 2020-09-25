@@ -4,10 +4,12 @@ import os
 _here = os.path.abspath(os.path.dirname(__file__))
 
 with open(os.path.join(_here, 'README.md'), encoding='utf-8') as f:
+    print("long_description path = " + f.name)
     long_description = f.read()
 
 version = {}
 with open(os.path.join(_here, 'viz', 'version.py')) as f:
+    print("version path = " + f.name)
     exec(f.read(), version)
 
 setup(
@@ -26,7 +28,8 @@ setup(
     install_requires=['scipy==1.5.2', 'numpy==1.19.2', 'matplotlib==3.3.2',],
     include_package_data=True,
     classifiers=[
-        'Development Status :: 1 - Alpha',
+        'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Science/Research',
-        'Programming Language :: Python :: 3.8.5'],
+        'Programming Language :: Python :: 3.8'
+        ],
     )
