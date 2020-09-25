@@ -6,4 +6,4 @@ install:
   - pip install numpy scipy
 
 script:
-  - ./tests/tester.sh
+  - ./sh/tester.sh
