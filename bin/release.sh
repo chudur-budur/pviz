@@ -14,7 +14,7 @@ _usage()
 	1>&2; exit 1 ;
 }
 
-while getopts "bctp" o; do
+while getopts "cbitp" o; do
 	case "${o}" in
 		c)
 			mode=0; # echo "hit -c mode: 0";
@@ -22,11 +22,14 @@ while getopts "bctp" o; do
 		b)
 			mode=1; # echo "hit -b mode: 1";
 			;;
-        t)  
+        i)
             mode=2
             ;;
-        p)  
+        t)  
             mode=3
+            ;;
+        p)  
+            mode=4
             ;;
 		*)
 			echo "error: some of the parameters are missing, hence exiting ...";
@@ -46,6 +49,8 @@ if [[ $mode == 0 ]]; then
 elif [[ $mode == 1 ]]; then
     python3 setup.py sdist bdist_wheel
 elif [[ $mode == 2 ]]; then
+    python3 setup.py install
+elif [[ $mode == 3 ]]; then
     python3 -m twine upload --repository testviz dist/* --verbose
 fi
 

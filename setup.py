@@ -1,3 +1,4 @@
+import setuptools
 from setuptools import setup
 import os
 
@@ -12,6 +13,9 @@ with open(os.path.join(_here, 'viz', 'version.py')) as f:
     print("version path = " + f.name)
     exec(f.read(), version)
 
+pack = setuptools.find_packages()
+print("packages =", pack)
+
 setup(
     name='pviz',
     version=version['__version__'],
@@ -24,7 +28,8 @@ setup(
     long_description_content_type="text/markdown",
     url='https://github.com/chudur-budur/pviz',
     license='Apache-2.0',
-    packages=['viz'],
+    # packages=['viz', 'viz.utils', 'viz.generators', 'viz.tda', 'viz.plotting'],
+    packages=setuptools.find_packages(),
     install_requires=['scipy==1.5.2', 'numpy==1.19.2', 'matplotlib==3.3.2',],
     include_package_data=True,
     classifiers=[
