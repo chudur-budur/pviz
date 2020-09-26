@@ -117,5 +117,5 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
 
     F, X = dtlz2.surface(r=r, n=n, m=m, mode=mode, delta=delta) 
     F, X, G = get_feasible(F, X)
-    CV = tr.normalize(C)
+    CV = tr.normalize(G)
     return F, X, G, CV
