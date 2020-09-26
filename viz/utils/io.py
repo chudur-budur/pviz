@@ -77,6 +77,31 @@ def cast(x, dtype):
         # fall back
         return ast.literal_eval(x)
 
+def tolist(A):
+    r""" Recursively apply `tolist()` on an numpy array
+    
+    This fucnction recursively applies `numpy.tolist()` on an numpy array.
+    It will work for any array, even on a jagged one.
+
+    Parameters
+    ----------
+    A : An ndarray or a list or  alist of ndarrays or ndarrays of lists
+        The input `ndarray` or `list` to be converted.
+
+    Returns
+    -------
+    list : A list or list of lists
+        Returns a fully converted list.
+    """
+    if isinstance(A, np.ndarray):
+        return tolist(A.tolist())
+    elif isinstance(A, list):
+        return [tolist(a) for a in A]
+    elif isinstance(A, tuple):
+        return tuple(tolist(a) for a in A)
+    else:
+        return A
+
 def loadtxt(fname, dtype=float, delimiter=None):
     r"""Load an array from a file, very similar to `npyio.loadtxt()`.
 

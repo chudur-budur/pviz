@@ -20,6 +20,18 @@ class TestIo(unittest.TestCase):
         x = [float, int, str, None]
         y = [io.cast('5', dtype=v) for v in x]
         self.assertEqual(y, [5.0, 5, '5', 5])
+
+    def test_tolist(self):
+        x = [np.array([1, 2, 3]), np.array([[1, 2], [3, 4]]), np.array([[1, 2], [3]], dtype=object), 
+                [np.array([1, 2]), np.array([3, 4])], [np.array([1, 2]), np.array([3])], \
+                [[1, 2], [3, 4]], np.array((1, 2, 3)), np.array([(1, 2), (3, 4)]), \
+                np.array([(1, 2), (3)], dtype=object), (np.array([1, 2]), np.array([3, 4])), \
+                (np.array([1, 2]), np.array([3])), ([1, 2], [3, 4])]
+        y = [[1, 2, 3], [[1, 2], [3, 4]], [[1, 2], [3]], [[1, 2], [3, 4]], [[1, 2], [3]], \
+                [[1, 2], [3, 4]], [1, 2, 3], [[1, 2], [3, 4]], [(1, 2), 3], ([1, 2], [3, 4]), \
+                ([1, 2], [3]), ([1, 2], [3, 4])]
+        for i in range(len(x)):
+            self.assertEqual(io.tolist(x[i]), y[i])
     
 if __name__ == '__main__':
     unittest.main()
