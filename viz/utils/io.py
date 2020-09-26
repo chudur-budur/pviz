@@ -19,17 +19,35 @@ import numpy as np
 
 __all__ = ["loadtxt", "savetxt", "is_number"]
 
+def is_num(s):
+    r""" Inner function for `is_number()`
+    """
+    return s[1:].replace('.','',1).isdigit() \
+            if s[0] == '-' else s.replace('.','',1).isdigit()
+        
 def is_number(s):
     r""" Returns True is string is a number. 
     
-    This tend to be generally faster. See here --
-    https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float 
+    This is a better solution than all the approaches described here:
+    https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float  
     
+    Parameters
+    ----------
+    s : str
+        A string representing a number, like '-123', '12.3', '12e-06' etc.
+    
+    Returns
+    -------
+    bool : bool
     """
-    if s[0] == '-':
-        s = s[1:]
-    return s.replace('.','',1).isdigit()
-
+    if is_num(s):
+        return True
+    else:
+        p = s.split('e')
+        if len(p) != 2:
+            return False
+        else:
+            return (is_num(p[0]) and is_num(p[1]))
 
 def cast(x, dtype):
     r"""Typecasting a scalar value `x`.
