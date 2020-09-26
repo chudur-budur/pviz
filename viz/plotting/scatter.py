@@ -24,7 +24,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from viz.plotting.utils import pop, group_labels_by_appearance
 
 
-__all__ = ["camera_angles", "plot"]
+__all__ = ["camera_angles", "plot", "camera_angles"]
 
 
 # Some good camera angles for scatter plots.

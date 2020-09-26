@@ -34,7 +34,8 @@ from viz.tda import simple_shape
 from viz.utils import io
 
 
-__all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "plot"]
+__all__ = ["get_palette_star_coordinates", "get_palette_radviz_coordinates", "plot", \
+        "camera_angles_star", "camera_angles_radviz"]
 
 
 # Some good camera angles for paletteviz plots.
