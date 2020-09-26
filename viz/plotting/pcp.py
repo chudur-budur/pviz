@@ -215,7 +215,21 @@ def plot(A, ax=None, show_bounds=True, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         if is_xticklabels_off(ax):
             ax.set_xticks(x)
             ax.set_xticklabels(xtick_labels)
-            if not show_bounds:
+            # Now completely change the axis ticks and labels
+            # if there are bounds to be shown
+            if show_bounds:
+                ax.set_yticks([])
+                ax.set_yticklabels([])
+                plt.setp(ax.get_xticklabels(), fontsize=11, 
+                        rotation=-45, ha="left", rotation_mode="anchor")
+                ax.set_ylim([-0.1, 1.1])
+                bottom, top = -0.2, 1.18
+                for i in range(len(lbs)):
+                    ax.text(i+0.7, bottom, lbs[i], fontsize=11, \
+                            ha='center', va='center', rotation=-45)
+                    ax.text(i+0.3, top, ubs[i], fontsize=11, \
+                            ha='center', va='center', rotation=45)
+            else:
                 ax.set_xlim(x[0], x[-1])
         else:
             if len(ax.get_xticklabels()) < len(x):
@@ -227,25 +241,14 @@ def plot(A, ax=None, show_bounds=True, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
                 xr = x[-1] if x[-1] >= xr else xr
                 ax.set_xlim(xl, xr)
 
-    # completely change the axis ticks and labels
-    # if there are bounds to be shown
-    if show_bounds:
-        ax.set_yticks([])
-        ax.set_yticklabels([])
-        plt.setp(ax.get_xticklabels(), fontsize=11, rotation=-45, ha="left", rotation_mode="anchor")
-        ax.set_ylim([-0.1, 1.1])
-        bottom, top = -0.2, 1.18
-        for i in range(len(lbs)):
-            ax.text(i+0.6, bottom, lbs[i], fontsize=11, ha='center', va='center', rotation=-45)
-            ax.text(i+0.3, top, ubs[i], fontsize=11, ha='center', va='center', rotation=45)
-    else:
+    if not show_bounds or is_xticklabels_off(ax):
         ax.tick_params(axis='x', labelsize=12)
         ax.tick_params(axis='y', labelsize=12) 
     
     # where to put the legend
     if labels is not None:
         ax.legend(loc="upper right") 
-        
+       
     # colorbar?
     if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
             and isinstance(colorbar[0], np.ndarray) and isinstance(colorbar[1], np.ndarray):
