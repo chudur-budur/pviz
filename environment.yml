@@ -1,6 +1,6 @@
-name: visualization
-dependencies:
-  - python=3.8.5
+name: pviz
+dependencies:`
+  - python=3.8
   - pip
   - pip:
     - -r file:requirements.txt

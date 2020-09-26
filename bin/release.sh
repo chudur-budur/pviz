@@ -44,8 +44,8 @@ if [[ $mode == 0 ]]; then
     rm -rf build;
     echo "cleaning dist."
     rm -rf dist;
-    echo "cleaning viz.egg-info"
-    rm -rf viz.egg-info;
+    echo "cleaning pviz.egg-info"
+    rm -rf pviz.egg-info;
 elif [[ $mode == 1 ]]; then
     python3 setup.py sdist bdist_wheel
 elif [[ $mode == 2 ]]; then
