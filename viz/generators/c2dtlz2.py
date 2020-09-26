@@ -55,9 +55,9 @@ def get_feasible(F, X):
     design variable values in 'X'.
     """
 
-    C = np.apply_along_axis(cvf, 1, F)
-    If = np.where(C <= 0.0)[0]
-    return F[If], X[If], C[If]
+    G = np.apply_along_axis(cvf, 1, F)
+    If = np.where(G <= 0.0)[0]
+    return F[If], X[If], G[If]
 
 def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     r"""Generate `n` number of points on split `m`-shpere.
@@ -116,6 +116,6 @@ def surface(r=1, n=10, m=2, mode='lhc', **kwargs):
     delta = kwargs['delta'] if (len(kwargs) > 0 and 'delta' in kwargs) else 0.0001
 
     F, X = dtlz2.surface(r=r, n=n, m=m, mode=mode, delta=delta) 
-    F, X, C = get_feasible(F, X)
-    C = tr.normalize(C)
-    return F, X, C
+    F, X, G = get_feasible(F, X)
+    CV = tr.normalize(C)
+    return F, X, G, CV
