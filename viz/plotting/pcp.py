@@ -22,11 +22,13 @@
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.colors import ListedColormap
 from viz.plotting.utils import pop 
 from viz.utils import transform as tr
+from viz.utils import dm
 
 __all__ = ["plot"]
 
@@ -52,7 +54,17 @@ def is_xticklabels_off(ax):
             return False
     return True
 
-def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, labels=None, \
+def get_yaxis_bounds(A):
+    r"""
+    """
+    ub = dm.nadir(A)
+    lb = dm.ideal(A)
+    ubs = ["{:1.1e}".format(v) for v in ub]
+    lbs = ["{:1.1e}".format(v) for v in lb]
+    return [lbs, ubs]
+
+
+def plot(A, ax=None, show_bounds=True, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, labels=None, \
         xtick_labels=None, draw_vertical_lines=True, draw_grid=False, **kwargs):
     r"""A customized and more enhanced Parallel-coordinate plot.
 
@@ -67,9 +79,9 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
         `n` number of `m` dim. points to be plotted.
     ax : An `mpl_toolkits.mplot3d.axes.Axes3D` object, optional
         Default `None` when optional.
-    normalized : bool, optional
-        Decide whether the points will be normalized before plotting.
-        Default `False` when optional.
+    show_bounds : bool, optional
+        If `True` then the plot will show the lower and upper bounds of each data
+        point (i.e. lines). Default `False` when optional.
     c : A `matplotlib.colors` object, str or an array RGBA color values.
         Colors to be used. Default `mc.TABLEAU_COLORS['tab:blue']` when 
         optional.
@@ -96,11 +108,10 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     column_indices : array_like or list of int, optional
         The indices of the columns of `A` to be plotted. Default `None` when optional.
     colorbar : (Cbc, Cbg, Cbl) a tuple of two ndarray and a str, optional
-        If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` tuple can be 
-        provided. `Cbc` is an array of RGBA color values or an `matplotlib.colors` 
-        object. The gradient of the colorbar is specified in `Cbg` which is an 1-D 
-        array of float. Cbl is the label of the colorbar, a string. Default `None` 
-        when optional.
+        If a user wants to put a colorbar, a tuple `(Cbc, Cbg, Cbl)` can be provided. 
+        `Cbc` is an array of RGBA color values or an `matplotlib.colors` object. The 
+        gradient of the colorbar is specified in `Cbg` which is an 1-D array of float. 
+        Cbl is the label of the colorbar, a string. Default `None` when optional.
     axvline_width : float, optional
         The width of the vertical lines. Default 1.0 when optional.
     axvline_color : A `matplotlib.colors` object, str or an array RGBA color values.
@@ -137,10 +148,8 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
     if not ax:
         ax = plt.figure().gca()        
 
-    if normalized:
-        F = tr.normalize(A, lb=np.zeros(A.shape[1]), ub=np.ones(A.shape[1]))
-    else:
-        F = np.array(A, copy=True)
+    lbs, ubs = get_yaxis_bounds(A)
+    F = tr.normalize(A, lb=np.zeros(A.shape[1]), ub=np.ones(A.shape[1]))
 
     # build color list for each data point
     if (not isinstance(c, list)) and (not isinstance(c, np.ndarray)):
@@ -188,37 +197,54 @@ def plot(A, ax=None, normalized=False, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
                 ax.plot(x, y, color=c[i], linewidth=lw[i], **kwargs)
         else:
             ax.plot(x, y, color=c[i], linewidth=lw[i], **kwargs)
-
+    
     # decide on vertical axes
     if draw_vertical_lines:
         for i in x:
             ax.axvline(i, linewidth=axvline_width, color=axvline_color)
 
-    # set a bigger axis-labels
-    ax.tick_params(axis='x', labelsize=16)
-    ax.tick_params(axis='y', labelsize=12)
+    # draw grid?
+    if draw_grid:
+        ax.grid()
+    else:
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+ 
     # decide on xtick_labels
     if xtick_labels is not None:
         if is_xticklabels_off(ax):
             ax.set_xticks(x)
             ax.set_xticklabels(xtick_labels)
-            ax.set_xlim(x[0], x[-1])
+            if not show_bounds:
+                ax.set_xlim(x[0], x[-1])
         else:
             if len(ax.get_xticklabels()) < len(x):
                 ax.set_xticks(x)
                 ax.set_xticklabels(xtick_labels)
-            xl, xr = ax.get_xlim()
-            xl = x[0] if x[0] <= xl else xl
-            xr = x[-1] if x[-1] >= xr else xr
-            ax.set_xlim(xl, xr)        
+            if not show_bounds:
+                xl, xr = ax.get_xlim()
+                xl = x[0] if x[0] <= xl else xl
+                xr = x[-1] if x[-1] >= xr else xr
+                ax.set_xlim(xl, xr)
+
+    # completely change the axis ticks and labels
+    # if there are bounds to be shown
+    if show_bounds:
+        ax.set_yticks([])
+        ax.set_yticklabels([])
+        plt.setp(ax.get_xticklabels(), fontsize=11, rotation=-45, ha="left", rotation_mode="anchor")
+        ax.set_ylim([-0.1, 1.1])
+        bottom, top = -0.2, 1.18
+        for i in range(len(lbs)):
+            ax.text(i+0.6, bottom, lbs[i], fontsize=11, ha='center', va='center', rotation=-45)
+            ax.text(i+0.3, top, ubs[i], fontsize=11, ha='center', va='center', rotation=45)
+    else:
+        ax.tick_params(axis='x', labelsize=12)
+        ax.tick_params(axis='y', labelsize=12) 
     
     # where to put the legend
     if labels is not None:
-        ax.legend(loc="upper right")
-        
-    # draw grid?
-    if draw_grid:
-        ax.grid()
+        ax.legend(loc="upper right") 
         
     # colorbar?
     if colorbar and isinstance(colorbar, tuple) and len(colorbar) >= 2 \
