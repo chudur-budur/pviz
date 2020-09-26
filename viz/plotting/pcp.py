@@ -32,6 +32,9 @@ from viz.utils import dm
 
 __all__ = ["plot"]
 
+xmargins = {10: [0.7, 0.3], 9:[0.6, 0.3], 8:[0.5, 0.3], 7:[0.45, 0.3], 6:[0.3, 0.2]}
+ymargins = {10: [-0.1, 0.08], 9:[-0.09, 0.075], 8:[-0.09, 0.075], 7:[-0.08, 0.075], 6:[-0.08, 0.075], 5:[-0.8, 0.08], 4:[-0.08, 0.08], 3:[-0.08, 0.08]}
+
 def is_xticklabels_off(ax):
     r"""Checks if axes has already xtick labels
 
@@ -62,7 +65,6 @@ def get_yaxis_bounds(A):
     ubs = ["{:1.1e}".format(v) for v in ub]
     lbs = ["{:1.1e}".format(v) for v in lb]
     return [lbs, ubs]
-
 
 def plot(A, ax=None, show_bounds=True, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, labels=None, \
         xtick_labels=None, draw_vertical_lines=True, draw_grid=False, **kwargs):
@@ -223,11 +225,11 @@ def plot(A, ax=None, show_bounds=True, c=mc.TABLEAU_COLORS['tab:blue'], lw=1.0, 
                 plt.setp(ax.get_xticklabels(), fontsize=11, 
                         rotation=-45, ha="left", rotation_mode="anchor")
                 ax.set_ylim([-0.1, 1.1])
-                bottom, top = -0.2, 1.18
-                for i in range(len(lbs)):
-                    ax.text(i+0.7, bottom, lbs[i], fontsize=11, \
+                bottom, top = -0.1 + ymargins[F.shape[1]][0], 1.1 + ymargins[F.shape[1]][1]
+                for i in range(A.shape[1]):
+                    ax.text(i + ((0.68/10) * A.shape[1]), bottom, lbs[i], fontsize=11, \
                             ha='center', va='center', rotation=-45)
-                    ax.text(i+0.3, top, ubs[i], fontsize=11, \
+                    ax.text(i + ((0.3/10) * A.shape[1]), top, ubs[i], fontsize=11, \
                             ha='center', va='center', rotation=45)
             else:
                 ax.set_xlim(x[0], x[-1])
