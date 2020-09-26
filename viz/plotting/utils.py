@@ -34,9 +34,7 @@ __all__ = ["resize_by_tradeoff", "default_color", "color_by_cv", \
     Different color factors for different problems with constraint functions.
     Users can use these for better viewing. These were found empirically.
 """
-cfs = {\
-        'dtlz8': { 2: 2.0, 3: 6.0, 4: 8.0, 6: 14.0, 8: 16.0} \ # dtlz8
-    }
+cfs = {'dtlz8': { 2: 2.0, 3: 6.0, 4: 8.0, 6: 14.0, 8: 16.0}}
 
 
 def group_labels_by_appearance(labels):
