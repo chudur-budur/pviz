@@ -70,9 +70,9 @@ def surface(m=2, nl=50, ns=750, mode='lhc', **kwargs):
     Returns
     -------
     F : ndarray
-        `n` points on the `m`-sphere, i.e. `|F| = n x m`.
-    X : None
-        Does not return any design variable values.
+        `n` number of points in the `m`-dimension, i.e. `|F| = n x m`.
+    X : ndarray
+        `n` number of points in `m-1`-dimension, i.e. `|X| = n x (m-1)`.
     G : ndarray
         'n' constraint violation values for each point. Where `|G| = n x m`.
         Since there are 'm' constraints. 'G[i,j] < 0' means infeasible and
@@ -141,6 +141,12 @@ def surface(m=2, nl=50, ns=750, mode='lhc', **kwargs):
     Gs[:,-1] = Fs[:,-1] - t[m]
     
     F = np.concatenate((L, Fs), axis=0)
+    
+    # For X, we assume the design variables are the
+    # projection of F onto m-1 dimensions where the 
+    # m-th dimension being collapsed.
+    X = F[:,:-1]
+
     # print("F.shape", F.shape)
     
     maxG = np.max(Gs, axis = 0)
@@ -155,12 +161,13 @@ def surface(m=2, nl=50, ns=750, mode='lhc', **kwargs):
        If = np.where(~np.any(G < 0, axis=1))
        F = F[If]
        G = G[If]
+       X = X[If]
     
     CV = tr.normalize(np.sum(G, axis=1))
     # print("CV.shape", CV.shape)
     # print("CV", CV)
 
     # We don't have X for this, since we are sampling the surface itself.
-    X = None
+    # X = None
 
     return F, X, G, CV
