@@ -27,7 +27,7 @@ import matplotlib.cm as cm
 import matplotlib.colors as mc
 from matplotlib.colors import ListedColormap
 from viz.utils import transform as tr
-from viz:`.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop, group_labels_by_appearance
+from viz.plotting.utils import set_polar_anchors, set_polar_anchor_labels, pop, group_labels_by_appearance
 
 
 __all__ = ["get_star_coordinates", "plot"]
