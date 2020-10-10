@@ -10,7 +10,7 @@ mode=0;
 _usage()
 {
 	# example: ./maprun -s -i -n 30 -c "ls -al"
-	printf '%s\n\n' "Usage: ./sh/release [-bc]" ;
+	printf '%s\n\n' "Usage: ./sh/release [-cbitp]" ;
 	1>&2; exit 1 ;
 }
 
@@ -40,6 +40,7 @@ done
 shift $((OPTIND-1))
 
 if [[ $mode == 0 ]]; then
+    # -c, clean
     echo "cleaning build."
     rm -rf build;
     echo "cleaning dist."
@@ -47,10 +48,16 @@ if [[ $mode == 0 ]]; then
     echo "cleaning pviz.egg-info"
     rm -rf pviz.egg-info;
 elif [[ $mode == 1 ]]; then
+    # -b, build
     python3 setup.py sdist bdist_wheel
 elif [[ $mode == 2 ]]; then
+    # -i, install local
     python3 setup.py install
 elif [[ $mode == 3 ]]; then
-    python3 -m twine upload --repository testviz dist/* --verbose
+    # -t, publish on pypi-test
+    python3 -m twine upload --repository testpypi dist/* --verbose
+elif [[ $mode == 4 ]]; then
+    # -p, publish on pypi
+    python3 -m twine upload --repository pypi dist/* --verbose
 fi
 
