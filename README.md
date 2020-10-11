@@ -6,8 +6,8 @@
 
 ## Installation
 
- - Through pypi: `pip install pviz`
- - Local: `./bin/release.sh -i`
+ - Through pypi: `$ pip install pviz`
+ - Local: `$ ./bin/release.sh -i`
 
 ## Usage
 
