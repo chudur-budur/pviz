@@ -2,4 +2,13 @@
 [![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/chudur-budur/pviz)](https://www.python.org/downloads/release/python-380/)
 [![license](https://img.shields.io/github/license/chudur-budur/pviz)](https://www.apache.org/licenses/LICENSE-2.0)
 # pviz
-### A Framework for High-dimensional (3 <= m <= 10) Pareto-optimal Front Visualization and Analytics
+# A Framework for High-dimensional (3 <= m <= 10) Pareto-optimal Front Visualization and Analytics
+
+## Installation
+
+ - Through pypi: `pip install pviz`
+ - Local: `./bin/release.sh -i`
+
+## Usage
+
+Please see the notebooks in [`pviz-bench`](https://github.com/chudur-budur/pviz-bench/tree/master/notebooks)
