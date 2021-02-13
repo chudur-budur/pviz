@@ -310,7 +310,7 @@ def get_palette_radviz_coordinates(X, depth_contours=None, n_partitions=float('i
 
 def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf'), \
         s=1.0, c=mc.TABLEAU_COLORS['tab:blue'], draw_axes=False, \
-        draw_anchors={'labels': [0,1,2,3], 'polygons': [0,1,2,3], 'circles': [0,1,2,3]}, **kwargs):
+        draw_anchors={'labels': -1, 'polygons': -1, 'circles': -1}, **kwargs):
     r"""A customized and more enhanced PaletteViz plot.
 
     This PaletteViz plot is customized for the experiments. It allows both
@@ -340,11 +340,12 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
         optional.
     draw_axes : bool, optional
         If `True`, the radviz plot will show axes. Default `False` when optional.
-    draw_anchors : None or {'labels': list of int, 'polygons': list of int, 'circles': list of int}, optional
-        If `None`, there will be no polygons, circles or the labels. Each `list` of `int` 
+    draw_anchors : None or {'labels': list or -1, 'polygons': list or -1, 'circles': list or -1}, optional
+        If `None`, there will be no polygons, no circles nor the labels. Each `list` of `int` 
         denotes which layer will have polygon, labels or circles. The `labels`, `polygons` and/or 
-        `circles` will be drawn depending on the `list` of `int` provided. Default `{'labels': [0,1,2,3], `
-        `'polygons': [0,1,2,3], 'circles': [0,1,2,3]}` when optional. 
+        `circles` will be drawn depending on the `list` of `int` provided. If `labels`, `polygons` or
+        `circles` are -1, then all layers will be decorated. Default `{'labels': -1, 'polygons': -1, 
+        'circles': -1}` when optional. 
 
     Other Parameters
     ----------------
@@ -522,9 +523,10 @@ def plot(A, ax=None, depth_contours=None, mode='star', n_partitions=float('inf')
 
         # draw anchors?
         if draw_anchors:
-            polygon_layers = draw_anchors['polygons']
-            label_layers = draw_anchors['labels']
-            circle_layers = draw_anchors['circles']
+            idx_all = range(len(Z))
+            polygon_layers = idx_all if draw_anchors['polygons'] == -1 else draw_anchors['polygons']
+            label_layers = idx_all if draw_anchors['labels'] == -1 else draw_anchors['labels']
+            circle_layers = idx_all if draw_anchors['circles'] == -1 else draw_anchors['circles']
             for i,z in enumerate(Z):
                 if i in polygon_layers:
                     set_polar_anchors(ax, K, z=z, anchor_linewidth=anchor_linewidth)
