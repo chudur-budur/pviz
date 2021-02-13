@@ -3,7 +3,7 @@
 shopt -s extglob ;
 cpath=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ) ;
 
-# run it from one folder up, ./sh/release.sh
+# run it from one folder up, ./bin/release.sh
 
 mode=0;
 

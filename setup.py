@@ -30,8 +30,8 @@ setup(
     license='Apache-2.0',
     # packages=['viz', 'viz.utils', 'viz.generators', 'viz.tda', 'viz.plotting'],
     packages=setuptools.find_packages(),
-    setup_requires=['scipy==1.5.2', 'matplotlib'],
-    install_requires=['scipy==1.5.2', 'matplotlib'],
+    setup_requires=['scipy==1.6.0', 'matplotlib'],
+    install_requires=['scipy==1.6.0', 'matplotlib'],
     include_package_data=True,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
